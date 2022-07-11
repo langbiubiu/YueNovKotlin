@@ -1,0 +1,31 @@
+pluginManagement {
+    repositories {
+        google()
+        gradlePluginPortal()
+        mavenCentral()
+        maven { url 'https://jitpack.io'}
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+        maven { url 'https://maven.aliyun.com/repository/public/' }
+        maven {
+            url 'http://maven.aliyun.com/nexus/content/repositories/jcenter'
+            allowInsecureProtocol true
+        }
+        maven {
+            url 'http://maven.aliyun.com/nexus/content/repositories/google'
+            allowInsecureProtocol true
+        }
+        maven {
+            url 'http://maven.aliyun.com/nexus/content/repositories/gradle-plugin'
+            allowInsecureProtocol true
+        }
+    }
+}
+rootProject.name = "YueNovKotlin"
+include ':app'

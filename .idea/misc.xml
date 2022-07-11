@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2845" />
+        <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/drawable/bg_search_inputarea.xml" value="0.2845" />
+        <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/drawable/bg_tab_bookcity_selector.xml" value="0.2845" />
+        <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/drawable/bg_tab_bookshelf_selector.xml" value="0.2845" />
+        <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/drawable/bg_tab_find_selector.xml" value="0.2845" />
+        <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/drawable/bottom_selector.xml" value="0.285" />
+        <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2845" />
+        <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/drawable/seekbar_progress_drawable.xml" value="0.336" />
+        <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/activity_first.xml" value="0.3942307692307692" />
+        <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/activity_main_back.xml" value="0.442481884057971" />
+        <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/fragment_bookshelf.xml" value="0.1" />
+        <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/fragment_main.xml" value="0.4433876811594203" />
+        <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/view_adapter_item_bookshelf.xml" value="0.442481884057971" />
+        <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/menu/menu_navigation.xml" value="0.521875" />
+        <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.336" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

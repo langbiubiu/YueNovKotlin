@@ -1,0 +1,18 @@
+<?xml version ="1.0" encoding ="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_main"
+        android:checked="true"
+        android:icon="@mipmap/tab_bookshelf_unselect"
+        android:title="@string/MainActivity_tabBookShelf" />
+
+    <item
+        android:id="@+id/menu_project"
+        android:icon="@mipmap/tab_find_unselect"
+        android:title="@string/MainActivity_tabFind" />
+
+    <item
+        android:id="@+id/menu_system"
+        android:icon="@mipmap/tab_bookcity_unselect"
+        android:title="@string/MainActivity_tabBookCity" />
+</menu>
