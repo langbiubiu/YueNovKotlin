@@ -10,15 +10,12 @@ import androidx.room.PrimaryKey
  */
 @Entity(indices = [Index(value = ["id", "cType"])])
 data class TbCache(
-    @JvmField
     @PrimaryKey(autoGenerate = true)
     var id: Int,
 
-    @JvmField
     @ColumnInfo(name = "cType")
     var cType: String?,
 
-    @JvmField
     @ColumnInfo(name = "cContent")
     var cContent: String?
 )

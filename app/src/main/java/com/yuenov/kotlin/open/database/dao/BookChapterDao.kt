@@ -4,39 +4,38 @@ import androidx.room.*
 import com.yuenov.kotlin.open.database.tb.TbBookChapter
 import com.yuenov.kotlin.open.model.standard.BookMenuItemInfo
 import com.yuenov.kotlin.open.model.standard.DownloadBookContentItemInfo
-import java.lang.Exception
-import java.util.ArrayList
-import java.util.HashSet
 
 @Dao
-abstract class BookChapterDao {
+interface BookChapterDao {
     @Update
-    abstract fun update(vararg entities: TbBookChapter?)
+    fun update(vararg entities: TbBookChapter?)
     @Insert
-    abstract fun insert(vararg entities: TbBookChapter?)
+    fun insert(vararg entities: TbBookChapter?)
     @Delete
-    abstract fun delete(vararg entities: TbBookChapter?)
+    fun delete(vararg entities: TbBookChapter?)
 
     @get:Query("select * from TbBookChapter")
-    abstract val all: TbBookChapter?
+    val all: TbBookChapter?
 
     /**
      * 获取章节信息，只有chapterId一个字段
      */
+    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
     @Query("select id,bookId,chapterId from TbBookChapter where bookId = :bookId order by chapterId asc")
-    abstract fun getChapterList(bookId: Int): List<TbBookChapter?>?
+    fun getChapterList(bookId: Int): List<TbBookChapter?>?
 
     /**
      * 获取章节信息，只有chapterId一个字段
      */
+    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
     @Query("select id,bookId,chapterId,chapterName from TbBookChapter where bookId = :bookId order by chapterId asc")
-    abstract fun getAllColumnChapterList(bookId: Int): List<TbBookChapter?>?
+    fun getAllColumnChapterList(bookId: Int): List<TbBookChapter?>?
 
     @Query("select chapterId from TbBookChapter where bookid = :bookId")
-    abstract fun getChapterIds(bookId: Int): List<Long>
+    fun getChapterIds(bookId: Int): List<Long>
 
     @Query("select * from TbBookChapter where bookId = :bookId order by chapterId asc")
-    abstract fun getListByBookIdOrderByAsc(bookId: Int): List<TbBookChapter?>?
+    fun getListByBookIdOrderByAsc(bookId: Int): List<TbBookChapter?>?
 
     /**
      * content字段有内容返回1，无内容返回null
@@ -44,19 +43,19 @@ abstract class BookChapterDao {
      * @return
      */
     @Query("select id,bookId,ChapterId,ChapterName,(case when content is null then null else '0' end) as content from TbBookChapter where bookId = :bookId order by chapterId asc")
-    abstract fun getChapterListByBookIdOrderByAsc(bookId: Int): List<TbBookChapter?>?
+    fun getChapterListByBookIdOrderByAsc(bookId: Int): List<TbBookChapter?>?
 
     @Query("select * from TbBookChapter where bookId = :bookId order by chapterId desc")
-    abstract fun getListByBookIdOrderByDesc(bookId: Int): List<TbBookChapter?>?
+    fun getListByBookIdOrderByDesc(bookId: Int): List<TbBookChapter?>?
 
     @Query("select * from TbBookChapter where id = :id")
-    abstract fun getEntity(id: Int): TbBookChapter?
+    fun getEntity(id: Int): TbBookChapter?
 
     @Query("select * from TbBookChapter where bookId = :bookId and chapterId = :chapterId")
-    abstract fun getEntity(bookId: Int, chapterId: Long): TbBookChapter?
+    fun getEntity(bookId: Int, chapterId: Long): TbBookChapter?
 
     @Query("delete from TbBookChapter where bookId = :bookId")
-    abstract fun delete(bookId: Int)
+    fun delete(bookId: Int)
 
     /**
      * 获取上一章
@@ -66,7 +65,7 @@ abstract class BookChapterDao {
      * @return
      */
     @Query("select * from TbBookChapter where bookId = :bookId and chapterId < :chapterId order by chapterId desc limit 1 offset 0")
-    abstract fun getPreEntity(bookId: Int, chapterId: Long): TbBookChapter?
+    fun getPreEntity(bookId: Int, chapterId: Long): TbBookChapter?
 
     /**
      * 获取下一章
@@ -76,10 +75,10 @@ abstract class BookChapterDao {
      * @return
      */
     @Query("select * from TbBookChapter where bookId = :bookId and chapterId > :chapterId order by chapterId limit 1 offset 0")
-    abstract fun getNextEntity(bookId: Int, chapterId: Long): TbBookChapter?
+    fun getNextEntity(bookId: Int, chapterId: Long): TbBookChapter?
 
     @Query("select count(*) from TbBookChapter where bookId = :bookId")
-    abstract fun getCountsByBookId(bookId: Int): Int?
+    fun getCountsByBookId(bookId: Int): Int?
 
     /**
      * 获取已下载的最后一章
@@ -88,7 +87,7 @@ abstract class BookChapterDao {
      * @return
      */
     @Query("select max(chapterId) from TbBookChapter where bookid = :bookId and [content] is not null")
-    abstract fun getLastDownloadChapterId(bookId: Int): Long
+    fun getLastDownloadChapterId(bookId: Int): Long
 
     /**
      * 获取该章节之后的章节
@@ -97,7 +96,7 @@ abstract class BookChapterDao {
      * @return
      */
     @Query("select * from TbBookChapter where bookid = :bookId and content is null")
-    abstract fun getAllUnDownloadChapterId(bookId: Int): List<TbBookChapter?>?
+    fun getAllUnDownloadChapterId(bookId: Int): List<TbBookChapter?>?
 
     /**
      * 获取该章节之后的章节
@@ -108,7 +107,7 @@ abstract class BookChapterDao {
      * @return
      */
     @Query("select * from TbBookChapter where bookid = :bookId and chapterId > :chapterId order by chapterId limit :downloadCounts offset 0")
-    abstract fun getAfterChapterId(
+    fun getAfterChapterId(
         bookId: Int,
         chapterId: Long,
         downloadCounts: Int
@@ -123,7 +122,7 @@ abstract class BookChapterDao {
      * @return
      */
     @Query("select * from TbBookChapter where bookid = :bookId and chapterId > :chapterId and content is null order by chapterId limit :downloadCounts offset 0")
-    abstract fun getUnDownloadAfterChapterId(
+    fun getUnDownloadAfterChapterId(
         bookId: Int,
         chapterId: Long,
         downloadCounts: Int
@@ -138,7 +137,7 @@ abstract class BookChapterDao {
      * @return
      */
     @Query("select * from TbBookChapter where bookid = :bookId and chapterId < :chapterId order by chapterId desc limit :downloadCounts offset 0")
-    abstract fun getBeforeChapterId(
+    fun getBeforeChapterId(
         bookId: Int,
         chapterId: Long,
         downloadCounts: Int
@@ -152,7 +151,7 @@ abstract class BookChapterDao {
      * @return
      */
     @Query("select chapterId from TbBookChapter where bookid = :bookId and chapterId > :chapterId and [content] is null order by chapterId")
-    abstract fun getAllDownloadChapterId(bookId: Int, chapterId: Long): List<Long?>?
+    fun getAllDownloadChapterId(bookId: Int, chapterId: Long): List<Long?>?
 
     /**
      * 获取第一章信息
@@ -161,7 +160,7 @@ abstract class BookChapterDao {
      * @return
      */
     @Query("select * from TbBookChapter where booKId = :bookId order by chapterId asc limit 1 offset 0")
-    abstract fun getFirstChapter(bookId: Int): TbBookChapter?
+    fun getFirstChapter(bookId: Int): TbBookChapter?
 
     /**
      * 获取最后一章信息
@@ -170,13 +169,14 @@ abstract class BookChapterDao {
      * @return
      */
     @Query("select * from TbBookChapter where booKId = :bookId order by chapterId desc limit 1 offset 0")
-    abstract fun getLastChapter(bookId: Int): TbBookChapter?
+    fun getLastChapter(bookId: Int): TbBookChapter?
 
     /**
      * 只有bookId，和chapterId 两个字段
      */
-    @get:Query("select TbBookChapter.id,TbBookChapter.bookId,(max(chapterId)) chapterId from TbBookShelf left join TbBookChapter on TbBookShelf.bookId = TbBookChapter.bookId group by TbBookChapter.bookId")
-    abstract val shelfUpdateInfo: List<TbBookChapter?>?
+    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
+    @Query("select TbBookChapter.id,TbBookChapter.bookId,(max(chapterId)) chapterId from TbBookShelf left join TbBookChapter on TbBookShelf.bookId = TbBookChapter.bookId group by TbBookChapter.bookId")
+    fun getShelfUpdateInfo(): List<TbBookChapter?>?
 
     @Transaction
     fun addChapter(list: List<TbBookChapter>) {

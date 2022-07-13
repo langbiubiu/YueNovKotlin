@@ -10,11 +10,9 @@ import androidx.room.PrimaryKey
  */
 @Entity(indices = [Index(value = ["id", "bookId"])])
 data class TbBookShelf(
-    @JvmField
     @PrimaryKey(autoGenerate = true)
     var id: Int,
 
-    @JvmField
     @ColumnInfo(name = "bookId")
     var bookId: Int,
 

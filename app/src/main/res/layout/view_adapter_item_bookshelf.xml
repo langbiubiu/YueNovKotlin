@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <com.makeramen.roundedimageview.RoundedImageView
-        android:id="@+id/rivAdiBsImg"
+        android:id="@+id/riv_bookshelf_cover"
         android:layout_width="80dp"
         android:layout_height="100dp"
         android:scaleType="centerCrop"
@@ -20,19 +20,19 @@
         app:riv_oval="false" />
 
     <ImageView
-        android:id="@+id/ivAdiBsUpdate"
+        android:id="@+id/iv_bookshelf_update"
         android:layout_width="30dp"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/rivAdiBsImg"
+        android:layout_toRightOf="@+id/riv_bookshelf_cover"
         android:layout_marginLeft="-29dp"
         android:src="@mipmap/ic_book_update"
         android:visibility="visible" />
 
     <TextView
-        android:id="@+id/tvAdiBsTitle"
+        android:id="@+id/tv_bookshelf_title"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rivAdiBsImg"
+        android:layout_below="@+id/riv_bookshelf_cover"
         android:layout_marginTop="10dp"
         android:ellipsize="end"
         android:maxLength="7"

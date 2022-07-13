@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/srlIbsList"
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -18,7 +18,7 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/llIbsSearch"
+                android:id="@+id/ll_Search"
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
                 android:layout_marginStart="15dp"
@@ -31,14 +31,14 @@
                 android:paddingRight="15dp">
 
                 <ImageView
-                    android:id="@+id/ivIbsSearch"
+                    android:id="@+id/iv_Search"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:duplicateParentState="true"
                     android:src="@mipmap/index_search" />
 
                 <TextView
-                    android:id="@+id/tvIbsSearch"
+                    android:id="@+id/tv_Search"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="10dp"
@@ -54,7 +54,7 @@
             </LinearLayout>
 
             <GridView
-                android:id="@+id/gvIbsList"
+                android:id="@+id/gv_bookshelf"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:horizontalSpacing="20dp"

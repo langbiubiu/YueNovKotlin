@@ -11,7 +11,8 @@ abstract class BaseFragment<VM : BaseViewModel, VB : ViewBinding> : BaseVmVbFrag
     abstract override fun initView(savedInstanceState: Bundle?)
 
     /**
-     * 懒加载 只有当前fragment视图显示时才会触发该方法
+     * 懒加载 只有当前fragment视图显示时才会触发该方法，且之后触发一次
+     * IO请求的数据在这里加载
      */
     override fun lazyLoadData() {}
 
@@ -22,6 +23,7 @@ abstract class BaseFragment<VM : BaseViewModel, VB : ViewBinding> : BaseVmVbFrag
 
     /**
      * Fragment执行onViewCreated后触发
+     * 一些不耗时的数据可以在这里加载
      */
     override fun initData() {
 

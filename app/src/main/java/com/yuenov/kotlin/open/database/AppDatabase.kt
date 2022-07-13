@@ -1,10 +1,7 @@
 package com.yuenov.kotlin.open.database
 
-import android.content.Context
 import androidx.room.*
-import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import androidx.sqlite.db.SupportSQLiteOpenHelper
 import com.yuenov.kotlin.open.application.MyApplication
 import com.yuenov.kotlin.open.database.dao.BookChapterDao
 import com.yuenov.kotlin.open.database.dao.BookShelfDao
@@ -38,6 +35,7 @@ abstract class AppDatabase : RoomDatabase() {
             .databaseBuilder(MyApplication.appContext, AppDatabase::class.java, DATABASE_NAME)
             .setJournalMode(JournalMode.TRUNCATE)
             .allowMainThreadQueries()
+            .addCallback(dbCallback)
             .build()
 
         private val dbCallback = object : Callback() {

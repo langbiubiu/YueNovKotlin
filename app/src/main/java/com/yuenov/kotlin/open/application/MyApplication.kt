@@ -1,9 +1,12 @@
 package com.yuenov.kotlin.open.application
 
 import android.content.Context
+import com.yuenov.kotlin.open.ext.CLASS_TAG
+import com.yuenov.kotlin.open.ext.logd
 import com.yuenov.kotlin.open.viewmodel.AppViewModel
 import com.yuenov.kotlin.open.viewmodel.EventViewModel
 import me.hgj.jetpackmvvm.base.BaseApp
+import me.hgj.jetpackmvvm.ext.util.logd
 
 //Application全局的ViewModel，里面存放了一些账户信息，基本配置信息等
 val appViewMode : AppViewModel by lazy { MyApplication.appViewModelInstance }
@@ -20,6 +23,7 @@ class MyApplication: BaseApp() {
     }
 
     override fun onCreate() {
+        logd(CLASS_TAG, "onCreate")
         super.onCreate()
         appContext = this
         eventViewModelInstance = getAppViewModelProvider().get(EventViewModel::class.java)

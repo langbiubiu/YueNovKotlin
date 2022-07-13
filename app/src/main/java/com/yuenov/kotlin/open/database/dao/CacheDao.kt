@@ -5,16 +5,16 @@ import com.yuenov.kotlin.open.database.tb.TbCache
 import java.lang.Exception
 
 @Dao
-abstract class CacheDao {
+interface CacheDao {
     @Update
-    abstract fun update(vararg entities: TbCache?)
+    fun update(vararg entities: TbCache?)
     @Insert
-    abstract fun insert(vararg entities: TbCache?)
+    fun insert(vararg entities: TbCache?)
     @Delete
-    abstract fun delete(vararg entities: TbCache?)
+    fun delete(vararg entities: TbCache?)
 
     @Query("select * from TbCache where cType = :cType")
-    abstract fun getEntity(cType: String?): TbCache?
+    fun getEntity(cType: String?): TbCache?
 
     fun exists(cType: String?): Boolean {
         return !getEntity(cType)?.cContent.isNullOrEmpty()

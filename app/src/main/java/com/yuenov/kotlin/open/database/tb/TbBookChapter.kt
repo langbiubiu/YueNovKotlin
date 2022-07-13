@@ -13,19 +13,15 @@ data class TbBookChapter(
     @PrimaryKey(autoGenerate = true)
     var id: Int,
 
-    @JvmField
     @ColumnInfo(name = "bookId")
     var bookId: Int,
 
-    @JvmField
     @ColumnInfo(name = "chapterId")
     var chapterId: Long = 0,
 
-    @JvmField
     @ColumnInfo(name = "chapterName")
     var chapterName: String?,
 
-    @JvmField
     @ColumnInfo(name = "content")
     var content: String?
 )

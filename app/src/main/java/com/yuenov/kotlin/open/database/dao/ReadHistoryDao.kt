@@ -5,34 +5,34 @@ import com.yuenov.kotlin.open.database.tb.TbReadHistory
 import java.lang.Exception
 
 @Dao
-abstract class ReadHistoryDao {
+interface ReadHistoryDao {
     @Update
-    abstract fun update(vararg entities: TbReadHistory?)
+    fun update(vararg entities: TbReadHistory?)
     @Insert
-    abstract fun insert(vararg entities: TbReadHistory?)
+    fun insert(vararg entities: TbReadHistory?)
     @Delete
-    abstract fun delete(vararg entities: TbReadHistory?)
+    fun delete(vararg entities: TbReadHistory?)
 
     /**
      * 获取某条阅读记录
      */
     @Query("select * from TbReadHistory where bookId = :bookId")
-    abstract fun getEntity(bookId: Int): TbReadHistory?
+    fun getEntity(bookId: Int): TbReadHistory?
 
     /**
      * 获取所有阅读记录
      */
     @get:Query("select * from TbReadHistory order by lastReadTime desc")
-    abstract val allList: List<TbReadHistory?>?
+    val allList: List<TbReadHistory?>?
 
     @Query("delete from TbReadHistory")
-    abstract fun clear()
+    fun clear()
 
     @Query("delete from TbReadHistory where bookId = :bookId")
-    abstract fun deleteByBookId(bookId: Int)
+    fun deleteByBookId(bookId: Int)
 
     @Query("update TbReadHistory set addBookShelf = :stat where bookId = :bookId")
-    abstract fun resetAddBookShelfStat(bookId: Int, stat: Boolean)
+    fun resetAddBookShelfStat(bookId: Int, stat: Boolean)
 
     fun exists(bookId: Int): Boolean {
         return getEntity(bookId) != null

@@ -10,22 +10,18 @@ import androidx.room.PrimaryKey
  */
 @Entity(indices = [Index(value = ["id", "bookId"])])
 data class TbReadHistory(
-    @JvmField
     @PrimaryKey(autoGenerate = true)
     var id: Int,
 
-    @JvmField
     @ColumnInfo(name = "bookId")
     var bookId: Int,
 
     @ColumnInfo(name = "title")
     var title: String?,
 
-    @JvmField
     @ColumnInfo(name = "chapterId")
     var chapterId: Long = 0,
 
-    @JvmField
     @ColumnInfo(name = "page")
     var page: Int,
 
