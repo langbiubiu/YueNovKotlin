@@ -9,8 +9,10 @@ import java.lang.Exception
 interface BookShelfDao {
     @Update
     fun update(vararg entities: TbBookShelf)
+
     @Insert
     fun insert(vararg entities: TbBookShelf)
+
     @Delete
     fun delete(vararg entities: TbBookShelf)
 

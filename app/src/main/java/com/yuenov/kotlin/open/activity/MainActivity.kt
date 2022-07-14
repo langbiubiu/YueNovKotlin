@@ -1,8 +1,6 @@
 package com.yuenov.kotlin.open.activity
 
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.Navigation
@@ -25,7 +23,11 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>() {
                 } else {
                     //是主页
                     if (System.currentTimeMillis() - exitTime > 2000) {
-                        Toast.makeText(this@MainActivity, R.string.news_exit_twice_string, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@MainActivity,
+                            R.string.news_exit_twice_string,
+                            Toast.LENGTH_SHORT
+                        ).show()
                         exitTime = System.currentTimeMillis()
                     } else {
                         finish()

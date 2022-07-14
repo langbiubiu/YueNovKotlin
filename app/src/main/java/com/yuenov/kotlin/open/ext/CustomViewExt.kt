@@ -1,11 +1,12 @@
 package com.yuenov.kotlin.open.ext
 
 import android.app.Activity
+import android.app.Dialog
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 /**
  * 隐藏软键盘
@@ -39,4 +40,23 @@ fun ViewPager2.init(
         override fun getItemCount() = fragments.size
     }
     return this
+}
+
+fun Fragment.setClickListeners(vararg views: View, listener: View.OnClickListener) {
+    for (i in views.indices) {
+        views[i].setOnClickListener(listener)
+    }
+}
+
+//lambda需要写在可变参数前，否则编译器会把lambda表达式也看做一个可变参数
+fun Fragment.setClickListener(listener: (v: View) -> Unit, vararg views: View) {
+    for (view in views) {
+        view.setOnClickListener { listener(it) }
+    }
+}
+
+fun Dialog.setClickListeners(vararg views: View, listener: View.OnClickListener) {
+    for (i in views.indices) {
+        views[i].setOnClickListener(listener)
+    }
 }

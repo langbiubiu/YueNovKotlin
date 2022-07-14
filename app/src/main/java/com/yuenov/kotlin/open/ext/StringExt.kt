@@ -6,7 +6,7 @@ import android.content.Context
 const val CHAPTER_STATUS_END = "END"
 const val CHAPTER_STATUS_SERIALIZE = "SERIALIZE"
 
-fun readFromAssets(context: Context, fileName : String) : String {
+fun readFromAssets(context: Context, fileName: String): String {
     try {
         //得到资源中的asset数据流
         val inputStream = context.resources.assets.open(fileName)

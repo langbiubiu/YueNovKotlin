@@ -16,3 +16,17 @@ fun AppCompatActivity.toRead() {
 fun Fragment.toRead() {
 
 }
+
+/**
+ * 跳转至搜索界面
+ */
+fun AppCompatActivity.toSearch() {
+
+}
+
+/**
+ * 跳转至搜索界面
+ */
+fun Fragment.toSearch() {
+
+}

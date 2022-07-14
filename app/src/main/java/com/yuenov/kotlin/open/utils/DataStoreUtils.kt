@@ -33,7 +33,6 @@ val globalDataStore: DataStore<Preferences> = MyApplication.appContext.dataStore
 object DataStoreUtils {
 
     /**
-     *
      * 异步获取数据
      * */
     @Suppress("UNCHECKED_CAST")
@@ -72,6 +71,34 @@ object DataStoreUtils {
     }
 
     /**
+     * 异步获取Json数据
+     */
+    fun <Value> getJsonData(key: String, clazz: Class<Value>): Value {
+        return try {
+            val result = getData(key, "")
+            Gson().fromJson(result, clazz)
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+            clazz.newInstance()
+        }
+    }
+
+    /**
+     * 同步获取Json数据
+     */
+    fun <Value> getJsonSyncData(key: String, clazz: Class<Value>): Flow<Value> {
+        return getSyncData(key, "")
+            .map {
+                try {
+                    Gson().fromJson(it, clazz)
+                } catch (ex: Exception) {
+                    ex.printStackTrace()
+                    clazz.newInstance()
+                }
+            }
+    }
+
+    /**
      * 异步输入数据
      */
     fun <Value> putData(key: String, value: Value) {
@@ -98,6 +125,28 @@ object DataStoreUtils {
             is Boolean -> saveSyncBoolean(key, value)
             is String -> saveSyncString(key, value)
             else -> throw IllegalArgumentException("unSupport $value type !!!")
+        }
+    }
+
+    /**
+     * 异步输入Json数据
+     */
+    fun <Value> putJsonData(key: String, value: Value) {
+        try {
+            putData(key, Gson().toJson(value))
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        }
+    }
+
+    /**
+     * 同步输入Json数据
+     */
+    suspend fun <Value> putJsonSyncData(key: String, value: Value) {
+        try {
+            putSyncData(key, Gson().toJson(value))
+        } catch (ex: Exception) {
+            ex.printStackTrace()
         }
     }
 
@@ -130,7 +179,8 @@ object DataStoreUtils {
         }
     }
 
-    private fun saveFloatData(key: String, value: Float) = runBlocking { saveSyncFloatData(key, value) }
+    private fun saveFloatData(key: String, value: Float) =
+        runBlocking { saveSyncFloatData(key, value) }
 
     private suspend fun saveSyncFloatData(key: String, value: Float) {
         globalDataStore.edit { mutablePreferences ->
@@ -138,7 +188,8 @@ object DataStoreUtils {
         }
     }
 
-    private fun saveLongData(key: String, value: Long) = runBlocking { saveSyncLongData(key, value) }
+    private fun saveLongData(key: String, value: Long) =
+        runBlocking { saveSyncLongData(key, value) }
 
     private suspend fun saveSyncLongData(key: String, value: Long) {
         globalDataStore.edit { mutablePreferences ->

@@ -20,12 +20,16 @@ private enum class LEVEL {
 
 fun logv(tag: String = DEFAULT_TAG, message: String) =
     log(LEVEL.V, tag, message)
+
 fun logd(tag: String = DEFAULT_TAG, message: String) =
     log(LEVEL.D, tag, message)
+
 fun logi(tag: String = DEFAULT_TAG, message: String) =
     log(LEVEL.I, tag, message)
+
 fun logw(tag: String = DEFAULT_TAG, message: String) =
     log(LEVEL.W, tag, message)
+
 fun loge(tag: String = DEFAULT_TAG, message: String) =
     log(LEVEL.E, tag, message)
 
@@ -37,6 +41,7 @@ fun loge(tag: String = DEFAULT_TAG, message: String) =
  */
 fun logLongInfo(tag: String, msg: String) {
     var msg = msg
+    val newTag = DEFAULT_TAG + "_" + tag
     if (!BuildConfig.DEBUG || TextUtils.isEmpty(msg)) {
         return
     }
@@ -51,17 +56,18 @@ fun logLongInfo(tag: String, msg: String) {
             msg.substring(index, index + maxLength)
         }
         index += maxLength
-        Log.d(tag, sub.trim { it <= ' ' })
+        Log.d(newTag, sub.trim { it <= ' ' })
     }
 }
 
 private fun log(level: LEVEL, tag: String, message: String) {
     if (!BuildConfig.DEBUG) return
+    val newTag = DEFAULT_TAG + "_" + tag
     when (level) {
-        LEVEL.V -> Log.v(tag, message)
-        LEVEL.D -> Log.d(tag, message)
-        LEVEL.I -> Log.i(tag, message)
-        LEVEL.W -> Log.w(tag, message)
-        LEVEL.E -> Log.e(tag, message)
+        LEVEL.V -> Log.v(newTag, message)
+        LEVEL.D -> Log.d(newTag, message)
+        LEVEL.I -> Log.i(newTag, message)
+        LEVEL.W -> Log.w(newTag, message)
+        LEVEL.E -> Log.e(newTag, message)
     }
 }

@@ -7,7 +7,7 @@ object InterFaceConstants {
     /**
      * 默认分页条数
      */
-    val pageSize:Int = 20
+    val pageSize: Int = 20
 
     /**
      * 书城列表
@@ -25,7 +25,8 @@ object InterFaceConstants {
     var domainPort: Int = domainDefaultPort
         get() {
             return if (field == domainDefaultPort
-                && !AppConfigUtils.getAppConfigInfo()?.ports.isNullOrEmpty()) {
+                && !AppConfigUtils.getAppConfigInfo()?.ports.isNullOrEmpty()
+            ) {
                 AppConfigUtils.getAppConfigInfo()!!.ports!![0]
             } else {
                 domainDefaultPort
@@ -45,7 +46,7 @@ object InterFaceConstants {
     /**
      * 获取接口完整路径
      */
-    fun getInterfaceDomain() : String = "$INTERFACE_DOMAIN:$domainPort//app/"
+    fun getInterfaceDomain(): String = "$INTERFACE_DOMAIN:$domainPort//app/"
 
     /**
      * 获取主页地址
@@ -55,6 +56,6 @@ object InterFaceConstants {
     /**
      * 获取图片接口路径
      */
-    fun getImageDomain() : String = "$IMAGE_DOMAIN:$domainPort"
+    fun getImageDomain(): String = "$IMAGE_DOMAIN:$domainPort"
 
 }

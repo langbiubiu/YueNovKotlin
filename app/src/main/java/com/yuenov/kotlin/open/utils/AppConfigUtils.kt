@@ -11,23 +11,26 @@ import com.yuenov.kotlin.open.model.AppConfigInfo
  */
 object AppConfigUtils {
 
-    private var appConfigInfo : AppConfigInfo? = null
+    private var appConfigInfo: AppConfigInfo? = null
 
     /**
      * 获取AppConfigInfo
      * 首先从DataStore中获取，若DataStore为空，则从asset目录下的json文件获取
      */
-    fun getAppConfigInfo() : AppConfigInfo? {
+    fun getAppConfigInfo(): AppConfigInfo? {
         if (appConfigInfo == null) {
             try {
                 val gson = Gson()
-                val info = gson.fromJson(DataStoreUtils.getData(PreferenceConstants.KEY_CATEGORY_INFO, ""), AppConfigInfo::class.java)
+                val info = gson.fromJson(
+                    DataStoreUtils.getData(PreferenceConstants.KEY_CATEGORY_INFO, ""),
+                    AppConfigInfo::class.java
+                )
                 if (info == null || info.isEmpty()) {
                     val categoriesMenuJson =
                         readFromAssets(MyApplication.appContext, "categories.json")
                     appConfigInfo = Gson().fromJson(categoriesMenuJson, AppConfigInfo::class.java)
                 }
-            } catch (ex : Exception) {
+            } catch (ex: Exception) {
                 ex.printStackTrace()
             }
         }

@@ -8,8 +8,6 @@ import com.yuenov.kotlin.open.R
 import com.yuenov.kotlin.open.application.MyApplication
 import com.yuenov.kotlin.open.database.tb.TbBookShelf
 import com.yuenov.kotlin.open.databinding.ViewAdapterItemBookshelfBinding
-import com.yuenov.kotlin.open.ext.CLASS_TAG
-import com.yuenov.kotlin.open.ext.logd
 import me.hgj.jetpackmvvm.ext.util.layoutInflater
 
 /**
@@ -32,8 +30,11 @@ class BookShelfListAdapter(data: ArrayList<TbBookShelf>) : BaseAdapter() {
 
     @SuppressLint("ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        logd(CLASS_TAG, "getView position = $position, data = ${listData[position]}")
-        val binding = ViewAdapterItemBookshelfBinding.inflate(MyApplication.appContext.layoutInflater!!, parent, false)
+        val binding = ViewAdapterItemBookshelfBinding.inflate(
+            MyApplication.appContext.layoutInflater!!,
+            parent,
+            false
+        )
         binding.rivBookshelfCover.setImageResource(R.mipmap.dldl)
         binding.ivBookshelfUpdate.apply {
             visibility = if (listData[position].hasUpdate) View.VISIBLE else View.GONE

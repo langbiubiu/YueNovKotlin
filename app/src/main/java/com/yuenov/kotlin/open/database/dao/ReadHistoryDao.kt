@@ -8,8 +8,10 @@ import java.lang.Exception
 interface ReadHistoryDao {
     @Update
     fun update(vararg entities: TbReadHistory?)
+
     @Insert
     fun insert(vararg entities: TbReadHistory?)
+
     @Delete
     fun delete(vararg entities: TbReadHistory?)
 

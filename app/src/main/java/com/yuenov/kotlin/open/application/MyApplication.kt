@@ -6,15 +6,14 @@ import com.yuenov.kotlin.open.ext.logd
 import com.yuenov.kotlin.open.viewmodel.AppViewModel
 import com.yuenov.kotlin.open.viewmodel.EventViewModel
 import me.hgj.jetpackmvvm.base.BaseApp
-import me.hgj.jetpackmvvm.ext.util.logd
 
 //Application全局的ViewModel，里面存放了一些账户信息，基本配置信息等
-val appViewMode : AppViewModel by lazy { MyApplication.appViewModelInstance }
+val appViewMode: AppViewModel by lazy { MyApplication.appViewModelInstance }
 
 //Application全局的ViewModel，用于发送全局通知操作
 val eventViewModel: EventViewModel by lazy { MyApplication.eventViewModelInstance }
 
-class MyApplication: BaseApp() {
+class MyApplication : BaseApp() {
 
     companion object {
         lateinit var appContext: Context

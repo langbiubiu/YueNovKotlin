@@ -8,8 +8,10 @@ import java.lang.Exception
 interface CacheDao {
     @Update
     fun update(vararg entities: TbCache?)
+
     @Insert
     fun insert(vararg entities: TbCache?)
+
     @Delete
     fun delete(vararg entities: TbCache?)
 

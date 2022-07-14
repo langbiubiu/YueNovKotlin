@@ -4,7 +4,7 @@ import androidx.viewbinding.ViewBinding
 import me.hgj.jetpackmvvm.base.activity.BaseVmVbActivity
 import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
 
-abstract class BaseActivity<VM : BaseViewModel, VB: ViewBinding> : BaseVmVbActivity<VM, VB>() {
+abstract class BaseActivity<VM : BaseViewModel, VB : ViewBinding> : BaseVmVbActivity<VM, VB>() {
 
     /**
      * 创建liveData观察者

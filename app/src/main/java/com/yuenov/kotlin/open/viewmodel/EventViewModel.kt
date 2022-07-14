@@ -1,7 +1,6 @@
 package com.yuenov.kotlin.open.viewmodel
 
 import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
-import me.hgj.jetpackmvvm.callback.livedata.event.EventLiveData
 
 /**
  * 作者　: hegaojian

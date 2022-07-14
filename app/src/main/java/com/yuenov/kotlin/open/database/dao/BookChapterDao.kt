@@ -9,8 +9,10 @@ import com.yuenov.kotlin.open.model.standard.DownloadBookContentItemInfo
 interface BookChapterDao {
     @Update
     fun update(vararg entities: TbBookChapter?)
+
     @Insert
     fun insert(vararg entities: TbBookChapter?)
+
     @Delete
     fun delete(vararg entities: TbBookChapter?)
 
@@ -253,7 +255,7 @@ interface BookChapterDao {
             }
             addContent(lisAdd)
         } catch (ex: Exception) {
-             ex.printStackTrace()
+            ex.printStackTrace()
         }
     }
 }

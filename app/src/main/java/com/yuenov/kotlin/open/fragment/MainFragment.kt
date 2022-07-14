@@ -2,7 +2,6 @@ package com.yuenov.kotlin.open.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.yuenov.kotlin.open.R
 import com.yuenov.kotlin.open.base.BaseFragment
 import com.yuenov.kotlin.open.databinding.FragmentMainBinding
@@ -11,7 +10,7 @@ import com.yuenov.kotlin.open.viewmodel.MainFragmentViewModel
 
 class MainFragment : BaseFragment<MainFragmentViewModel, FragmentMainBinding>() {
 
-    private var fragments : ArrayList<Fragment> = arrayListOf()
+    private var fragments: ArrayList<Fragment> = arrayListOf()
 
     init {
         fragments.add(BookShelfFragment())

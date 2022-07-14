@@ -11,7 +11,7 @@ import com.yuenov.kotlin.open.database.tb.TbBookChapter
 import com.yuenov.kotlin.open.database.tb.TbBookShelf
 import com.yuenov.kotlin.open.database.tb.TbCache
 import com.yuenov.kotlin.open.database.tb.TbReadHistory
-import java.util.*
+import java.util.Locale
 
 val appDb by lazy { AppDatabase.createDatabase() }
 
