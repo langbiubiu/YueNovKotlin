@@ -5,8 +5,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.SharedPreferencesMigration
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
-import com.google.gson.Gson
 import com.yuenov.kotlin.open.application.MyApplication
+import com.yuenov.kotlin.open.application.gson
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.runBlocking
 import java.io.IOException
@@ -76,7 +76,7 @@ object DataStoreUtils {
     fun <Value> getJsonData(key: String, clazz: Class<Value>): Value {
         return try {
             val result = getData(key, "")
-            Gson().fromJson(result, clazz)
+            gson.fromJson(result, clazz)
         } catch (ex: Exception) {
             ex.printStackTrace()
             clazz.newInstance()
@@ -90,7 +90,7 @@ object DataStoreUtils {
         return getSyncData(key, "")
             .map {
                 try {
-                    Gson().fromJson(it, clazz)
+                    gson.fromJson(it, clazz)
                 } catch (ex: Exception) {
                     ex.printStackTrace()
                     clazz.newInstance()
@@ -133,7 +133,7 @@ object DataStoreUtils {
      */
     fun <Value> putJsonData(key: String, value: Value) {
         try {
-            putData(key, Gson().toJson(value))
+            putData(key, gson.toJson(value))
         } catch (ex: Exception) {
             ex.printStackTrace()
         }
@@ -144,7 +144,7 @@ object DataStoreUtils {
      */
     suspend fun <Value> putJsonSyncData(key: String, value: Value) {
         try {
-            putSyncData(key, Gson().toJson(value))
+            putSyncData(key, gson.toJson(value))
         } catch (ex: Exception) {
             ex.printStackTrace()
         }

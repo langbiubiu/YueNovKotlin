@@ -1,6 +1,7 @@
 package com.yuenov.kotlin.open.application
 
 import android.content.Context
+import com.google.gson.Gson
 import com.yuenov.kotlin.open.ext.CLASS_TAG
 import com.yuenov.kotlin.open.ext.logd
 import com.yuenov.kotlin.open.viewmodel.AppViewModel
@@ -12,6 +13,9 @@ val appViewMode: AppViewModel by lazy { MyApplication.appViewModelInstance }
 
 //Application全局的ViewModel，用于发送全局通知操作
 val eventViewModel: EventViewModel by lazy { MyApplication.eventViewModelInstance }
+
+//一个全局的Gson实例
+val gson: Gson by lazy { Gson() }
 
 class MyApplication : BaseApp() {
 

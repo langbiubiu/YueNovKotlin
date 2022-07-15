@@ -3,12 +3,13 @@ package com.yuenov.kotlin.open.fragment
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import com.yuenov.kotlin.open.R
 import com.yuenov.kotlin.open.adapter.BookShelfListAdapter
 import com.yuenov.kotlin.open.base.BaseFragment
 import com.yuenov.kotlin.open.databinding.FragmentBookshelfBinding
 import com.yuenov.kotlin.open.databinding.ViewBookshelfEmptyBinding
 import com.yuenov.kotlin.open.ext.*
+import com.yuenov.kotlin.open.model.request.BookCheckUpdateRequest
+import com.yuenov.kotlin.open.model.response.CheckUpdateItemInfo
 import com.yuenov.kotlin.open.view.DeleteBookShelfDialog
 import com.yuenov.kotlin.open.viewmodel.BookShelfFragmentViewModel
 
@@ -23,6 +24,8 @@ class BookShelfFragment : BaseFragment<BookShelfFragmentViewModel, FragmentBooks
     override fun initView(savedInstanceState: Bundle?) {
         logd(CLASS_TAG, "initView")
         mViewBind.swipeRefresh.setOnRefreshListener { checkBookShelfUpdate() }
+        mViewBind.swipeRefresh.isEnabled = false
+
         mViewBind.gvBookshelf.run {
             setOnItemClickListener { parent, view, position, id ->
                 toRead()
@@ -32,19 +35,14 @@ class BookShelfFragment : BaseFragment<BookShelfFragmentViewModel, FragmentBooks
                     DeleteBookShelfDialog(this@BookShelfFragment.requireContext(), position)
                 dialog.setListener(object : DeleteBookShelfDialog.IDeleteBookShelfListener {
                     override fun toPreviewDetail(position: Int) {
-                        logd(CLASS_TAG, "IDeleteBookShelfListener toPreviewDetail")
 //                        toPreviewDetail(mViewModel.listBookShelf.value!![position].bookId)
                     }
 
                     override fun toDelete(position: Int) {
-                        logd(CLASS_TAG, "IDeleteBookShelfListener onDelete")
-                        mViewModel.deleteBookShelfData(bookShelfAdapter.listData[position].bookId)
-                        bookShelfAdapter.listData.removeAt(position)
-                        bookShelfAdapter.notifyDataSetChanged()
+                        deleteBookShelf(position)
                     }
 
                     override fun toCancel() {
-                        logd(CLASS_TAG, "IDeleteBookShelfListener toCancel")
                     }
                 })
                 dialog.show()
@@ -63,8 +61,7 @@ class BookShelfFragment : BaseFragment<BookShelfFragmentViewModel, FragmentBooks
                 mViewBind.llSearch, mViewBind.ivSearch, mViewBind.tvSearch ->
                     toSearch()
                 emptyBinding.tvBseFind ->
-                    (parentFragment as MainFragment).mViewBind.mainBottom.selectedItemId =
-                        R.id.menu_bookstore
+                    (parentFragment as MainFragment).toBookStore()
             }
         }
     }
@@ -95,6 +92,7 @@ class BookShelfFragment : BaseFragment<BookShelfFragmentViewModel, FragmentBooks
                 mViewBind.gvBookshelf.emptyView = emptyBinding.root
 
                 bookShelfAdapter.listData = mViewModel.listBookShelf.value!!
+                mViewBind.swipeRefresh.isEnabled = bookShelfAdapter.listData.isNotEmpty()
                 bookShelfAdapter.notifyDataSetChanged()
             })
         }
@@ -110,7 +108,7 @@ class BookShelfFragment : BaseFragment<BookShelfFragmentViewModel, FragmentBooks
      * 1.先获取书架
      */
     private fun checkBookShelfUpdate() {
-
+        val request = BookCheckUpdateRequest(ArrayList<CheckUpdateItemInfo>())
     }
 
     /**
@@ -124,7 +122,13 @@ class BookShelfFragment : BaseFragment<BookShelfFragmentViewModel, FragmentBooks
      * 删除书架中的图书
      */
     private fun deleteBookShelf(position: Int) {
-
+        logd(CLASS_TAG, "deleteBookShelf")
+        val bookId = bookShelfAdapter.listData[position].bookId
+        mViewModel.deleteBookShelfData(bookId)
+        mViewModel.resetAddBookShelfStat(bookId, false)
+        bookShelfAdapter.listData.removeAt(position)
+        bookShelfAdapter.notifyDataSetChanged()
+        mViewBind.swipeRefresh.isEnabled = bookShelfAdapter.listData.isNotEmpty()
     }
 
 }

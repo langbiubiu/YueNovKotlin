@@ -29,4 +29,10 @@ class MainFragment : BaseFragment<MainFragmentViewModel, FragmentMainBinding>() 
             true
         }
     }
+
+    fun toBookShelf() { mViewBind.mainBottom.selectedItemId = R.id.menu_bookstore }
+
+    fun toDiscover() { mViewBind.mainBottom.selectedItemId = R.id.menu_discover }
+
+    fun toBookStore() { mViewBind.mainBottom.selectedItemId = R.id.menu_bookstore }
 }

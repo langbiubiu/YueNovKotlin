@@ -13,7 +13,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>() {
 
     var exitTime = 0L
     override fun initView(savedInstanceState: Bundle?) {
-        //进入首页检查更新
+
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 val nav = Navigation.findNavController(this@MainActivity, R.id.host_fragment)

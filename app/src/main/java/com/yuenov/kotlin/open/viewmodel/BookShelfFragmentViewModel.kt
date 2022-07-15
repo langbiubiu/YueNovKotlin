@@ -193,15 +193,29 @@ class BookShelfFragmentViewModel : BaseViewModel() {
         }
     }
 
+    /**
+     * 根据bookId删除书架图书
+     */
     fun deleteBookShelfData(bookId: Int) {
         try {
             appDb.bookShelfDao.deleteByBookId(bookId)
-            //只有在Lifecycle状态变更或者LiveData setValue或postValue时，LiveData才会执行dispatchingValue
-            //然后触发观察者回调，通过重新setValue来触发
+            //只有在Lifecycle状态变更或者LiveData setValue或postValue时，
+            // LiveData才会执行dispatchingValue，然后触发观察者回调
             //不修改listBookShelf的值，
 //            val list = listBookShelf.value!!
 //            list.removeAt(position)
 //            listBookShelf.value = list
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        }
+    }
+
+    /**
+     * 同步浏览记录
+     */
+    fun resetAddBookShelfStat(bookId: Int, stat: Boolean) {
+        try {
+            appDb.readHistoryDao.resetAddBookShelfStat(bookId, stat)
         } catch (ex: Exception) {
             ex.printStackTrace()
         }

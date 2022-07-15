@@ -1,7 +1,7 @@
 package com.yuenov.kotlin.open.model
 
-import com.yuenov.kotlin.open.model.standard.CategoriesListItem
-import com.yuenov.kotlin.open.model.standard.CategoryMenuItem
+import com.yuenov.kotlin.open.model.response.CategoriesListItem
+import com.yuenov.kotlin.open.model.response.CategoryMenuItem
 
 /**
  * 用来存储一些全局数据

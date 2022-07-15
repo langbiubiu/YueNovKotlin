@@ -2,8 +2,8 @@ package com.yuenov.kotlin.open.database.dao
 
 import androidx.room.*
 import com.yuenov.kotlin.open.database.tb.TbBookChapter
-import com.yuenov.kotlin.open.model.standard.BookMenuItemInfo
-import com.yuenov.kotlin.open.model.standard.DownloadBookContentItemInfo
+import com.yuenov.kotlin.open.model.response.BookMenuItemInfo
+import com.yuenov.kotlin.open.model.response.DownloadBookContentItemInfo
 
 @Dao
 interface BookChapterDao {

@@ -1,7 +1,7 @@
 package com.yuenov.kotlin.open.utils
 
-import com.google.gson.Gson
 import com.yuenov.kotlin.open.application.MyApplication
+import com.yuenov.kotlin.open.application.gson
 import com.yuenov.kotlin.open.constant.PreferenceConstants
 import com.yuenov.kotlin.open.ext.readFromAssets
 import com.yuenov.kotlin.open.model.AppConfigInfo
@@ -20,7 +20,6 @@ object AppConfigUtils {
     fun getAppConfigInfo(): AppConfigInfo? {
         if (appConfigInfo == null) {
             try {
-                val gson = Gson()
                 val info = gson.fromJson(
                     DataStoreUtils.getData(PreferenceConstants.KEY_CATEGORY_INFO, ""),
                     AppConfigInfo::class.java
@@ -28,7 +27,7 @@ object AppConfigUtils {
                 if (info == null || info.isEmpty()) {
                     val categoriesMenuJson =
                         readFromAssets(MyApplication.appContext, "categories.json")
-                    appConfigInfo = Gson().fromJson(categoriesMenuJson, AppConfigInfo::class.java)
+                    appConfigInfo = gson.fromJson(categoriesMenuJson, AppConfigInfo::class.java)
                 }
             } catch (ex: Exception) {
                 ex.printStackTrace()

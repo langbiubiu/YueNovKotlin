@@ -22,16 +22,18 @@ object InterFaceConstants {
     /**
      * 端口
      */
-    var domainPort: Int = domainDefaultPort
-        get() {
-            return if (field == domainDefaultPort
-                && !AppConfigUtils.getAppConfigInfo()?.ports.isNullOrEmpty()
-            ) {
-                AppConfigUtils.getAppConfigInfo()!!.ports!![0]
-            } else {
-                domainDefaultPort
-            }
-        }
+//    var domainPort: Int = domainDefaultPort
+//        get() {
+//            return if (field == domainDefaultPort
+//                && !AppConfigUtils.getAppConfigInfo()?.ports.isNullOrEmpty()
+//            ) {
+//                AppConfigUtils.getAppConfigInfo()!!.ports!![0]
+//            } else {
+//                domainDefaultPort
+//            }
+//        }
+    //暂时用这个端口来测试接口
+    var domainPort = 19999
 
     /**
      * 接口域名
