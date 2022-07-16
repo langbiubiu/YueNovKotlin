@@ -108,7 +108,7 @@ class BookShelfFragment : BaseFragment<BookShelfFragmentViewModel, FragmentBooks
      * 1.先获取书架
      */
     private fun checkBookShelfUpdate() {
-        val request = BookCheckUpdateRequest(ArrayList<CheckUpdateItemInfo>())
+        mViewModel.checkBookShelfUpdate()
     }
 
     /**

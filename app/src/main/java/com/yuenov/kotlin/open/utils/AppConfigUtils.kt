@@ -4,7 +4,7 @@ import com.yuenov.kotlin.open.application.MyApplication
 import com.yuenov.kotlin.open.application.gson
 import com.yuenov.kotlin.open.constant.PreferenceConstants
 import com.yuenov.kotlin.open.ext.readFromAssets
-import com.yuenov.kotlin.open.model.AppConfigInfo
+import com.yuenov.kotlin.open.model.response.AppConfigInfo
 
 /**
  * 用于初始化AppConfigInfo的信息

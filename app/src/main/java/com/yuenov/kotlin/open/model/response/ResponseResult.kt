@@ -1,5 +1,8 @@
 package com.yuenov.kotlin.open.model.response
 
+/**
+ * HTTP返回的数据状态信息
+ */
 data class ResponseResult(
     val code: Int = 0,
     val msg: String = ""

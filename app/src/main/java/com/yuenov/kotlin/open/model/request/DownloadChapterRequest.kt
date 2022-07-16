@@ -8,5 +8,5 @@ import java.util.ArrayList
 data class DownloadChapterRequest (
     var bookId: Int = 0,
     var chapterIdList: List<Long> = ArrayList(),
-    var v: Int = 0
+    var v: Int?
 )

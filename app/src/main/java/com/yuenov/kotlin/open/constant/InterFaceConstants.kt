@@ -33,7 +33,7 @@ object InterFaceConstants {
 //            }
 //        }
     //暂时用这个端口来测试接口
-    var domainPort = 19999
+    var domainPort = 15555
 
     /**
      * 接口域名

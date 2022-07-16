@@ -1,9 +1,20 @@
 package com.yuenov.kotlin.open.viewmodel
 
 import androidx.lifecycle.MutableLiveData
+import com.yuenov.kotlin.open.application.gson
 import com.yuenov.kotlin.open.database.appDb
 import com.yuenov.kotlin.open.database.tb.TbBookShelf
+import com.yuenov.kotlin.open.ext.CLASS_TAG
+import com.yuenov.kotlin.open.ext.logd
+import com.yuenov.kotlin.open.model.request.BookCheckUpdateRequest
+import com.yuenov.kotlin.open.model.request.ReadingPreferencesRequest
+import com.yuenov.kotlin.open.model.request.SubmitSaveProductProblemRequest
+import com.yuenov.kotlin.open.model.response.BookCheckUpdateResponse
+import com.yuenov.kotlin.open.model.response.CheckUpdateItemInfo
+import com.yuenov.kotlin.open.network.apiService
 import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
+import me.hgj.jetpackmvvm.ext.request
+import me.hgj.jetpackmvvm.ext.util.toJson
 
 class BookShelfFragmentViewModel : BaseViewModel() {
 
@@ -11,6 +22,11 @@ class BookShelfFragmentViewModel : BaseViewModel() {
      * 书架信息，仅用于界面初始化，后续的增删改不需要变更这里的数据，仅修改UI adapter内的数据
      */
     var listBookShelf: MutableLiveData<ArrayList<TbBookShelf>> = MutableLiveData()
+
+    /**
+     * 书架更新信息
+     */
+    val listCheckUpdate: MutableLiveData<BookCheckUpdateResponse> = MutableLiveData()
 
     init {
         /*
@@ -219,6 +235,20 @@ class BookShelfFragmentViewModel : BaseViewModel() {
         } catch (ex: Exception) {
             ex.printStackTrace()
         }
+    }
+
+    fun checkBookShelfUpdate() {
+        val request =
+            BookCheckUpdateRequest(arrayListOf(CheckUpdateItemInfo(198593, 1410645497090592800)))
+        logd(CLASS_TAG, "request json: ${gson.toJson(request)}")
+        request(
+            {
+                apiService.checkUpdate(request)
+                apiService.userUpdate(ReadingPreferencesRequest("FEMALE"))
+                apiService.saveProductProblem(SubmitSaveProductProblemRequest("test test", "111111"))
+            },
+//            { apiService.userUpdate(gson.toJson(ReadingPreferencesRequest())) },
+            {},)
     }
 
 }

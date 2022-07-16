@@ -1,7 +1,4 @@
-package com.yuenov.kotlin.open.model
-
-import com.yuenov.kotlin.open.model.response.CategoriesListItem
-import com.yuenov.kotlin.open.model.response.CategoryMenuItem
+package com.yuenov.kotlin.open.model.response
 
 /**
  * 用来存储一些全局数据
