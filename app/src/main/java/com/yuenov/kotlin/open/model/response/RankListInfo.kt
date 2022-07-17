@@ -10,7 +10,10 @@ import kotlinx.android.parcel.Parcelize
 @SuppressLint("ParcelCreator")
 @Parcelize
 data class RankListInfo (
-    var channelId: Int = 0,
-    var channelName: String? = null,
-    var ranks: List<RankItemInfo>? = null
+    /** 频道号 **/
+    var channelId: Int,
+    /** 频道名称 **/
+    var channelName: String?,
+    /** 榜单信息列表 **/
+    var ranks: List<RankItemInfo>?
 ): Parcelable

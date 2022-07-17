@@ -11,5 +11,6 @@ import java.util.ArrayList
 @SuppressLint("ParcelCreator")
 @Parcelize
 data class RankItemResponse (
-    var channels: ArrayList<RankListInfo>? = null
+    /** 获取所有的频道榜单，目前有男生频道和女生频道 **/
+    var channels: ArrayList<RankListInfo>?
 ): Parcelable

@@ -11,8 +11,10 @@ import java.util.ArrayList
 @SuppressLint("ParcelCreator")
 @Parcelize
 data class SpecialItemModel (
+    /** 专题号 **/
     var id: Int = 0,
+    /** 每个专题的名称 **/
     var name: String? = null,
-    var page: Int = 1,
-    var bookList: List<CategoriesListItem> = ArrayList()
+    /** 书籍列表 **/
+    var bookList: List<CategoriesListItem>?
 ): Parcelable

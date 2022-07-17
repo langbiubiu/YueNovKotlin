@@ -1,19 +1,23 @@
 package com.yuenov.kotlin.open.model.response
 
+import android.annotation.SuppressLint
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
 /**
  * 用来存储一些全局数据
  */
+@SuppressLint("ParcelCreator")
+@Parcelize
 data class AppConfigInfo(
-    //分类列表
+    /** 书籍默认的分类列表 **/
     var categories: List<CategoryMenuItem>?,
-    //热搜书籍列表
+    /** 字体列表 **/
+    var fonts: List<FontInfoModel>?,
+    /** 热搜书籍列表 **/
     var hotSearch: List<CategoriesListItem>?,
-    //接口使用的端口号列表
+    /** 接口使用的端口号列表 **/
     var ports: List<Int>?
-) {
-    fun isEmpty(): Boolean {
-        return !categories.isNullOrEmpty() &&
-                !hotSearch.isNullOrEmpty() &&
-                !ports.isNullOrEmpty()
-    }
+): Parcelable {
+    fun isCategoriesEmpty() = categories.isNullOrEmpty()
 }

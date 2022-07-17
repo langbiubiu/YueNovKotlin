@@ -30,18 +30,13 @@ interface ApiService {
         @Query("keyWord") keyWord: String,
         @Query("pageNum") pageNum: Int,
         @Query("pageSize") pageSize: Int
-    ): ApiResponse<FindIndexInfoResponse>
+    ): ApiResponse<CategoriesListResponse>
 
     /**
      * App内发现页面接口
-     * @param pageNum 请求第几页数据，pageNum最小值为1
-     * @param pageSize 请求每页多少条的数据
      */
     @GET("category/discovery")
-    suspend fun categoryDiscovery(
-        @Query("pageNum") pageNum: Int,
-        @Query("pageSize") pageSize: Int
-    ): ApiResponse<FindIndexInfoResponse>
+    suspend fun categoryDiscovery(): ApiResponse<FindIndexInfoResponse>
 
     /**
      * 书籍的全部分类
@@ -79,7 +74,7 @@ interface ApiService {
     suspend fun getCategoryEnd(
         @Query("pageNum") pageNum: Int,
         @Query("pageSize") pageSize: Int
-    ): ApiResponse<FindIndexInfoResponse>
+    ): ApiResponse<CategoryEndListResponse>
 
     /**
      * 书籍专题信息
@@ -120,7 +115,7 @@ interface ApiService {
         @Query("pageNum") pageNum: Int,
         @Query("pageSize") pageSize: Int,
         @Query("type") type: String,
-        @Query("categoryId") categoryId: Int
+        @Query("categoryId") categoryId: Int? = null
     ): ApiResponse<CategoriesListResponse>
 
     /**
@@ -179,7 +174,7 @@ interface ApiService {
     ): ApiResponse<MenuListResponse>
 
     /**
-     * 下载章节内容，目前开放接口不支持批量下载
+     * 下载章节内容，目前开放接口不支持批量下载，即每次请求只能传一个chapterId。
      * 由于书源失效会导致部分书籍不可访问。如果错误码为203表示书源已经失效，此时服务器会自动更新书源。
      * 如果书源失效并返回203请重新调用书籍目录接口[getByBookId]来获取最新的目录信息
      * 此时当前接口需要传递v这个参数，这个参数由[getByBookId]接口返回。
@@ -188,13 +183,17 @@ interface ApiService {
      *
      * @param body 详见[DownloadChapterRequest]
      */
+    @Headers("Content-Type: application/json;charset=UTF-8")
     @POST("chapter/get")
     suspend fun downloadChapter(@Body body: DownloadChapterRequest): ApiResponse<DownloadListResponse>
 
     /**
-     * 刷新章节内容，获取最新的章节数据。与下载不一样，下载是获取服务器缓存的数据，但不是最新的数据。一般是下载的内容不正确时会调用该接口。该接口响应时间比较长，谨慎调用。
+     * 刷新章节内容，获取最新的章节数据，不支持批量下载，即每次请求只能传一个chapterId。
+     * 与下载不一样，下载是获取服务器缓存的数据，但不是最新的数据。一般是下载的内容不正确时会调用该接口。
+     * 该接口响应时间比较长，谨慎调用。
      * @param bookId 必需 书籍号
      */
+    @Headers("Content-Type: application/json;charset=UTF-8")
     @POST("chapter/updateForce")
     suspend fun updateChapter(@Body body: ChapterUpdateForceInfoRequest): ApiResponse<DownloadListResponse>
 
@@ -207,21 +206,19 @@ interface ApiService {
     /**
      * 更新用户性别，文档中没有记录该接口，需要测试，确认返回结果的数据结构
      * @param body 具体内容见[ReadingPreferencesRequest]
-     *
-     * @suppress 接口可能已过期
      */
     @Headers("Content-Type: application/json;charset=UTF-8")
     @POST("user/update")
+    @Deprecated("接口可能已过期")
     suspend fun userUpdate(@Body body: ReadingPreferencesRequest): ApiResponse<String>
 
     /**
      * 更新用户性别，改变用户偏好，文档中没有记录该接口，需要测试，确认返回结果的数据结构
      * @param body 具体内容见[SubmitSaveProductProblemRequest]
-     *
-     * @suppress 接口可能已过期
      */
     @Headers("Content-Type: application/json;charset=UTF-8")
     @POST("problem/saveProductProblem")
+    @Deprecated("接口可能已过期")
     suspend fun saveProductProblem(@Body body: SubmitSaveProductProblemRequest): ApiResponse<String>
 
 }

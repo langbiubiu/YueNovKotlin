@@ -10,11 +10,18 @@ import kotlinx.android.parcel.Parcelize
 @SuppressLint("ParcelCreator")
 @Parcelize
 data class MenuListResponse (
-    var id: Int = 0,
-    var title: String? = null,
-    var author: String? = null,
-    var desc: String? = null,
-    var word: String? = null,
-    var coverImg: String? = null,
-    var chapters: List<BookMenuItemInfo>? = null
+    /** 作者 **/
+    var author: String?,
+    /** 书籍号 **/
+    var bookId: Int,
+    /** 返回的是书籍封面的路径并非URL地址，需要手动拼接上域名+端口 **/
+    var coverImg: String?,
+    /** 书籍号 **/
+    var desc: String?,
+    /** 书籍的名称 **/
+    var title: String?,
+    /** 书籍的字数 **/
+    var word: String?,
+    /** 书籍的目录列表 **/
+    var chapters: List<BookMenuItemInfo>
 ): Parcelable

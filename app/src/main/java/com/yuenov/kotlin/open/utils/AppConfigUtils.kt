@@ -24,7 +24,7 @@ object AppConfigUtils {
                     DataStoreUtils.getData(PreferenceConstants.KEY_CATEGORY_INFO, ""),
                     AppConfigInfo::class.java
                 )
-                if (info == null || info.isEmpty()) {
+                if (info == null || info.isCategoriesEmpty()) {
                     val categoriesMenuJson =
                         readFromAssets(MyApplication.appContext, "categories.json")
                     appConfigInfo = gson.fromJson(categoriesMenuJson, AppConfigInfo::class.java)

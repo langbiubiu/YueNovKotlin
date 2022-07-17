@@ -8,7 +8,10 @@ import java.util.ArrayList
 @SuppressLint("ParcelCreator")
 @Parcelize
 data class CategoryChannelItemInfo (
-    var channelId: Int = 0,
-    var channelName: String? = null,
+    /** 频道号 **/
+    var channelId: Int,
+    /** 频道名称 **/
+    var channelName: String,
+    /** 分类信息列表 **/
     var categories: ArrayList<CategoryMenuItem>
 ): Parcelable

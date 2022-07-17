@@ -7,6 +7,7 @@ import com.yuenov.kotlin.open.database.tb.TbBookShelf
 import com.yuenov.kotlin.open.ext.CLASS_TAG
 import com.yuenov.kotlin.open.ext.logd
 import com.yuenov.kotlin.open.model.request.BookCheckUpdateRequest
+import com.yuenov.kotlin.open.model.request.DownloadChapterRequest
 import com.yuenov.kotlin.open.model.request.ReadingPreferencesRequest
 import com.yuenov.kotlin.open.model.request.SubmitSaveProductProblemRequest
 import com.yuenov.kotlin.open.model.response.BookCheckUpdateResponse
@@ -238,16 +239,17 @@ class BookShelfFragmentViewModel : BaseViewModel() {
     }
 
     fun checkBookShelfUpdate() {
-        val request =
-            BookCheckUpdateRequest(arrayListOf(CheckUpdateItemInfo(198593, 1410645497090592800)))
+//        val request =
+//            BookCheckUpdateRequest(arrayListOf(CheckUpdateItemInfo(198593, 1410645497090592800)))
+        val request = DownloadChapterRequest(198593,
+            arrayListOf(1410645496692134000L,1410645496704716800), 2)
         logd(CLASS_TAG, "request json: ${gson.toJson(request)}")
         request(
             {
-                apiService.checkUpdate(request)
-                apiService.userUpdate(ReadingPreferencesRequest("FEMALE"))
-                apiService.saveProductProblem(SubmitSaveProductProblemRequest("test test", "111111"))
+//                apiService.checkUpdate(request)
+//                apiService.downloadChapter(request)
+                apiService.getAppConfig()
             },
-//            { apiService.userUpdate(gson.toJson(ReadingPreferencesRequest())) },
             {},)
     }
 

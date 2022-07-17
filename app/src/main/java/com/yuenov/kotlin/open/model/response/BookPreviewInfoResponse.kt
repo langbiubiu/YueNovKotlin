@@ -10,22 +10,24 @@ import kotlinx.android.parcel.Parcelize
 @SuppressLint("ParcelCreator")
 @Parcelize
 data class BookPreviewInfoResponse (
-    var word: String? = null,
-    var title: String? = null,
-    var desc: String? = null,
-    var categoryName: String? = null,
-    var author: String? = null,
-    var bookId: Int = 0,
-    var coverImg: String? = null,
-    var chapterNum: Int = 0,
-
-    /**
-     * 更新信息
-     */
-    var update: BPreviewUpdateInfo? = null,
-
-    /**
-     * 推荐信息
-     */
-    var recommend: List<CategoriesListItem>? = null
+    /** 书籍作者 **/
+    var author: String?,
+    /** 书籍号 **/
+    var bookId: Int,
+    /** 书籍所属分类名 **/
+    var categoryName: String,
+    /** 总共有多少章节 **/
+    var chapterNum: Int?,
+    /** 书籍的封面路径，返回的是书籍封面的路径并非URL地址，需要手动拼接上域名+端口 **/
+    var coverImg: String?,
+    /** 书籍内容介绍 **/
+    var desc: String?,
+    /** 书籍的名称 **/
+    var title: String?,
+    /** 书籍更新信息 **/
+    var update: BPreviewUpdateInfo?,
+    /** 书籍的字数 **/
+    var word: String?,
+    /** 相关书籍推荐列表 **/
+    var recommend: List<CategoriesListItem>?
 ): Parcelable

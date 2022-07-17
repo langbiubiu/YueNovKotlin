@@ -11,8 +11,6 @@ import java.util.ArrayList
 @SuppressLint("ParcelCreator")
 @Parcelize
 data class FindIndexInfoResponse (
-    var list: List<FindItemBookItemModel> = ArrayList<FindItemBookItemModel>(),
-    var total: Int = 0,
-    var pageNum: Int = 0,
-    var pageSize: Int = 0
+    /** 发现页书籍分类列表 **/
+    var list: List<FindItemBookItemModel>?,
 ): Parcelable

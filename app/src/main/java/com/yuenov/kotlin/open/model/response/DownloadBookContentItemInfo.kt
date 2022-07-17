@@ -10,7 +10,10 @@ import kotlinx.android.parcel.Parcelize
 @SuppressLint("ParcelCreator")
 @Parcelize
 data class DownloadBookContentItemInfo(
-    var id: Long = 0,
-    var name: String? = null,
-    var content: String? = null
+    /** 章节号 **/
+    var id: Long,
+    /** 章节名 **/
+    var name: String?,
+    /** 章节内容 **/
+    var content: String?
 ): Parcelable

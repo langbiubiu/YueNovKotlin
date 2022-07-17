@@ -3,14 +3,12 @@ package com.yuenov.kotlin.open.model.response
 import android.annotation.SuppressLint
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
-import java.util.ArrayList
 
-/**
- * 专题首页
- */
 @SuppressLint("ParcelCreator")
 @Parcelize
-data class IndexSpecialListResponse (
-    /** 全部的专题列表 **/
-    var specialList: List<SpecialItemModel>?
+data class FontInfoModel(
+    /** 字体名称**/
+    val fontName: String,
+    /** 字体路径，并非URL地址，需要手动拼接上域名+端口 **/
+    val path: String
 ): Parcelable

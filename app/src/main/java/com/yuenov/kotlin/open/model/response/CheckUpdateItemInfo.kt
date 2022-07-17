@@ -7,6 +7,8 @@ import kotlinx.android.parcel.Parcelize
 @SuppressLint("ParcelCreator")
 @Parcelize
 data class CheckUpdateItemInfo(
+    /** 需要检查更新的书籍号 **/
     var bookId: Int = 0,
+    /** 需要检查更新的书籍最后一章的章节号 **/
     var chapterId: Long = 0
 ) : Parcelable

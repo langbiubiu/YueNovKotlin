@@ -7,5 +7,6 @@ import kotlinx.android.parcel.Parcelize
 @SuppressLint("ParcelCreator")
 @Parcelize
 data class BookCheckUpdateResponse(
-    var updateList: List<CheckUpdateItemInfo>? = null
+    /** 检查更新的书籍列表 **/
+    var updateList: List<CheckUpdateItemInfo>?
 ) : Parcelable
