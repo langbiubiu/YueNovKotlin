@@ -6,16 +6,11 @@ import com.yuenov.kotlin.open.database.appDb
 import com.yuenov.kotlin.open.database.tb.TbBookShelf
 import com.yuenov.kotlin.open.ext.CLASS_TAG
 import com.yuenov.kotlin.open.ext.logd
-import com.yuenov.kotlin.open.model.request.BookCheckUpdateRequest
 import com.yuenov.kotlin.open.model.request.DownloadChapterRequest
-import com.yuenov.kotlin.open.model.request.ReadingPreferencesRequest
-import com.yuenov.kotlin.open.model.request.SubmitSaveProductProblemRequest
-import com.yuenov.kotlin.open.model.response.BookCheckUpdateResponse
-import com.yuenov.kotlin.open.model.response.CheckUpdateItemInfo
+import com.yuenov.kotlin.open.model.response.CheckUpdateResponse
 import com.yuenov.kotlin.open.network.apiService
 import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
 import me.hgj.jetpackmvvm.ext.request
-import me.hgj.jetpackmvvm.ext.util.toJson
 
 class BookShelfFragmentViewModel : BaseViewModel() {
 
@@ -27,7 +22,7 @@ class BookShelfFragmentViewModel : BaseViewModel() {
     /**
      * 书架更新信息
      */
-    val listCheckUpdate: MutableLiveData<BookCheckUpdateResponse> = MutableLiveData()
+    val listCheckUpdate: MutableLiveData<CheckUpdateResponse> = MutableLiveData()
 
     init {
         /*
@@ -242,7 +237,7 @@ class BookShelfFragmentViewModel : BaseViewModel() {
 //        val request =
 //            BookCheckUpdateRequest(arrayListOf(CheckUpdateItemInfo(198593, 1410645497090592800)))
         val request = DownloadChapterRequest(198593,
-            arrayListOf(1410645496692134000L,1410645496704716800), 2)
+            arrayListOf(1410645496692134000L), 2)
         logd(CLASS_TAG, "request json: ${gson.toJson(request)}")
         request(
             {

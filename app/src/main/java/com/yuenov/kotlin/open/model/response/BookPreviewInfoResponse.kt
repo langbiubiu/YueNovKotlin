@@ -5,7 +5,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 /**
- * 预览信息
+ * 书籍预览信息
  */
 @SuppressLint("ParcelCreator")
 @Parcelize
@@ -25,9 +25,9 @@ data class BookPreviewInfoResponse (
     /** 书籍的名称 **/
     var title: String?,
     /** 书籍更新信息 **/
-    var update: BPreviewUpdateInfo?,
+    var update: BookChapterNewestInfo?,
     /** 书籍的字数 **/
     var word: String?,
     /** 相关书籍推荐列表 **/
-    var recommend: List<CategoriesListItem>?
+    var recommend: List<BookInfoItem>?
 ): Parcelable

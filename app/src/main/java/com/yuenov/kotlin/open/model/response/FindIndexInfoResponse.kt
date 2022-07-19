@@ -12,5 +12,5 @@ import java.util.ArrayList
 @Parcelize
 data class FindIndexInfoResponse (
     /** 发现页书籍分类列表 **/
-    var list: List<FindItemBookItemModel>?,
+    var list: List<CategoryInfoItem>?,
 ): Parcelable

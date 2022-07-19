@@ -5,13 +5,13 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 /**
- * 发现首页
+ * 完本书籍的返回结果
  */
 @SuppressLint("ParcelCreator")
 @Parcelize
 data class CategoryEndListResponse(
     /** 全部完结书籍的分类列表 **/
-    var list: List<FindItemBookItemModel>?,
+    var list: List<CategoryInfoItem>?,
     /** 请求第几页的数据，pageNum最小值为1 **/
     var pageNum: Int?,
     /** 请求每页多少条的数据 **/

@@ -5,18 +5,19 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 /**
- * 包含书籍列表的分类信息，内容整合到[CategoryInfoItem]中
+ * 分类信息
  */
 @SuppressLint("ParcelCreator")
 @Parcelize
-@Suppress("unused")
-data class FindItemBookItemModel (
+data class CategoryInfoItem(
     /** 书籍列表 **/
-    var bookList: List<BookInfoItem>,
+    var bookList: List<BookInfoItem>?,
     /** 只有当type=CATEGORY时才有值表示书籍分类号 **/
-    var categoryId: Int?,
-    /** 每个分类的名称 **/
-    var categoryName: String,
+    val categoryId: Int?,
+    /** 分类名 **/
+    val categoryName: String?,
+    /** 分类的封面列表，包含该分类排名前三书籍的封面路径，并非URL地址，需要手动拼接上域名+端口 **/
+    val coverImgs: List<String>?,
     /** 每个分类的类型
      * READ_MOST : 大家都在看
      * RECENT_UPDATE : 最近更新

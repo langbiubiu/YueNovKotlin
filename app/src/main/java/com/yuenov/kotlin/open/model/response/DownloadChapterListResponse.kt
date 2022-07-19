@@ -4,9 +4,13 @@ import android.annotation.SuppressLint
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
+
+/**
+ * 下载
+ */
 @SuppressLint("ParcelCreator")
 @Parcelize
-data class BookCheckUpdateResponse(
-    /** 检查更新的书籍列表 **/
-    var updateList: List<CheckUpdateItemInfo>?
-) : Parcelable
+data class DownloadChapterListResponse (
+    /** 下载的章节内容 **/
+    var list: List<ChapterInfoItem>? = null
+): Parcelable

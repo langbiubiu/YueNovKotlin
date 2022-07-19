@@ -4,9 +4,12 @@ import android.annotation.SuppressLint
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
+/**
+ * 书籍信息
+ */
 @SuppressLint("ParcelCreator")
 @Parcelize
-data class CategoriesListItem(
+data class BookInfoItem(
     /** 作者 **/
     val author: String?,
     /** 书籍号 **/

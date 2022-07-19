@@ -9,7 +9,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @SuppressLint("ParcelCreator")
 @Parcelize
-data class RankItemInfo (
+data class RankInfoItem (
     /** 榜单号 **/
     var rankId: Int,
     /** 榜单名 **/

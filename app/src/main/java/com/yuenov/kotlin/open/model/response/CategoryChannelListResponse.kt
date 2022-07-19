@@ -12,5 +12,5 @@ import java.util.ArrayList
 @Parcelize
 data class CategoryChannelListResponse (
     /** 获取所有的频道分类列表，目前有男生频道和女生频道 **/
-    var channels: ArrayList<CategoryChannelItemInfo>?
+    var channels: ArrayList<ChannelInfoItem>?
 ): Parcelable

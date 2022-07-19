@@ -6,11 +6,15 @@ import kotlinx.android.parcel.Parcelize
 import java.util.ArrayList
 
 /**
- * 榜单
+ * 频道信息
  */
 @SuppressLint("ParcelCreator")
 @Parcelize
-data class RankItemResponse (
-    /** 获取所有的频道榜单，目前有男生频道和女生频道 **/
-    var channels: ArrayList<RankListInfo>?
+data class ChannelInfoItem (
+    /** 频道号 **/
+    var channelId: Int,
+    /** 频道名称 **/
+    var channelName: String,
+    /** 分类信息列表 **/
+    var categories: ArrayList<CategoryInfoItem>
 ): Parcelable

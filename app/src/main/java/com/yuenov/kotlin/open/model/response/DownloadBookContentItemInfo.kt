@@ -5,7 +5,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 /**
- * 下载章节内容
+ * 下载章节内容，整合到[ChapterInfoItem]
  */
 @SuppressLint("ParcelCreator")
 @Parcelize

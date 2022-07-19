@@ -4,9 +4,12 @@ import android.annotation.SuppressLint
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
+/**
+ * 书籍最新章节信息
+ */
 @SuppressLint("ParcelCreator")
 @Parcelize
-data class BPreviewUpdateInfo (
+data class BookChapterNewestInfo (
     /** 最新的章节号 **/
     var chapterId: Long,
     /** 最新的章节名称 **/

@@ -17,7 +17,7 @@ interface ApiService {
      */
     @Headers("Content-Type: application/json;charset=UTF-8")
     @POST("book/checkUpdate")
-    suspend fun checkUpdate(@Body body: BookCheckUpdateRequest): ApiResponse<BookCheckUpdateResponse>
+    suspend fun checkUpdate(@Body body: BookCheckUpdateRequest): ApiResponse<CheckUpdateResponse>
 
     /**
      * 根据关键词搜索书籍
@@ -30,7 +30,7 @@ interface ApiService {
         @Query("keyWord") keyWord: String,
         @Query("pageNum") pageNum: Int,
         @Query("pageSize") pageSize: Int
-    ): ApiResponse<CategoriesListResponse>
+    ): ApiResponse<BookListResponse>
 
     /**
      * App内发现页面接口
@@ -48,7 +48,7 @@ interface ApiService {
      * 书籍榜单信息
      */
     @GET("rank/getList")
-    suspend fun getRankList(): ApiResponse<RankItemResponse>
+    suspend fun getRankList(): ApiResponse<RankListResponse>
 
     /**
      * 每个榜单内的书籍列表
@@ -63,7 +63,7 @@ interface ApiService {
         @Query("rankId") rankId: Int,
         @Query("pageNum") pageNum: Int,
         @Query("pageSize") pageSize: Int
-    ): ApiResponse<CategoriesListResponse>
+    ): ApiResponse<BookListResponse>
 
     /**
      * 所有完本书籍信息
@@ -85,7 +85,7 @@ interface ApiService {
     suspend fun getSpecialList(
         @Query("pageNum") pageNum: Int,
         @Query("pageSize") pageSize: Int
-    ): ApiResponse<IndexSpecialListResponse>
+    ): ApiResponse<SpecialListResponse>
 
     /**
      * 专题下全部的书籍和换一换列表
@@ -98,10 +98,10 @@ interface ApiService {
         @Query("id") id: Int,
         @Query("pageNum") pageNum: Int,
         @Query("pageSize") pageSize: Int
-    ): ApiResponse<CategoriesListResponse>
+    ): ApiResponse<BookListResponse>
 
     /**
-     * 查看发现页分类的全部或部分内容（查看全部，换一换）
+     * 查看发现页某个分类下的全部或部分内容（查看全部，换一换）
      * @param pageNum 必需 请求第几页的数据，pageNum最小值为1
      * @param pageSize 必需 请求每页多少条的数据
      * @param type 必需 发现页的分类类型
@@ -116,7 +116,7 @@ interface ApiService {
         @Query("pageSize") pageSize: Int,
         @Query("type") type: String,
         @Query("categoryId") categoryId: Int? = null
-    ): ApiResponse<CategoriesListResponse>
+    ): ApiResponse<BookListResponse>
 
     /**
      * 某个分类下所有的书籍
@@ -136,7 +136,7 @@ interface ApiService {
         @Query("categoryId") categoryId: Int,
         @Query("channelId") channelId: Int,
         @Query("orderBy") orderBy: String
-    ): ApiResponse<CategoriesListResponse>
+    ): ApiResponse<BookListResponse>
 
     /**
      * 每本书的详细信息
@@ -158,7 +158,7 @@ interface ApiService {
         @Query("bookId") bookId: Int,
         @Query("pageNum") pageNum: Int,
         @Query("pageSize") pageSize: Int
-    ): ApiResponse<CategoriesListResponse>
+    ): ApiResponse<BookListResponse>
 
     /**
      * 获取书籍全部或部分目录信息，当书籍有更新时需要调用该接口来更新本地保存的目录信息，传入chapterId获取此章节
@@ -185,7 +185,7 @@ interface ApiService {
      */
     @Headers("Content-Type: application/json;charset=UTF-8")
     @POST("chapter/get")
-    suspend fun downloadChapter(@Body body: DownloadChapterRequest): ApiResponse<DownloadListResponse>
+    suspend fun downloadChapter(@Body body: DownloadChapterRequest): ApiResponse<DownloadChapterListResponse>
 
     /**
      * 刷新章节内容，获取最新的章节数据，不支持批量下载，即每次请求只能传一个chapterId。
@@ -195,7 +195,7 @@ interface ApiService {
      */
     @Headers("Content-Type: application/json;charset=UTF-8")
     @POST("chapter/updateForce")
-    suspend fun updateChapter(@Body body: ChapterUpdateForceInfoRequest): ApiResponse<DownloadListResponse>
+    suspend fun updateChapter(@Body body: ChapterUpdateRequest): ApiResponse<DownloadChapterListResponse>
 
     /**
      * 获取热门搜索，书籍默认分类等配置信息，通常是在每次开机时启动
@@ -214,11 +214,11 @@ interface ApiService {
 
     /**
      * 更新用户性别，改变用户偏好，文档中没有记录该接口，需要测试，确认返回结果的数据结构
-     * @param body 具体内容见[SubmitSaveProductProblemRequest]
+     * @param body 具体内容见[SubmitProductProblemRequest]
      */
     @Headers("Content-Type: application/json;charset=UTF-8")
     @POST("problem/saveProductProblem")
     @Deprecated("接口可能已过期")
-    suspend fun saveProductProblem(@Body body: SubmitSaveProductProblemRequest): ApiResponse<String>
+    suspend fun saveProductProblem(@Body body: SubmitProductProblemRequest): ApiResponse<String>
 
 }

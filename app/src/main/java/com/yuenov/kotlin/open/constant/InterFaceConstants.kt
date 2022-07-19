@@ -48,7 +48,7 @@ object InterFaceConstants {
     /**
      * 获取接口完整路径
      */
-    fun getInterfaceDomain(): String = "$INTERFACE_DOMAIN:$domainPort//app/"
+    fun getInterfaceDomain(): String = "$INTERFACE_DOMAIN:$domainPort/app/"
 
     /**
      * 获取主页地址

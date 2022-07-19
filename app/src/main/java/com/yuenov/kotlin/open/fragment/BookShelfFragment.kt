@@ -8,8 +8,6 @@ import com.yuenov.kotlin.open.base.BaseFragment
 import com.yuenov.kotlin.open.databinding.FragmentBookshelfBinding
 import com.yuenov.kotlin.open.databinding.ViewBookshelfEmptyBinding
 import com.yuenov.kotlin.open.ext.*
-import com.yuenov.kotlin.open.model.request.BookCheckUpdateRequest
-import com.yuenov.kotlin.open.model.response.CheckUpdateItemInfo
 import com.yuenov.kotlin.open.view.DeleteBookShelfDialog
 import com.yuenov.kotlin.open.viewmodel.BookShelfFragmentViewModel
 

@@ -6,7 +6,7 @@ import kotlinx.android.parcel.Parcelize
 
 @SuppressLint("ParcelCreator")
 @Parcelize
-data class FontInfoModel(
+data class FontInfoItem(
     /** 字体名称**/
     val fontName: String,
     /** 字体路径，并非URL地址，需要手动拼接上域名+端口 **/

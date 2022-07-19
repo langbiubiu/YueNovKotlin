@@ -2,7 +2,7 @@ package com.yuenov.kotlin.open.database.dao
 
 import androidx.room.*
 import com.yuenov.kotlin.open.database.tb.TbBookChapter
-import com.yuenov.kotlin.open.model.response.BookMenuItemInfo
+import com.yuenov.kotlin.open.model.response.ChapterInfoItem
 import com.yuenov.kotlin.open.model.response.DownloadBookContentItemInfo
 
 @Dao
@@ -201,7 +201,7 @@ interface BookChapterDao {
     }
 
     @Transaction
-    fun addChapter(bookId: Int, list: List<BookMenuItemInfo>) {
+    fun addChapter(bookId: Int, list: List<ChapterInfoItem>) {
         if (bookId < 1 || list.isEmpty()) return
         try {
             val listTbBookChapter: MutableList<TbBookChapter> = ArrayList()
@@ -243,7 +243,7 @@ interface BookChapterDao {
     }
 
     @Transaction
-    fun addContent(bookId: Int, list: List<DownloadBookContentItemInfo>) {
+    fun addContent(bookId: Int, list: List<ChapterInfoItem>) {
         if (bookId < 1 || list.isEmpty()) return
         try {
             val lisAdd: MutableList<TbBookChapter> = ArrayList()

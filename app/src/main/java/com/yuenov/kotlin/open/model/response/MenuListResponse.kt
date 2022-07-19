@@ -23,5 +23,5 @@ data class MenuListResponse (
     /** 书籍的字数 **/
     var word: String?,
     /** 书籍的目录列表 **/
-    var chapters: List<BookMenuItemInfo>
+    var chapters: List<ChapterInfoItem>
 ): Parcelable

@@ -6,11 +6,13 @@ import kotlinx.android.parcel.Parcelize
 import com.yuenov.kotlin.open.network.ApiService
 
 /**
- * 目录item
+ * 章节信息
  */
 @SuppressLint("ParcelCreator")
 @Parcelize
-data class BookMenuItemInfo(
+data class ChapterInfoItem(
+    /** 章节内容 **/
+    var content: String?,
     /** 章节号 **/
     var id: Long,
     /** 章节名 **/

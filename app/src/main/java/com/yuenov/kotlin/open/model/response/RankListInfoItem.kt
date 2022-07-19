@@ -3,14 +3,17 @@ package com.yuenov.kotlin.open.model.response
 import android.annotation.SuppressLint
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
-import java.util.ArrayList
 
 /**
- * 专题首页
+ * 榜单列表
  */
 @SuppressLint("ParcelCreator")
 @Parcelize
-data class IndexSpecialListResponse (
-    /** 全部的专题列表 **/
-    var specialList: List<SpecialItemModel>?
+data class RankListInfoItem (
+    /** 频道号 **/
+    var channelId: Int,
+    /** 频道名称 **/
+    var channelName: String?,
+    /** 榜单信息列表 **/
+    var ranks: List<RankInfoItem>?
 ): Parcelable
