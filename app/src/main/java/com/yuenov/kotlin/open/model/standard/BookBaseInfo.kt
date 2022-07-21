@@ -1,6 +1,6 @@
 package com.yuenov.kotlin.open.model.standard
 
-import com.yuenov.kotlin.open.constant.CHAPTER_STATUS_END
+import com.yuenov.kotlin.open.constant.InterFaceConstants.CHAPTER_STATUS_END
 
 
 /**

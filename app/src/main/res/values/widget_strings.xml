@@ -29,4 +29,8 @@
 
     <string name="ChapterStatus_wanjie">已完结</string>
 
+    <string name="bookshelf_fail">读取书架信息失败</string>
+    <string name="checkupdate_fail">章节更新失败</string>
+    <string name="checkupdate_success">章节更新成功</string>
+
 </resources>

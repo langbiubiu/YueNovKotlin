@@ -1,34 +1,20 @@
 package com.yuenov.kotlin.open.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import com.yuenov.kotlin.open.application.gson
+import com.yuenov.kotlin.open.R
 import com.yuenov.kotlin.open.database.appDb
 import com.yuenov.kotlin.open.database.tb.TbBookShelf
-import com.yuenov.kotlin.open.ext.CLASS_TAG
-import com.yuenov.kotlin.open.ext.logd
-import com.yuenov.kotlin.open.model.request.BookCheckUpdateRequest
-import com.yuenov.kotlin.open.model.response.CheckUpdateItem
-import com.yuenov.kotlin.open.model.response.CheckUpdateResponse
-import com.yuenov.kotlin.open.network.apiService
 import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
 import me.hgj.jetpackmvvm.demo.app.network.stateCallback.ListDataUiState
-import me.hgj.jetpackmvvm.demo.app.network.stateCallback.UpdateUiState
 import me.hgj.jetpackmvvm.ext.launch
-import me.hgj.jetpackmvvm.ext.request
 
-class BookShelfFragmentViewModel : BaseViewModel() {
+class DetailViewModel: BaseViewModel() {
 
     /**
-     * 书架内的书籍信息
+     * 书架信息，仅用于界面初始化，后续的增删改不需要变更这里的数据，仅修改UI adapter内的数据
      */
     var bookShelfDataState: MutableLiveData<ListDataUiState<TbBookShelf>> = MutableLiveData()
 
-    /**
-     * 请求书籍更新信息
-     */
-    val checkUpdateDataState: MutableLiveData<UpdateUiState<CheckUpdateResponse>> = MutableLiveData()
-
-//    /*
     init {
         //先写一些假数据
         val books = ArrayList<TbBookShelf>()
@@ -188,113 +174,11 @@ class BookShelfFragmentViewModel : BaseViewModel() {
     /**
      * 从数据库读取书架信息，如果读取失败也会将一个空的ArrayList写入listBookShelf，防止空异常
      */
-    fun getBookShelfData() {
-        launch(
-            { appDb.bookShelfDao.getAllList()?.let { ArrayList(it) } },
-            {
-                bookShelfDataState.value = ListDataUiState(
-                    isSuccess = true,
-                    isEmpty = it?.isEmpty() ?: true,
-                    listData = it?: arrayListOf())
-            },
-            {
-                bookShelfDataState.value = ListDataUiState(
-                    isSuccess = false,
-                    errMessage = it.message,
-                    isEmpty = true,
-                    listData = arrayListOf())
-            })
+    fun getBookShelfData(): ArrayList<TbBookShelf> {
+        return try {
+            appDb.bookShelfDao.getAllList()?.let { ArrayList(it) } ?: arrayListOf()
+        } catch (ex:Exception) {
+            arrayListOf()
+        }
     }
-
-    /**
-     * 根据bookId删除书架图书
-     */
-    fun deleteBookShelfData(bookId: Int) {
-        launch(
-            { appDb.bookShelfDao.deleteByBookId(bookId) },
-            { //删除后更新书架信息，通知UI更新
-                getBookShelfData()
-            },
-            {
-                it.printStackTrace()
-            }
-        )
-    }
-
-    /**
-     * 同步浏览记录
-     */
-    fun resetAddBookShelfStat(bookId: Int, stat: Boolean) {
-        launch(
-            { appDb.readHistoryDao.resetAddBookShelfStat(bookId, stat) },
-            {
-                logd(CLASS_TAG, "resetAddBookShelfStat success")
-            },
-            {
-                it.printStackTrace()
-            }
-        )
-    }
-
-    /**
-     * 书架书籍更新信息
-     */
-    fun checkBookShelfUpdate() {
-        request(
-            { //先请求更新数据
-                val lisUpdateInfo = appDb.chapterDao.getShelfUpdateInfo()
-                val checkUpdateItems = arrayListOf<CheckUpdateItem>()
-                if (!lisUpdateInfo.isNullOrEmpty()) {
-                    for (book in lisUpdateInfo) {
-                        checkUpdateItems.add(CheckUpdateItem(book!!.bookId, book.chapterId))
-                    }
-                }
-//                val request = BookCheckUpdateRequest(checkUpdateItems)
-                // TODO: 万族之劫 测试数据，等阅读模块完成后删除
-                val request =
-                    BookCheckUpdateRequest(
-                        arrayListOf(CheckUpdateItem(56124, 1257233517545373698)))
-                logd(CLASS_TAG, "request json: ${gson.toJson(request)}")
-                apiService.checkUpdate(request)
-            },
-            { response ->
-                //请求成功后，更新BookShelf数据库中的hasUpdate字段
-                launch(
-                    {
-                        response.updateList?.apply {
-                            for (checkBook in this) {
-                                val bookShelfItem = appDb.bookShelfDao.getEntity(checkBook.bookId)
-                                if (bookShelfItem != null && !bookShelfItem.hasUpdate) {
-                                    appDb.bookShelfDao.updateHasUpdate(
-                                        checkBook.bookId,
-                                        true,
-                                        System.currentTimeMillis()
-                                    )
-                                }
-                            }
-                        }
-                    },
-                    {
-                        //更新成功后，重新获取书架书籍信息，触发observe回调，进而更新界面
-                        checkUpdateDataState.value = UpdateUiState(
-                            isSuccess = true,
-                            data = response,
-                        )
-                        getBookShelfData()
-                    },
-                    {
-                        checkUpdateDataState.value = UpdateUiState(
-                            isSuccess = false,
-                            errorMsg = it.message
-                        )
-                    })
-            },
-            {
-                checkUpdateDataState.value = UpdateUiState(
-                    isSuccess = false,
-                    errorMsg = it.errorMsg
-                )
-            })
-    }
-
 }

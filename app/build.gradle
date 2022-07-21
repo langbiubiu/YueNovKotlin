@@ -19,8 +19,13 @@ android {
     }
 
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        release {
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -66,9 +71,9 @@ dependencies {
 //    // banner https://github.com/youth5201314/banner
 //    implementation 'com.youth.banner:banner:1.4.10'
 //
-//    // glide
-//    implementation 'com.github.bumptech.glide:glide:4.13.2'
-//    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
+    // glide
+    implementation 'com.github.bumptech.glide:glide:4.13.2'
+    kapt 'com.github.bumptech.glide:compiler:4.13.2'
 //    // 模糊
 ////    implementation 'com.github.pinguo-zhouwei:EasyBlur:v1.0.0'  内部包含support库，导致编译报错，替换成Blurry
 //    implementation 'jp.wasabeef:blurry:4.0.1'

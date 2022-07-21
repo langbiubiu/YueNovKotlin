@@ -1,6 +1,6 @@
 package com.yuenov.kotlin.open.constant
 
-import com.yuenov.kotlin.open.utils.AppConfigUtils
+import com.yuenov.kotlin.open.application.appViewMode
 
 object InterFaceConstants {
 
@@ -14,26 +14,33 @@ object InterFaceConstants {
      */
     val categoriesListPageSize = pageSize
 
+    //图书连载状态：完结 或 连载
+    const val CHAPTER_STATUS_END = "END"
+    const val CHAPTER_STATUS_SERIALIZE = "SERIALIZE"
+
+    //分类类型
+    const val CATEGORY_TYPE_READ_MOST = "READ_MOST"  //大家都在看
+    const val CATEGORY_TYPE_RECENT_UPDATE = "RECENT_UPDATE" //最近更新
+    const val CATEGORY_TYPE_CATEGORY = "CATEGORY" //普通分类
+
     /**
      * 默认端口
      */
-    private const val domainDefaultPort = 80
+    const val domainDefaultPort = 80
 
     /**
      * 端口
      */
-//    var domainPort: Int = domainDefaultPort
-//        get() {
-//            return if (field == domainDefaultPort
-//                && !AppConfigUtils.getAppConfigInfo()?.ports.isNullOrEmpty()
-//            ) {
-//                AppConfigUtils.getAppConfigInfo()!!.ports!![0]
-//            } else {
-//                domainDefaultPort
-//            }
-//        }
-    //暂时用这个端口来测试接口
-    var domainPort = 15555
+    var domainPort: Int = domainDefaultPort
+        get() {
+            return if (field == domainDefaultPort
+                && !appViewMode.appConfigInfo.value?.ports.isNullOrEmpty()
+            ) {
+                appViewMode.appConfigInfo.value!!.ports!![0]
+            } else {
+                field
+            }
+        }
 
     /**
      * 接口域名

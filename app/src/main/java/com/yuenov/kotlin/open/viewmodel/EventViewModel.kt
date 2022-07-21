@@ -1,6 +1,7 @@
 package com.yuenov.kotlin.open.viewmodel
 
 import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
+import me.hgj.jetpackmvvm.callback.livedata.BooleanLiveData
 
 /**
  * 作者　: hegaojian
@@ -8,5 +9,7 @@ import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
  * 描述　:APP全局的ViewModel，可以在这里发送全局通知替代EventBus，LiveDataBus等
  */
 class EventViewModel : BaseViewModel() {
+
+    var isForeground = BooleanLiveData()
 
 }

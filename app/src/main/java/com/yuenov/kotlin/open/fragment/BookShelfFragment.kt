@@ -1,64 +1,86 @@
 package com.yuenov.kotlin.open.fragment
 
+import android.graphics.Color
 import android.os.Bundle
-import android.view.ViewGroup
-import androidx.lifecycle.Observer
+import android.view.View
+import android.widget.Toast
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.yuenov.kotlin.open.R
 import com.yuenov.kotlin.open.adapter.BookShelfListAdapter
 import com.yuenov.kotlin.open.base.BaseFragment
+import com.yuenov.kotlin.open.database.tb.TbBookShelf
 import com.yuenov.kotlin.open.databinding.FragmentBookshelfBinding
-import com.yuenov.kotlin.open.databinding.ViewBookshelfEmptyBinding
 import com.yuenov.kotlin.open.ext.*
+import com.yuenov.kotlin.open.utils.ConvertUtils
 import com.yuenov.kotlin.open.view.DeleteBookShelfDialog
+import com.yuenov.kotlin.open.view.recyclerview.GridDividerItemDecoration
 import com.yuenov.kotlin.open.viewmodel.BookShelfFragmentViewModel
 
 class BookShelfFragment : BaseFragment<BookShelfFragmentViewModel, FragmentBookshelfBinding>() {
 
     private val bookShelfAdapter by lazy { BookShelfListAdapter(arrayListOf()) }
 
-    private val emptyBinding: ViewBookshelfEmptyBinding by lazy {
-        ViewBookshelfEmptyBinding.inflate(layoutInflater, null, false)
-    }
+    //是否第一次加载数据
+    private var isFirstLoadData: Boolean = false
 
     override fun initView(savedInstanceState: Bundle?) {
         logd(CLASS_TAG, "initView")
-        mViewBind.swipeRefresh.setOnRefreshListener { checkBookShelfUpdate() }
+        mViewBind.swipeRefresh.setOnRefreshListener { mViewModel.checkBookShelfUpdate() }
         mViewBind.swipeRefresh.isEnabled = false
 
-        mViewBind.gvBookshelf.run {
-            setOnItemClickListener { parent, view, position, id ->
+        bookShelfAdapter.setOnItemClickListener(object: BookShelfListAdapter.OnItemClickListener{
+            override fun onClick(view: View, position: Int, data: TbBookShelf) {
                 toRead()
             }
-            setOnItemLongClickListener { parent, view, position, id ->
+
+            override fun onLongClick(view: View, position: Int, data: TbBookShelf): Boolean {
                 val dialog =
                     DeleteBookShelfDialog(this@BookShelfFragment.requireContext(), position)
                 dialog.setListener(object : DeleteBookShelfDialog.IDeleteBookShelfListener {
                     override fun toPreviewDetail(position: Int) {
-//                        toPreviewDetail(mViewModel.listBookShelf.value!![position].bookId)
+                        toDetail(bookShelfAdapter.listData[position].bookId)
                     }
 
                     override fun toDelete(position: Int) {
-                        deleteBookShelf(position)
+                        val bookId = bookShelfAdapter.listData[position].bookId
+                        mViewModel.deleteBookShelfData(bookId)
+                        mViewModel.resetAddBookShelfStat(bookId, false)
                     }
 
                     override fun toCancel() {
                     }
                 })
                 dialog.show()
-                true
+                return true
+            }
+        })
+        mViewBind.rvBookshelf.apply {
+            context?.let {
+                layoutManager = GridLayoutManager(it, 3, RecyclerView.VERTICAL, false)
+                setHasFixedSize(true)
+                addItemDecoration(
+                    GridDividerItemDecoration(
+                        it,
+                        ConvertUtils.dp2px(25f),
+                        ConvertUtils.dp2px(20f),
+                        true
+                    ), Color.BLACK
+                )
+                adapter = bookShelfAdapter
             }
         }
-        mViewBind.gvBookshelf.adapter = bookShelfAdapter
         setClickListeners(
             mViewBind.llSearch,
             mViewBind.ivSearch,
             mViewBind.tvSearch,
-            emptyBinding.tvBseFind
+            mViewBind.includeEmpty.tvBseFind,
         )
         {
             when (it) {
                 mViewBind.llSearch, mViewBind.ivSearch, mViewBind.tvSearch ->
                     toSearch()
-                emptyBinding.tvBseFind ->
+                mViewBind.includeEmpty.tvBseFind ->
                     (parentFragment as MainFragment).toBookStore()
             }
         }
@@ -70,63 +92,53 @@ class BookShelfFragment : BaseFragment<BookShelfFragmentViewModel, FragmentBooks
 
     override fun lazyLoadData() {
         logd(CLASS_TAG, "lazyLoadData")
+        isFirstLoadData = true
         mViewModel.getBookShelfData()
-        checkBookShelfUpdate()
-        openLastReadBook()
+//        openLastReadBook()
     }
 
     override fun createObserver() {
         logd(CLASS_TAG, "createObserver")
         mViewModel.run {
-            listBookShelf.observe(viewLifecycleOwner, Observer {
+            bookShelfDataState.observe(viewLifecycleOwner) {
                 logd(CLASS_TAG, "listBookShelf observer")
-                // EmptyView需要添加到同级View的Parent中才可以显示
-                // 如果在EmptyViewBinding inflate时把 mViewBind.gvBookshelf.parent作为parent写入参数，
-                // 且attachToParent设为true，则会直接显示EmptyView。在获取到数据后显示列表，就会有EmptyView闪现的现象。
-                // 要解决闪现问题，需要在这里手动addView
-                logd(CLASS_TAG, "set EmptyView")
-                (mViewBind.gvBookshelf.parent as ViewGroup).addView(emptyBinding.root)
-                //这一句setEmptyView不加也能实现相应效果，应该是GridView notify之后覆盖了EmptyView，如果不加可能会出现其他bug，还是加上比较好
-                mViewBind.gvBookshelf.emptyView = emptyBinding.root
-
-                bookShelfAdapter.listData = mViewModel.listBookShelf.value!!
-                mViewBind.swipeRefresh.isEnabled = bookShelfAdapter.listData.isNotEmpty()
-                bookShelfAdapter.notifyDataSetChanged()
-            })
+                mViewBind.includeEmpty.root.visibility = if (it.listData.isEmpty()) View.VISIBLE else View.GONE
+                if (it.isSuccess) {
+                    bookShelfAdapter.listData = it.listData
+                    mViewBind.swipeRefresh.isEnabled = bookShelfAdapter.listData.isNotEmpty()
+                    bookShelfAdapter.notifyDataSetChanged()
+                    //第一次获取书架数据后，获取书籍更新数据
+                    //目前第一次更新数据一定会失败，可能是接口限制，增加延迟后也无效，暂时不进行更新
+                    if (isFirstLoadData && it.listData.isNotEmpty()) {
+//                        checkBookShelfUpdate()
+                        isFirstLoadData = false
+                    }
+                } else {
+                    Toast.makeText(
+                        this@BookShelfFragment.context,
+                        it.errMessage,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+            checkUpdateDataState.observe(viewLifecycleOwner) {
+                Toast.makeText(
+                    this@BookShelfFragment.context,
+                    if(it.isSuccess) R.string.checkupdate_success else R.string.checkupdate_fail,
+                    Toast.LENGTH_SHORT
+                ).show()
+                if (!it.isSuccess)
+                    logd(CLASS_TAG, "checkUpdateDataState error message: ${it.errorMsg}")
+                mViewBind.swipeRefresh.isRefreshing = false
+            }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-    }
-
-    /**
-     * 检查书架中书籍的更新情况
-     *
-     * 1.先获取书架
-     */
-    private fun checkBookShelfUpdate() {
-        mViewModel.checkBookShelfUpdate()
     }
 
     /**
      * 打开非正常退出时，最后阅读的书
      */
     private fun openLastReadBook() {
-
-    }
-
-    /**
-     * 删除书架中的图书
-     */
-    private fun deleteBookShelf(position: Int) {
-        logd(CLASS_TAG, "deleteBookShelf")
-        val bookId = bookShelfAdapter.listData[position].bookId
-        mViewModel.deleteBookShelfData(bookId)
-        mViewModel.resetAddBookShelfStat(bookId, false)
-        bookShelfAdapter.listData.removeAt(position)
-        bookShelfAdapter.notifyDataSetChanged()
-        mViewBind.swipeRefresh.isEnabled = bookShelfAdapter.listData.isNotEmpty()
+        TODO()
     }
 
 }

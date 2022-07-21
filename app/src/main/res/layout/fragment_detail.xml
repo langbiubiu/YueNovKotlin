@@ -54,17 +54,12 @@
 
             </LinearLayout>
 
-            <include
-                android:id="@+id/include_empty"
-                android:visibility="gone"
-                layout="@layout/view_bookshelf_empty"/>
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_bookshelf"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="25dp"
-                android:paddingBottom="10dp"
+                android:paddingBottom="25dp"
                 android:scrollbars="none"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
