@@ -20,7 +20,7 @@ import java.util.*
  * author: Blankj
  * blog  : http://blankj.com
  * time  : 2016/08/13
- * desc  : utils about convert
+ * desc  : utils about convert 类型转换和单位转换
 </pre> *
  */
 class ConvertUtils private constructor() {

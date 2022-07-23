@@ -5,8 +5,11 @@ import android.content.Context
 import android.os.Bundle
 import androidx.lifecycle.*
 import com.google.gson.Gson
+import com.yuenov.kotlin.open.constant.InterFaceConstants
+import com.yuenov.kotlin.open.constant.PreferenceConstants
 import com.yuenov.kotlin.open.ext.CLASS_TAG
 import com.yuenov.kotlin.open.ext.logd
+import com.yuenov.kotlin.open.utils.DataStoreUtils
 import com.yuenov.kotlin.open.viewmodel.AppViewModel
 import com.yuenov.kotlin.open.viewmodel.EventViewModel
 import me.hgj.jetpackmvvm.base.BaseApp
@@ -42,8 +45,10 @@ class MyApplication : BaseApp() {
         jetpackMvvmLog = false
     }
 
+    //设置端口
     private fun initHttpInfo() {
-        //设置端口和代理IP
+        val port = DataStoreUtils.getData(PreferenceConstants.KEY_INTERFACE_PORT, InterFaceConstants.domainPort)
+        InterFaceConstants.domainPort = port
     }
 
     /**

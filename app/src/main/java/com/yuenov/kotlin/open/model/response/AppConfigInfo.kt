@@ -18,6 +18,4 @@ data class AppConfigInfo(
     var hotSearch: List<BookInfoItem>?,
     /** 接口使用的端口号列表 **/
     var ports: List<Int>?
-): Parcelable {
-    fun isCategoriesEmpty() = categories.isNullOrEmpty()
-}
+): Parcelable

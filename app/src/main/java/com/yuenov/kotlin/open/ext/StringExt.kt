@@ -17,3 +17,11 @@ fun readFromAssets(context: Context, fileName: String): String {
 
     return ""
 }
+
+fun String?.deleteStartAndEndNewLine(): String {
+    if (isNullOrBlank()) return ""
+    var s = this
+    if (s.indexOf("\n") == 0) s = s.substring(1)
+    if (s.lastIndexOf("\n") == s.lastIndex) s = s.substring(0, s.lastIndex)
+    return s
+}

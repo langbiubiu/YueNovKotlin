@@ -2,6 +2,9 @@ package com.yuenov.kotlin.open.constant
 
 object PreferenceConstants {
 
+    //EXTRA
+    const val EXTRA_INT_BOOK_ID = "BookId"
+
     //设置信息
     const val KEY_READ_SETTING_INFO = "ReadSettingInfo"
     const val KEY_CATEGORY_INFO = "CategoryInfo"

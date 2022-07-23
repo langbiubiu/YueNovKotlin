@@ -15,7 +15,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.target.CustomViewTarget
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import com.yuenov.kotlin.open.constant.InterFaceConstants
+import jp.wasabeef.blurry.Blurry
 import java.io.File
 
 /**
@@ -90,8 +95,31 @@ fun ImageView.loadLocalImage(filePath: String?) {
 
 fun ImageView.loadImage(iconUrl: String?, defaultResourcesID: Int) {
     Glide.with(this).load(getImageUrl(iconUrl)).apply(
-        RequestOptions().centerCrop().skipMemoryCache(false).placeholder(defaultResourcesID)
+        RequestOptions().skipMemoryCache(false).placeholder(defaultResourcesID)
             .error(defaultResourcesID).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
     ).into(this)
+}
+
+fun ImageView.blur(imageUrl: String?) {
+    Glide.with(this).asBitmap().load(getImageUrl(imageUrl))
+        .into(object : CustomViewTarget<ImageView, Bitmap>(this) {
+
+            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                logd(CLASS_TAG, "blur bitmap: $resource")
+                Blurry.with(this@blur.context)
+                    .radius(10)
+                    .sampling(9)
+                    .async()
+                    .from(resource)
+                    .into(this@blur)
+            }
+
+            override fun onResourceCleared(placeholder: Drawable?) {
+            }
+
+            override fun onLoadFailed(errorDrawable: Drawable?) {
+            }
+
+        })
 }
 //--------------------- ImageView ------------------

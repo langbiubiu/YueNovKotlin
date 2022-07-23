@@ -145,7 +145,7 @@ interface ApiService {
     @GET("book/getDetail")
     suspend fun getDetail(
         @Query("bookId") bookId: Int
-    ): ApiResponse<BookPreviewInfoResponse>
+    ): ApiResponse<BookDetailInfoResponse>
 
     /**
      * 在书籍详情中的推荐列表和换一换
@@ -168,18 +168,18 @@ interface ApiService {
      * @param chapterId 非必需 从第几章开始请求目录信息，如果不传请求全部的目录信息
      */
     @GET("chapter/getByBookId")
-    suspend fun getByBookId(
+    suspend fun getChapterByBookId(
         @Query("bookId") bookId: Int,
-        @Query("chapterId") chapterId: Int
-    ): ApiResponse<MenuListResponse>
+        @Query("chapterId") chapterId: Long
+    ): ApiResponse<ChapterListResponse>
 
     /**
      * 下载章节内容，目前开放接口不支持批量下载，即每次请求只能传一个chapterId。
      * 由于书源失效会导致部分书籍不可访问。如果错误码为203表示书源已经失效，此时服务器会自动更新书源。
-     * 如果书源失效并返回203请重新调用书籍目录接口[getByBookId]来获取最新的目录信息
-     * 此时当前接口需要传递v这个参数，这个参数由[getByBookId]接口返回。
+     * 如果书源失效并返回203请重新调用书籍目录接口[getChapterByBookId]来获取最新的目录信息
+     * 此时当前接口需要传递v这个参数，这个参数由[getChapterByBookId]接口返回。
      * v表示当前此书籍的版本。默认为0，表示此书籍的书源没有失效过。1表示为此书籍的书源更新过一次。
-     * [getByBookId]返回v=1,如果当前接口传v=0表示从旧书源获取内容，会导致获取内容失败。
+     * [getChapterByBookId]返回v=1,如果当前接口传v=0表示从旧书源获取内容，会导致获取内容失败。
      *
      * @param body 详见[DownloadChapterRequest]
      */

@@ -2,11 +2,16 @@ package com.yuenov.kotlin.open.base
 
 import android.os.Bundle
 import androidx.viewbinding.ViewBinding
+import com.afollestad.materialdialogs.MaterialDialog
+import com.yuenov.kotlin.open.ext.dismissLoadingExt
 import com.yuenov.kotlin.open.ext.hideSoftKeyboard
+import com.yuenov.kotlin.open.ext.showLoadingExt
 import me.hgj.jetpackmvvm.base.fragment.BaseVmVbFragment
 import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
 
 abstract class BaseFragment<VM : BaseViewModel, VB : ViewBinding> : BaseVmVbFragment<VM, VB>() {
+
+    var loadingDialog: MaterialDialog? = null
 
     abstract override fun initView(savedInstanceState: Bundle?)
 
@@ -33,14 +38,14 @@ abstract class BaseFragment<VM : BaseViewModel, VB : ViewBinding> : BaseVmVbFrag
      * 打开等待框
      */
     override fun showLoading(message: String) {
-//        showLoadingExt(message)
+        showLoadingExt(message)
     }
 
     /**
      * 关闭等待框
      */
     override fun dismissLoading() {
-//        dismissLoadingExt()
+        dismissLoadingExt()
     }
 
     override fun onPause() {

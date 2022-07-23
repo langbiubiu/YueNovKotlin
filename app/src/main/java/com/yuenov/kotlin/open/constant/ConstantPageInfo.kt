@@ -2,7 +2,9 @@ package com.yuenov.kotlin.open.constant
 
 import com.yuenov.kotlin.open.R
 
-
+/**
+ * TODO：可能需要移动到PageLoader同目录下
+ */
 object ConstantPageInfo {
     /**
      * 默认字体大小

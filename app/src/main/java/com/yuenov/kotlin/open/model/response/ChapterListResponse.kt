@@ -9,7 +9,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @SuppressLint("ParcelCreator")
 @Parcelize
-data class MenuListResponse (
+data class ChapterListResponse (
     /** 作者 **/
     var author: String?,
     /** 书籍号 **/

@@ -26,6 +26,7 @@
     <string name="DetailPreviewActivity_continueRead">继续阅读</string>
     <string name="DetailPreviewActivity_addBookShelf">加书架</string>
     <string name="DetailPreviewActivity_removeBookShelf">在书架</string>
+    <string name="DetailPreviewActivity_download">下载</string>
 
 
     <string name="BookMenuListActivity_Chapter">%s 共%d章</string>
