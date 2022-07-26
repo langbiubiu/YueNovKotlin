@@ -23,5 +23,5 @@ data class ChapterListResponse (
     /** 书籍的字数 **/
     var word: String?,
     /** 书籍的目录列表 **/
-    var chapters: List<ChapterInfoItem>
+    var chapters: ArrayList<ChapterInfoItem>?
 ): Parcelable

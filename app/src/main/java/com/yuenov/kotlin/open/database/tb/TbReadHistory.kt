@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey
 @Entity(indices = [Index(value = ["id", "bookId"])])
 data class TbReadHistory(
     @PrimaryKey(autoGenerate = true)
-    var id: Int,
+    var id: Int?,
 
     @ColumnInfo(name = "bookId")
     var bookId: Int,
@@ -23,7 +23,7 @@ data class TbReadHistory(
     var chapterId: Long = 0,
 
     @ColumnInfo(name = "page")
-    var page: Int,
+    var page: Int = 0,
 
     /**
      * 图片地址

@@ -8,7 +8,7 @@
 
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/rivAdrCoverImg"
-        android:layout_width="match_parent"
+        android:layout_width="100dp"
         android:layout_height="130dp"
         android:scaleType="centerCrop"
         android:src="@mipmap/ic_book_list_default"

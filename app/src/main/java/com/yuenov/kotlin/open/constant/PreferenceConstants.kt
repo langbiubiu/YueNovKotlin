@@ -2,8 +2,9 @@ package com.yuenov.kotlin.open.constant
 
 object PreferenceConstants {
 
-    //EXTRA
+    //Activity和Fragment之间传递EXTRA时使用的Key
     const val EXTRA_INT_BOOK_ID = "BookId"
+    const val EXTRA_STRING_BOOK_BASE_INFO = "BookBaseInfo"
 
     //设置信息
     const val KEY_READ_SETTING_INFO = "ReadSettingInfo"

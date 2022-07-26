@@ -166,11 +166,13 @@ interface ApiService {
      * 本地目录。而不是全量获取所有的目录。
      * @param bookId 必需 书籍号
      * @param chapterId 非必需 从第几章开始请求目录信息，如果不传请求全部的目录信息
+     * @param v 非必需，
      */
     @GET("chapter/getByBookId")
     suspend fun getChapterByBookId(
         @Query("bookId") bookId: Int,
-        @Query("chapterId") chapterId: Long
+        @Query("chapterId") chapterId: Long,
+        @Query("v") v: Int?
     ): ApiResponse<ChapterListResponse>
 
     /**

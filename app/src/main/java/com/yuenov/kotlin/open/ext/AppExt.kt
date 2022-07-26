@@ -15,6 +15,30 @@ import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_INT_BOOK_ID
 import me.hgj.jetpackmvvm.ext.nav
 import me.hgj.jetpackmvvm.ext.navigateAction
 
+private var lastClickTime: Long = 0
+
+fun isFastDoubleClick(): Boolean {
+    val time = System.currentTimeMillis()
+    val timeD = time - lastClickTime
+    if (0L < timeD && timeD < 150L) {
+        return true
+    } else {
+        lastClickTime = time
+        return false
+    }
+}
+
+fun isFastDoubleClick(value: Long): Boolean {
+    val time = System.currentTimeMillis()
+    val timeD = time - lastClickTime
+    if (0L < timeD && timeD < value) {
+        return true
+    } else {
+        lastClickTime = time
+        return false
+    }
+}
+
 //loading框，
 // 有内存泄露的风险，Kotlin函数参数默认为val，没有办法从外部传入dialog对象来置空
 // 目前的办法是在destroy时，调用一次dismissLoadingExt
@@ -79,6 +103,14 @@ fun AppCompatActivity.dismissLoadingExt() {
 fun Fragment.dismissLoadingExt() {
     loadingDialog?.dismiss()
     loadingDialog = null
+}
+
+fun AppCompatActivity.isLoadingShowing(): Boolean {
+    return loadingDialog?.isShowing ?: false
+}
+
+fun Fragment.isLoadingShowing(): Boolean {
+    return loadingDialog?.isShowing ?: false
 }
 
 fun AppCompatActivity.showToast(resId: Int) {

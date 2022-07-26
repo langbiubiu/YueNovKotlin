@@ -89,7 +89,7 @@ class GridDividerItemDecoration(
             bottom = 0
         }
         outRect[left, top, right] = bottom
-        logd(CLASS_TAG, "$itemPosition $outRect")
+//        logd(CLASS_TAG, "$itemPosition $outRect")
     }
 
     /**

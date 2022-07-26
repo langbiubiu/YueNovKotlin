@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey
 @Entity(indices = [Index(value = ["id", "bookId", "chapterId"])])
 data class TbBookChapter(
     @PrimaryKey(autoGenerate = true)
-    var id: Int,
+    var id: Int?,
 
     @ColumnInfo(name = "bookId")
     var bookId: Int,
@@ -23,5 +23,8 @@ data class TbBookChapter(
     var chapterName: String?,
 
     @ColumnInfo(name = "content")
-    var content: String?
+    var content: String?,
+
+    @ColumnInfo(name = "v")
+    var v: Int?
 )

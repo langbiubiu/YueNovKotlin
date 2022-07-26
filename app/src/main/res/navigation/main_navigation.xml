@@ -25,6 +25,28 @@
         android:name="com.yuenov.kotlin.open.fragment.DetailFragment"
         android:label="DetailFragment">
 
+        <action
+            android:id="@+id/action_detail_to_detail"
+            app:destination="@id/detail_fragment"
+            app:enterAnim="@anim/slide_right_in"
+            app:exitAnim="@anim/slide_left_out"
+            app:popEnterAnim="@anim/slide_left_in"
+            app:popExitAnim="@anim/slide_right_out"/>
+
+        <action
+            android:id="@+id/action_detail_to_chapter_list"
+            app:destination="@id/chapter_list_fragment"
+            app:enterAnim="@anim/slide_right_in"
+            app:exitAnim="@anim/slide_left_out"
+            app:popEnterAnim="@anim/slide_left_in"
+            app:popExitAnim="@anim/slide_right_out"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/chapter_list_fragment"
+        android:name="com.yuenov.kotlin.open.fragment.ChapterListFragment"
+        android:label="ChapterListFragment">
 
     </fragment>
 

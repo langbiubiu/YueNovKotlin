@@ -6,6 +6,7 @@ import com.yuenov.kotlin.open.R
 import com.yuenov.kotlin.open.base.BaseFragment
 import com.yuenov.kotlin.open.databinding.FragmentMainBinding
 import com.yuenov.kotlin.open.ext.init
+import com.yuenov.kotlin.open.ext.interceptLongClick
 import com.yuenov.kotlin.open.viewmodel.MainFragmentViewModel
 
 class MainFragment : BaseFragment<MainFragmentViewModel, FragmentMainBinding>() {
@@ -28,6 +29,7 @@ class MainFragment : BaseFragment<MainFragmentViewModel, FragmentMainBinding>() 
             }
             true
         }
+        mViewBind.mainBottom.interceptLongClick()
     }
 
     fun toBookShelf() { mViewBind.mainBottom.selectedItemId = R.id.menu_bookstore }

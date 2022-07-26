@@ -3,8 +3,6 @@ package com.yuenov.kotlin.open.viewmodel
 import com.yuenov.kotlin.open.application.MyApplication
 import com.yuenov.kotlin.open.application.gson
 import com.yuenov.kotlin.open.constant.PreferenceConstants
-import com.yuenov.kotlin.open.ext.CLASS_TAG
-import com.yuenov.kotlin.open.ext.logd
 import com.yuenov.kotlin.open.ext.readFromAssets
 import com.yuenov.kotlin.open.model.response.AppConfigInfo
 import com.yuenov.kotlin.open.network.apiService

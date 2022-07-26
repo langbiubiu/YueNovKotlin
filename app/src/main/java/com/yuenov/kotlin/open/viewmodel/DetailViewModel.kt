@@ -2,6 +2,7 @@ package com.yuenov.kotlin.open.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import com.yuenov.kotlin.open.database.appDb
+import com.yuenov.kotlin.open.database.tb.TbReadHistory
 import com.yuenov.kotlin.open.model.response.BookDetailInfoResponse
 import com.yuenov.kotlin.open.network.apiService
 import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
@@ -21,9 +22,8 @@ class DetailViewModel: BaseViewModel() {
 
     fun requestBookDetail(bookId: Int) {
         request(
-            {
-                apiService.getDetail(bookId)
-            }, bookDetailDataState,
+            { apiService.getDetail(bookId) },
+            bookDetailDataState,
             isShowDialog = true,
         )
     }
@@ -53,7 +53,26 @@ class DetailViewModel: BaseViewModel() {
     }
 
     fun addReadHistory(response: BookDetailInfoResponse) {
+        launch(
+            {
+                response.apply {
+                    val readHistory = TbReadHistory(
+                        null,
+                        bookId,
+                        title,
+                        0,
+                        0,
+                        coverImg,
+                        author,
+                        appDb.readHistoryDao.existsRealRead(bookId),
+                        System.currentTimeMillis()
+                    )
+                    appDb.readHistoryDao.addOrUpdateByPreview(readHistory)
+                }
+            },
+            {
 
+            })
     }
 
 }

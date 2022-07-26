@@ -44,7 +44,7 @@ interface BookChapterDao {
      * @param bookId
      * @return
      */
-    @Query("select id,bookId,ChapterId,ChapterName,(case when content is null then null else '0' end) as content from TbBookChapter where bookId = :bookId order by chapterId asc")
+    @Query("select id,bookId,ChapterId,ChapterName,v,(case when content is null then null else '0' end) as content from TbBookChapter where bookId = :bookId order by chapterId asc")
     fun getChapterListByBookIdOrderByAsc(bookId: Int): List<TbBookChapter?>?
 
     @Query("select * from TbBookChapter where bookId = :bookId order by chapterId desc")
@@ -187,13 +187,13 @@ interface BookChapterDao {
             // 查询出已存在的
             val lisChapterIds = getChapterIds(list[0].bookId)
             val hsChapterIds = HashSet<Long>()
-            for (i in lisChapterIds.indices) {
-                hsChapterIds.add(lisChapterIds[i])
+            lisChapterIds.forEach {
+                hsChapterIds.add(it)
             }
 
             // 不存在才插入
-            for (i in list.indices) {
-                if (!hsChapterIds.contains(list[i].chapterId)) insert(list[i])
+            list.forEach {
+                if (!hsChapterIds.contains(it.chapterId)) insert(it)
             }
         } catch (ex: Exception) {
             ex.printStackTrace()
@@ -206,9 +206,9 @@ interface BookChapterDao {
         try {
             val listTbBookChapter: MutableList<TbBookChapter> = ArrayList()
             var tbBookChapter: TbBookChapter
-            for (i in list.indices) {
+            list.forEach { chapter ->
                 //是否能将id设为0？？？
-                tbBookChapter = TbBookChapter(0, bookId, list[i].id, list[i].name, null)
+                tbBookChapter = TbBookChapter(null, bookId, chapter.id, chapter.name, chapter.content, chapter.v)
                 listTbBookChapter.add(tbBookChapter)
             }
             addChapter(listTbBookChapter)
@@ -222,18 +222,20 @@ interface BookChapterDao {
         if (list.isEmpty()) return
         try {
             var existsEntity: TbBookChapter? = null
-            for (i in list.indices) {
-
+            list.forEach { chapter ->
                 // 查询出已存在的
-                existsEntity = getEntity(list[i].bookId, list[i].chapterId)
+                existsEntity = getEntity(chapter.bookId, chapter.chapterId)
                 if (existsEntity == null) {
-                    insert(list[i])
+                    insert(chapter)
                 } else {
                     // 已存在 但内容为空 则更新
-                    if (existsEntity.content.isNullOrEmpty()) {
-                        existsEntity.chapterName = list[i].chapterName
-                        existsEntity.content = list[i].content
-                        update(existsEntity)
+                    existsEntity!!.apply {
+                        if (content.isNullOrEmpty()) {
+                            chapterName = chapter.chapterName
+                            content = chapter.content
+                            v = chapter.v
+                            update(this)
+                        }
                     }
                 }
             }
@@ -246,14 +248,10 @@ interface BookChapterDao {
     fun addContent(bookId: Int, list: List<ChapterInfoItem>) {
         if (bookId < 1 || list.isEmpty()) return
         try {
-            val lisAdd: MutableList<TbBookChapter> = ArrayList()
-            var tbBookChapter: TbBookChapter
-            for (i in list.indices) {
-                //是否能将id设为0？？？
-                tbBookChapter = TbBookChapter(0, bookId, list[i].id, list[i].name, list[i].content)
-                lisAdd.add(tbBookChapter)
+            val listAdd = list.map { chapter ->
+                TbBookChapter(null, bookId, chapter.id, chapter.name, chapter.content, chapter.v)
             }
-            addContent(lisAdd)
+            addContent(listAdd)
         } catch (ex: Exception) {
             ex.printStackTrace()
         }

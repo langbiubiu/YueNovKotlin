@@ -8,7 +8,7 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.WindowManager
 import com.yuenov.kotlin.open.databinding.ViewPopwindowDeletebookshelfBinding
-import com.yuenov.kotlin.open.ext.setClickListeners
+import com.yuenov.kotlin.open.ext.setClickListener
 
 class DeleteBookShelfDialog(context: Context, position: Int) : Dialog(context) {
 
@@ -50,7 +50,7 @@ class DeleteBookShelfDialog(context: Context, position: Int) : Dialog(context) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        setClickListeners(
+        setClickListener(
             binding.viewPopDbsClose,
             binding.tvPopDbsDelete,
             binding.tvPopDbsDetail,

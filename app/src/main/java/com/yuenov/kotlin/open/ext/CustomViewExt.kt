@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
@@ -19,6 +20,7 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.CustomViewTarget
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.yuenov.kotlin.open.constant.InterFaceConstants
 import jp.wasabeef.blurry.Blurry
 import java.io.File
@@ -60,7 +62,7 @@ fun ViewPager2.init(
 //--------------------- ViewPager ------------------
 
 //--------------------- set click listener ------------------
-fun Fragment.setClickListeners(vararg views: View, listener: View.OnClickListener) {
+fun Fragment.setClickListener(vararg views: View, listener: View.OnClickListener) {
     for (i in views.indices) {
         views[i].setOnClickListener(listener)
     }
@@ -73,7 +75,7 @@ fun Fragment.setClickListener(listener: (v: View) -> Unit, vararg views: View) {
     }
 }
 
-fun Dialog.setClickListeners(vararg views: View, listener: View.OnClickListener) {
+fun Dialog.setClickListener(vararg views: View, listener: View.OnClickListener) {
     for (i in views.indices) {
         views[i].setOnClickListener(listener)
     }
@@ -105,7 +107,6 @@ fun ImageView.blur(imageUrl: String?) {
         .into(object : CustomViewTarget<ImageView, Bitmap>(this) {
 
             override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                logd(CLASS_TAG, "blur bitmap: $resource")
                 Blurry.with(this@blur.context)
                     .radius(10)
                     .sampling(9)
@@ -123,3 +124,19 @@ fun ImageView.blur(imageUrl: String?) {
         })
 }
 //--------------------- ImageView ------------------
+
+//-------------------------------------------------------
+/**
+ * 拦截BottomNavigation长按事件 防止长按时出现Toast ---- 追求完美的大屌群友提的bug
+ * @receiver BottomNavigationViewEx
+ * @param ids IntArray
+ */
+fun BottomNavigationView.interceptLongClick(vararg ids:Int) {
+    val bottomNavigationMenuView: ViewGroup = (this.getChildAt(0) as ViewGroup)
+    for (index in ids.indices){
+        bottomNavigationMenuView.getChildAt(index).findViewById<View>(ids[index]).setOnLongClickListener {
+            true
+        }
+    }
+}
+//-------------------------------------------------------

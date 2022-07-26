@@ -35,7 +35,6 @@ class MyApplication : BaseApp() {
     }
 
     override fun onCreate() {
-        logd(CLASS_TAG, "onCreate")
         super.onCreate()
         appContext = this
         eventViewModelInstance = getAppViewModelProvider().get(EventViewModel::class.java)

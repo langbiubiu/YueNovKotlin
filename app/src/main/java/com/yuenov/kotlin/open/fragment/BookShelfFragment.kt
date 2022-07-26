@@ -17,6 +17,9 @@ import com.yuenov.kotlin.open.view.DeleteBookShelfDialog
 import com.yuenov.kotlin.open.view.recyclerview.GridDividerItemDecoration
 import com.yuenov.kotlin.open.viewmodel.BookShelfFragmentViewModel
 
+/**
+ * 书架界面
+ */
 class BookShelfFragment : BaseFragment<BookShelfFragmentViewModel, FragmentBookshelfBinding>() {
 
     private val bookShelfAdapter by lazy { BookShelfListAdapter(arrayListOf()) }
@@ -70,7 +73,7 @@ class BookShelfFragment : BaseFragment<BookShelfFragmentViewModel, FragmentBooks
                 adapter = bookShelfAdapter
             }
         }
-        setClickListeners(
+        setClickListener(
             mViewBind.llSearch,
             mViewBind.ivSearch,
             mViewBind.tvSearch,
@@ -101,7 +104,6 @@ class BookShelfFragment : BaseFragment<BookShelfFragmentViewModel, FragmentBooks
         logd(CLASS_TAG, "createObserver")
         mViewModel.run {
             bookShelfDataState.observe(viewLifecycleOwner) {
-                logd(CLASS_TAG, "listBookShelf observer")
                 mViewBind.includeEmpty.root.visibility = if (it.listData.isEmpty()) View.VISIBLE else View.GONE
                 if (it.isSuccess) {
                     bookShelfAdapter.listData = it.listData
