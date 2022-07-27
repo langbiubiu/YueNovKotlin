@@ -44,7 +44,6 @@ class MyFragmentNavigator(
         if (className[0] == '.') {
             className = mContext.packageName + className
         }
-        Log.d("LBB", "class name = $className, args = $args")
         //final Fragment frag = instantiateFragment(mContext, mManager,
         //       className, args);
         //frag.setArguments(args);
@@ -84,7 +83,6 @@ class MyFragmentNavigator(
             frag.arguments = args
             ft.add(mContainerId, frag, tag)
         }
-        Log.d("LBB", "fragment = $frag")
         //ft.replace(mContainerId, frag);
         ft.setPrimaryNavigationFragment(frag)
         @IdRes val destId = destination.id

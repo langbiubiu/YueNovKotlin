@@ -12,6 +12,7 @@ import com.yuenov.kotlin.open.base.BaseFragment
 import com.yuenov.kotlin.open.database.tb.TbBookShelf
 import com.yuenov.kotlin.open.databinding.FragmentBookshelfBinding
 import com.yuenov.kotlin.open.ext.*
+import com.yuenov.kotlin.open.model.standard.BookBaseInfo
 import com.yuenov.kotlin.open.utils.ConvertUtils
 import com.yuenov.kotlin.open.view.DeleteBookShelfDialog
 import com.yuenov.kotlin.open.view.recyclerview.GridDividerItemDecoration
@@ -34,7 +35,7 @@ class BookShelfFragment : BaseFragment<BookShelfFragmentViewModel, FragmentBooks
 
         bookShelfAdapter.setOnItemClickListener(object: BookShelfListAdapter.OnItemClickListener{
             override fun onClick(view: View, position: Int, data: TbBookShelf) {
-                toRead()
+                toRead(BookBaseInfo(data.bookId, data.title, data.author, data.coverImg, null), 0L)
             }
 
             override fun onLongClick(view: View, position: Int, data: TbBookShelf): Boolean {

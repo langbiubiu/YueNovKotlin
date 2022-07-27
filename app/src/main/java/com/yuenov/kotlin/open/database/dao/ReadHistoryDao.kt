@@ -33,8 +33,8 @@ interface ReadHistoryDao {
     @Query("delete from TbReadHistory where bookId = :bookId")
     fun deleteByBookId(bookId: Int)
 
-    @Query("update TbReadHistory set addBookShelf = :stat where bookId = :bookId")
-    fun resetAddBookShelfStat(bookId: Int, stat: Boolean)
+    @Query("update TbReadHistory set addBookShelf = :state where bookId = :bookId")
+    fun resetAddBookShelfStat(bookId: Int, state: Boolean)
 
     fun exists(bookId: Int): Boolean {
         return getEntity(bookId) != null

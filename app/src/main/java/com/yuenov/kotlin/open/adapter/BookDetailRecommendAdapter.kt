@@ -3,6 +3,8 @@ package com.yuenov.kotlin.open.adapter
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ImageView
+import android.widget.TextView
 import com.yuenov.kotlin.open.R
 import com.yuenov.kotlin.open.databinding.ViewAdapterItemDetailRecommendBinding
 import com.yuenov.kotlin.open.ext.loadImage
@@ -38,6 +40,10 @@ class BookDetailRecommendAdapter() : BaseAdapter() {
             binding.tvAdrAuthor.text = list!![position].author
             return binding.root
         } else {
+            convertView.findViewById<ImageView>(R.id.rivAdrCoverImg)
+                .loadImage(list!![position].coverImg, R.mipmap.ic_book_list_default)
+            convertView.findViewById<TextView>(R.id.tvAdrTitle).text = list!![position].title
+            convertView.findViewById<TextView>(R.id.tvAdrAuthor).text = list!![position].author
             return convertView
         }
     }

@@ -1,9 +1,6 @@
 package com.yuenov.kotlin.open.database.tb
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.Index
-import androidx.room.PrimaryKey
+import androidx.room.*
 
 /**
  * 阅读记录
@@ -11,7 +8,7 @@ import androidx.room.PrimaryKey
 @Entity(indices = [Index(value = ["id", "bookId"])])
 data class TbReadHistory(
     @PrimaryKey(autoGenerate = true)
-    var id: Int?,
+    var id: Int,
 
     @ColumnInfo(name = "bookId")
     var bookId: Int,
@@ -20,10 +17,10 @@ data class TbReadHistory(
     var title: String?,
 
     @ColumnInfo(name = "chapterId")
-    var chapterId: Long = 0,
+    var chapterId: Long,
 
     @ColumnInfo(name = "page")
-    var page: Int = 0,
+    var page: Int,
 
     /**
      * 图片地址
@@ -41,11 +38,23 @@ data class TbReadHistory(
      * 是否加入书架
      */
     @ColumnInfo(name = "addBookShelf")
-    var addBookShelf: Boolean = false,
+    var addBookShelf: Boolean,
 
     /**
      * 最后阅读时间
      */
     @ColumnInfo(name = "lastReadTime")
-    var lastReadTime: Long = 0
-)
+    var lastReadTime: Long
+) {
+    @Ignore
+    constructor(
+        bookId: Int,
+        title: String?,
+        chapterId: Long,
+        page: Int,
+        coverImg: String?,
+        author: String?,
+        addBookShelf: Boolean,
+        lastReadTime: Long
+    ): this(0, bookId, title, chapterId, page, coverImg, author, addBookShelf, lastReadTime)
+}

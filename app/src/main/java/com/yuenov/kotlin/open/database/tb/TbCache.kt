@@ -1,9 +1,6 @@
 package com.yuenov.kotlin.open.database.tb
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.Index
-import androidx.room.PrimaryKey
+import androidx.room.*
 
 /**
  * 缓存
@@ -18,4 +15,10 @@ data class TbCache(
 
     @ColumnInfo(name = "cContent")
     var cContent: String?
-)
+) {
+    @Ignore
+    constructor(
+        cType: String?,
+        cContent: String?
+    ): this(0, cType, cContent)
+}

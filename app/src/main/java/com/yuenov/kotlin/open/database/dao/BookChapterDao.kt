@@ -207,8 +207,7 @@ interface BookChapterDao {
             val listTbBookChapter: MutableList<TbBookChapter> = ArrayList()
             var tbBookChapter: TbBookChapter
             list.forEach { chapter ->
-                //是否能将id设为0？？？
-                tbBookChapter = TbBookChapter(null, bookId, chapter.id, chapter.name, chapter.content, chapter.v)
+                tbBookChapter = TbBookChapter(bookId, chapter.id, chapter.name, chapter.content, chapter.v)
                 listTbBookChapter.add(tbBookChapter)
             }
             addChapter(listTbBookChapter)
@@ -249,7 +248,7 @@ interface BookChapterDao {
         if (bookId < 1 || list.isEmpty()) return
         try {
             val listAdd = list.map { chapter ->
-                TbBookChapter(null, bookId, chapter.id, chapter.name, chapter.content, chapter.v)
+                TbBookChapter(bookId, chapter.id, chapter.name, chapter.content, chapter.v)
             }
             addContent(listAdd)
         } catch (ex: Exception) {

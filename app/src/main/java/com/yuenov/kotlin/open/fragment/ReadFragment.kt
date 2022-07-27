@@ -2,13 +2,13 @@ package com.yuenov.kotlin.open.fragment
 
 import android.os.Bundle
 import com.yuenov.kotlin.open.base.BaseFragment
-import com.yuenov.kotlin.open.databinding.FragmentDiscoverBinding
+import com.yuenov.kotlin.open.databinding.FragmentBookstoreBinding
 import com.yuenov.kotlin.open.viewmodel.BookShelfFragmentViewModel
 
 /**
- * TODO:发现界面
+ * TODO:阅读界面
  */
-class DiscoverFragment : BaseFragment<BookShelfFragmentViewModel, FragmentDiscoverBinding>() {
+class ReadFragment : BaseFragment<BookShelfFragmentViewModel, FragmentBookstoreBinding>() {
     override fun initView(savedInstanceState: Bundle?) {
     }
 }

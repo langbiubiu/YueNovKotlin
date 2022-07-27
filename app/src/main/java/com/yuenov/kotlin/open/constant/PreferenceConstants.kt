@@ -4,7 +4,9 @@ object PreferenceConstants {
 
     //Activity和Fragment之间传递EXTRA时使用的Key
     const val EXTRA_INT_BOOK_ID = "BookId"
-    const val EXTRA_STRING_BOOK_BASE_INFO = "BookBaseInfo"
+    const val EXTRA_MODEL_BOOK_BASE_INFO = "BookBaseInfo"
+    const val EXTRA_STRING_TITLE = "Title"
+    const val EXTRA_LONG_CHAPTER_ID = "ChapterId"
 
     //设置信息
     const val KEY_READ_SETTING_INFO = "ReadSettingInfo"

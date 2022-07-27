@@ -33,4 +33,7 @@
     <string name="checkupdate_fail">章节更新失败</string>
     <string name="checkupdate_success">章节更新成功</string>
 
+    <string name="add_bookshelf_fail">加入书架失败</string>
+    <string name="remove_bookshelf_fail">移除书架失败</string>
+
 </resources>

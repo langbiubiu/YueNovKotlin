@@ -1,9 +1,6 @@
 package com.yuenov.kotlin.open.database.tb
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.Index
-import androidx.room.PrimaryKey
+import androidx.room.*
 
 /**
  * 书架
@@ -42,4 +39,14 @@ data class TbBookShelf(
      */
     @ColumnInfo(name = "addTime")
     var addTime: Long = 0
-)
+) {
+    @Ignore
+    constructor(
+        bookId: Int,
+        title: String?,
+        coverImg: String?,
+        author: String?,
+        hasUpdate: Boolean,
+        addTime: Long
+    ) : this(0, bookId, title, coverImg, author, hasUpdate, addTime)
+}
