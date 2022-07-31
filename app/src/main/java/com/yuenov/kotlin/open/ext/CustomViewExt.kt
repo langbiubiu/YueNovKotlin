@@ -62,7 +62,7 @@ fun ViewPager2.init(
 //--------------------- ViewPager ------------------
 
 //--------------------- set click listener ------------------
-fun Fragment.setClickListener(vararg views: View, listener: View.OnClickListener) {
+fun Fragment.setClickListener(vararg views: View, listener: View.OnClickListener?) {
     for (i in views.indices) {
         views[i].setOnClickListener(listener)
     }
@@ -75,7 +75,13 @@ fun Fragment.setClickListener(listener: (v: View) -> Unit, vararg views: View) {
     }
 }
 
-fun Dialog.setClickListener(vararg views: View, listener: View.OnClickListener) {
+fun Dialog.setClickListener(vararg views: View, listener: View.OnClickListener?) {
+    for (i in views.indices) {
+        views[i].setOnClickListener(listener)
+    }
+}
+
+fun ViewGroup.setClickListener(vararg views: View, listener: View.OnClickListener?) {
     for (i in views.indices) {
         views[i].setOnClickListener(listener)
     }

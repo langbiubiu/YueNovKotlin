@@ -344,7 +344,7 @@
                     android:layout_marginTop="13dp"
                     android:background="#ECECEC" />
 
-                <com.yuenov.kotlin.open.view.WrapHeightGridView
+                <com.yuenov.kotlin.open.widget.WrapHeightGridView
                     android:id="@+id/wgvDpRecommend"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

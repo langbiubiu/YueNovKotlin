@@ -7,6 +7,7 @@ import androidx.navigation.Navigation
 import com.yuenov.kotlin.open.R
 import com.yuenov.kotlin.open.base.BaseActivity
 import com.yuenov.kotlin.open.databinding.ActivityMainBinding
+import com.yuenov.kotlin.open.ext.showToast
 import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
 
 class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>() {
@@ -23,11 +24,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>() {
                 } else {
                     //是主页
                     if (System.currentTimeMillis() - exitTime > 2000) {
-                        Toast.makeText(
-                            this@MainActivity,
-                            R.string.news_exit_twice_string,
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        showToast(R.string.news_exit_twice_string)
                         exitTime = System.currentTimeMillis()
                     } else {
                         finish()

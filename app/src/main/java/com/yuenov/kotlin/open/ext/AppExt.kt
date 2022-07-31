@@ -2,8 +2,10 @@ package com.yuenov.kotlin.open.ext
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.afollestad.materialdialogs.MaterialDialog
@@ -20,21 +22,10 @@ import me.hgj.jetpackmvvm.ext.navigateAction
 
 private var lastClickTime: Long = 0
 
-fun isFastDoubleClick(): Boolean {
+fun isFastDoubleClick(value: Long = 150L): Boolean {
     val time = System.currentTimeMillis()
     val timeD = time - lastClickTime
-    if (0L < timeD && timeD < 150L) {
-        return true
-    } else {
-        lastClickTime = time
-        return false
-    }
-}
-
-fun isFastDoubleClick(value: Long): Boolean {
-    val time = System.currentTimeMillis()
-    val timeD = time - lastClickTime
-    if (0L < timeD && timeD < value) {
+    if (timeD in 1 until value) {
         return true
     } else {
         lastClickTime = time
@@ -108,15 +99,11 @@ fun Fragment.dismissLoadingExt() {
     loadingDialog = null
 }
 
-fun AppCompatActivity.isLoadingShowing(): Boolean {
+fun isLoadingShowing(): Boolean {
     return loadingDialog?.isShowing ?: false
 }
 
-fun Fragment.isLoadingShowing(): Boolean {
-    return loadingDialog?.isShowing ?: false
-}
-
-fun AppCompatActivity.showToast(resId: Int) {
+fun AppCompatActivity.showToast(@StringRes resId: Int) {
     Toast.makeText(this, resId, Toast.LENGTH_SHORT).show()
 }
 
@@ -124,7 +111,7 @@ fun AppCompatActivity.showToast(str: CharSequence) {
     Toast.makeText(this, str, Toast.LENGTH_SHORT).show()
 }
 
-fun Fragment.showToast(resId: Int) {
+fun Fragment.showToast(@StringRes resId: Int) {
     Toast.makeText(this.context, resId, Toast.LENGTH_SHORT).show()
 }
 
@@ -132,8 +119,16 @@ fun Fragment.showToast(str: CharSequence) {
     Toast.makeText(this.context, str, Toast.LENGTH_SHORT).show()
 }
 
+fun View.showToast(@StringRes resId: Int) {
+    Toast.makeText(this.context, resId, Toast.LENGTH_SHORT).show()
+}
+
+fun View.showToast(str: CharSequence) {
+    Toast.makeText(this.context, str, Toast.LENGTH_SHORT).show()
+}
+
 /**
- * 跳转至阅读界面
+ * TODO: 跳转至阅读界面
  */
 fun Fragment.toRead(bookInfo: BookBaseInfo, chapterId: Long) {
     nav().navigateAction(R.id.to_read_fragment, Bundle().apply {
@@ -152,7 +147,7 @@ fun Fragment.toDetail(bookId: Int) {
 }
 
 /**
- * 跳转至搜索界面
+ * TODO: 跳转至搜索界面
  */
 fun Fragment.toSearch() {
 

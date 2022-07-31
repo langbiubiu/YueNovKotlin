@@ -1,4 +1,4 @@
-package com.yuenov.kotlin.open.view
+package com.yuenov.kotlin.open.widget
 
 import android.app.Dialog
 import android.content.Context
@@ -10,7 +10,9 @@ import android.view.WindowManager
 import com.yuenov.kotlin.open.databinding.ViewPopwindowDeletebookshelfBinding
 import com.yuenov.kotlin.open.ext.setClickListener
 
-class DeleteBookShelfDialog(context: Context, position: Int) : Dialog(context) {
+class DeleteBookShelfDialog(context: Context, private val position: Int) : Dialog(context) {
+
+    private val binding: ViewPopwindowDeletebookshelfBinding
 
     init {
         val window = window
@@ -27,13 +29,8 @@ class DeleteBookShelfDialog(context: Context, position: Int) : Dialog(context) {
         attributes.gravity = Gravity.BOTTOM
         // 一定要重新设置, 才能生效
         window.attributes = attributes
+        binding = ViewPopwindowDeletebookshelfBinding.inflate(layoutInflater)
     }
-
-    private val binding: ViewPopwindowDeletebookshelfBinding by lazy {
-        ViewPopwindowDeletebookshelfBinding.inflate(layoutInflater)
-    }
-
-    private val position = position
 
     interface IDeleteBookShelfListener {
         fun toPreviewDetail(position: Int)
@@ -49,18 +46,20 @@ class DeleteBookShelfDialog(context: Context, position: Int) : Dialog(context) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-        setClickListener(
-            binding.viewPopDbsClose,
-            binding.tvPopDbsDelete,
-            binding.tvPopDbsDetail,
-            binding.tvPopDbsCancel
-        ) {
-            dismiss()
-            when (it) {
-                binding.viewPopDbsClose, binding.tvPopDbsCancel -> listener?.toCancel()
-                binding.tvPopDbsDetail -> listener?.toPreviewDetail(position)
-                binding.tvPopDbsDelete -> listener?.toDelete(position)
+        binding.apply {
+            setContentView(root)
+            setClickListener(
+                viewPopDbsClose,
+                tvPopDbsDelete,
+                tvPopDbsDetail,
+                tvPopDbsCancel
+            ) {
+                dismiss()
+                when (it) {
+                    viewPopDbsClose, tvPopDbsCancel -> listener?.toCancel()
+                    tvPopDbsDetail -> listener?.toPreviewDetail(position)
+                    tvPopDbsDelete -> listener?.toDelete(position)
+                }
             }
         }
     }

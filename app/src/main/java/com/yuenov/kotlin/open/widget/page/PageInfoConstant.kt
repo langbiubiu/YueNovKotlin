@@ -1,16 +1,16 @@
-package com.yuenov.kotlin.open.constant
+package com.yuenov.kotlin.open.widget.page
 
 import com.yuenov.kotlin.open.R
 
 /**
- * TODO：可能需要移动到PageLoader同目录下
+ * 阅读界面的一些默认值
  */
-object ConstantPageInfo {
+object PageInfoConstant {
     /**
-     * 默认字体大小
+     * 背景颜色
      */
 //    var lightType: Int = ConstantSetting.LIGHTTYPE_1
-    var lightType: Int = 1
+    var bgColor: Int = android.R.color.white
 
     /**
      * 默认字体大小

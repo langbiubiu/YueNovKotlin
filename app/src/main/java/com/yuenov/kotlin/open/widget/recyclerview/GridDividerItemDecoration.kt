@@ -1,4 +1,4 @@
-package com.yuenov.kotlin.open.view.recyclerview
+package com.yuenov.kotlin.open.widget.recyclerview
 
 import android.content.Context
 import android.graphics.Canvas
@@ -11,8 +11,6 @@ import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.yuenov.kotlin.open.ext.CLASS_TAG
-import com.yuenov.kotlin.open.ext.logd
 import java.lang.Exception
 
 /**

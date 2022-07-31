@@ -10,7 +10,7 @@ import com.yuenov.kotlin.open.databinding.ViewAdapterItemBookshelfBinding
 import com.yuenov.kotlin.open.ext.loadImage
 import me.hgj.jetpackmvvm.ext.util.layoutInflater
 
-class BookShelfListAdapter(data: ArrayList<TbBookShelf>): RecyclerView.Adapter<BookShelfListViewHolder>() {
+class BookShelfListAdapter(data: ArrayList<TbBookShelf>): RecyclerView.Adapter<BookShelfListAdapter.BookShelfListViewHolder>() {
     var listData = data
     private var onItemClickListener: OnItemClickListener? = null
 
@@ -25,17 +25,19 @@ class BookShelfListAdapter(data: ArrayList<TbBookShelf>): RecyclerView.Adapter<B
 
     override fun onBindViewHolder(holder: BookShelfListViewHolder, position: Int) {
         val data = listData[position]
-        holder.binding.rivBookshelfCover.loadImage(data.coverImg, R.mipmap.ic_book_list_default)
-        holder.binding.ivBookshelfUpdate.apply {
-            visibility = if (data.hasUpdate) View.VISIBLE else View.GONE
-        }
-        holder.binding.tvBookshelfTitle.text = data.title
-        holder.binding.root.run {
-            setOnClickListener {
-                onItemClickListener?.onClick(it, position, data)
+        holder.binding.apply {
+            rivBookshelfCover.loadImage(data.coverImg, R.mipmap.ic_book_list_default)
+            ivBookshelfUpdate.apply {
+                visibility = if (data.hasUpdate) View.VISIBLE else View.GONE
             }
-            setOnLongClickListener {
-                onItemClickListener?.onLongClick(it, position, data) ?: false
+            tvBookshelfTitle.text = data.title
+            root.apply {
+                setOnClickListener {
+                    onItemClickListener?.onClick(it, position, data)
+                }
+                setOnLongClickListener {
+                    onItemClickListener?.onLongClick(it, position, data) ?: false
+                }
             }
         }
     }
@@ -54,7 +56,7 @@ class BookShelfListAdapter(data: ArrayList<TbBookShelf>): RecyclerView.Adapter<B
         onItemClickListener = listener
     }
 
-}
+    class BookShelfListViewHolder(val binding: ViewAdapterItemBookshelfBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
-class BookShelfListViewHolder(val binding: ViewAdapterItemBookshelfBinding) :
-    RecyclerView.ViewHolder(binding.root) {}
+}

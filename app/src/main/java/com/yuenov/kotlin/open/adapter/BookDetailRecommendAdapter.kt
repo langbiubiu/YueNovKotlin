@@ -32,20 +32,19 @@ class BookDetailRecommendAdapter() : BaseAdapter() {
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        if (convertView == null){
-            val binding = ViewAdapterItemDetailRecommendBinding.inflate(
+        //参考ViewHolder模式，其实ViewBinding本质就是一个ViewHolder
+        val binding: ViewAdapterItemDetailRecommendBinding
+        if (convertView == null) {
+            binding = ViewAdapterItemDetailRecommendBinding.inflate(
                 appContext.layoutInflater!!, parent, false)
-            binding.rivAdrCoverImg.loadImage(list!![position].coverImg, R.mipmap.ic_book_list_default)
-            binding.tvAdrTitle.text = list!![position].title
-            binding.tvAdrAuthor.text = list!![position].author
-            return binding.root
+            binding.root.tag = binding
         } else {
-            convertView.findViewById<ImageView>(R.id.rivAdrCoverImg)
-                .loadImage(list!![position].coverImg, R.mipmap.ic_book_list_default)
-            convertView.findViewById<TextView>(R.id.tvAdrTitle).text = list!![position].title
-            convertView.findViewById<TextView>(R.id.tvAdrAuthor).text = list!![position].author
-            return convertView
+            binding = convertView.tag as ViewAdapterItemDetailRecommendBinding
         }
+        binding.rivAdrCoverImg.loadImage(list!![position].coverImg, R.mipmap.ic_book_list_default)
+        binding.tvAdrTitle.text = list!![position].title
+        binding.tvAdrAuthor.text = list!![position].author
+        return binding.root
     }
 
 }

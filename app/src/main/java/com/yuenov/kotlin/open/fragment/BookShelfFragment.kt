@@ -14,8 +14,8 @@ import com.yuenov.kotlin.open.databinding.FragmentBookshelfBinding
 import com.yuenov.kotlin.open.ext.*
 import com.yuenov.kotlin.open.model.standard.BookBaseInfo
 import com.yuenov.kotlin.open.utils.ConvertUtils
-import com.yuenov.kotlin.open.view.DeleteBookShelfDialog
-import com.yuenov.kotlin.open.view.recyclerview.GridDividerItemDecoration
+import com.yuenov.kotlin.open.widget.DeleteBookShelfDialog
+import com.yuenov.kotlin.open.widget.recyclerview.GridDividerItemDecoration
 import com.yuenov.kotlin.open.viewmodel.BookShelfFragmentViewModel
 
 /**
@@ -30,62 +30,64 @@ class BookShelfFragment : BaseFragment<BookShelfFragmentViewModel, FragmentBooks
 
     override fun initView(savedInstanceState: Bundle?) {
         logd(CLASS_TAG, "initView")
-        mViewBind.swipeRefresh.setOnRefreshListener { mViewModel.checkBookShelfUpdate() }
-        mViewBind.swipeRefresh.isEnabled = false
+        mViewBind.apply {
+            swipeRefresh.setOnRefreshListener { mViewModel.checkBookShelfUpdate() }
+            swipeRefresh.isEnabled = false
 
-        bookShelfAdapter.setOnItemClickListener(object: BookShelfListAdapter.OnItemClickListener{
-            override fun onClick(view: View, position: Int, data: TbBookShelf) {
-                toRead(BookBaseInfo(data.bookId, data.title, data.author, data.coverImg, null), 0L)
+            bookShelfAdapter.setOnItemClickListener(object: BookShelfListAdapter.OnItemClickListener{
+                override fun onClick(view: View, position: Int, data: TbBookShelf) {
+                    toRead(BookBaseInfo(data.bookId, data.title, data.author, data.coverImg, null), 0L)
+                }
+
+                override fun onLongClick(view: View, position: Int, data: TbBookShelf): Boolean {
+                    val dialog =
+                        DeleteBookShelfDialog(this@BookShelfFragment.requireContext(), position)
+                    dialog.setListener(object : DeleteBookShelfDialog.IDeleteBookShelfListener {
+                        override fun toPreviewDetail(position: Int) {
+                            toDetail(bookShelfAdapter.listData[position].bookId)
+                        }
+
+                        override fun toDelete(position: Int) {
+                            val bookId = bookShelfAdapter.listData[position].bookId
+                            mViewModel.deleteBookShelfData(bookId)
+                            mViewModel.resetAddBookShelfStat(bookId, false)
+                        }
+
+                        override fun toCancel() {
+                        }
+                    })
+                    dialog.show()
+                    return true
+                }
+            })
+            rvBookshelf.apply {
+                context?.let {
+                    layoutManager = GridLayoutManager(it, 3, RecyclerView.VERTICAL, false)
+                    setHasFixedSize(true)
+                    addItemDecoration(
+                        GridDividerItemDecoration(
+                            it,
+                            ConvertUtils.dp2px(25f),
+                            ConvertUtils.dp2px(20f),
+                            true
+                        ), Color.BLACK
+                    )
+                    adapter = bookShelfAdapter
+                }
             }
-
-            override fun onLongClick(view: View, position: Int, data: TbBookShelf): Boolean {
-                val dialog =
-                    DeleteBookShelfDialog(this@BookShelfFragment.requireContext(), position)
-                dialog.setListener(object : DeleteBookShelfDialog.IDeleteBookShelfListener {
-                    override fun toPreviewDetail(position: Int) {
-                        toDetail(bookShelfAdapter.listData[position].bookId)
-                    }
-
-                    override fun toDelete(position: Int) {
-                        val bookId = bookShelfAdapter.listData[position].bookId
-                        mViewModel.deleteBookShelfData(bookId)
-                        mViewModel.resetAddBookShelfStat(bookId, false)
-                    }
-
-                    override fun toCancel() {
-                    }
-                })
-                dialog.show()
-                return true
-            }
-        })
-        mViewBind.rvBookshelf.apply {
-            context?.let {
-                layoutManager = GridLayoutManager(it, 3, RecyclerView.VERTICAL, false)
-                setHasFixedSize(true)
-                addItemDecoration(
-                    GridDividerItemDecoration(
-                        it,
-                        ConvertUtils.dp2px(25f),
-                        ConvertUtils.dp2px(20f),
-                        true
-                    ), Color.BLACK
-                )
-                adapter = bookShelfAdapter
-            }
-        }
-        setClickListener(
-            mViewBind.llSearch,
-            mViewBind.ivSearch,
-            mViewBind.tvSearch,
-            mViewBind.includeEmpty.tvBseFind,
-        )
-        {
-            when (it) {
-                mViewBind.llSearch, mViewBind.ivSearch, mViewBind.tvSearch ->
-                    toSearch()
-                mViewBind.includeEmpty.tvBseFind ->
-                    (parentFragment as MainFragment).toBookStore()
+            setClickListener(
+                llSearch,
+                ivSearch,
+                tvSearch,
+                includeEmpty.tvBseFind,
+            )
+            {
+                when (it) {
+                    llSearch, ivSearch, tvSearch ->
+                        toSearch()
+                    includeEmpty.tvBseFind ->
+                        (parentFragment as MainFragment).toBookStore()
+                }
             }
         }
     }

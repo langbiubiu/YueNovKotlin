@@ -1,4 +1,4 @@
-package com.yuenov.kotlin.open.view
+package com.yuenov.kotlin.open.widget
 
 import android.content.Context
 import android.util.AttributeSet

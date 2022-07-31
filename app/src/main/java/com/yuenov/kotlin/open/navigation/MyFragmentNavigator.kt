@@ -101,8 +101,7 @@ class MyFragmentNavigator(
         val isSingleTopReplacement = (navOptions != null && !initialNavigation
                 && navOptions.shouldLaunchSingleTop()
                 && mBackStack.peekLast() == destId)
-        val isAdded: Boolean
-        isAdded = if (initialNavigation) {
+        val isAdded: Boolean = if (initialNavigation) {
             true
         } else if (isSingleTopReplacement) {
             // Single Top means we only want one instance on the back stack

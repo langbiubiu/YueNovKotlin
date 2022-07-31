@@ -18,14 +18,15 @@ class AppViewModel : BaseViewModel() {
     init {
         if (appConfigInfo.value == null) {
             try {
-                val info = gson.fromJson(
-                    DataStoreUtils.getData(PreferenceConstants.KEY_CATEGORY_INFO, ""),
+                val info = DataStoreUtils.getJsonData(
+                    PreferenceConstants.KEY_CATEGORY_INFO,
                     AppConfigInfo::class.java
                 )
                 if (info == null || info.categories.isNullOrEmpty()) {
                     val categoriesMenuJson =
                         readFromAssets(MyApplication.appContext, "categories.json")
-                    appConfigInfo.value = gson.fromJson(categoriesMenuJson, AppConfigInfo::class.java)
+                    appConfigInfo.value =
+                        gson.fromJson(categoriesMenuJson, AppConfigInfo::class.java)
                 } else {
                     appConfigInfo.value = info
                 }
@@ -40,7 +41,7 @@ class AppViewModel : BaseViewModel() {
      * 通过网络接口，更新AppConfigInfo，并将数据存入DataStore中
      */
     fun updateAppConfigInfo() {
-        request({ apiService.getAppConfig()},
+        request({ apiService.getAppConfig() },
             {
                 appConfigInfo.value = it
                 DataStoreUtils.putJsonData(PreferenceConstants.KEY_CATEGORY_INFO, it)

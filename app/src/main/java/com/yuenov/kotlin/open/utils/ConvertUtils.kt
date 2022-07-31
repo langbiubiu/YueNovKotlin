@@ -80,9 +80,9 @@ class ConvertUtils private constructor() {
         }
 
         private fun hex2Int(hexChar: Char): Int {
-            return if (hexChar >= '0' && hexChar <= '9') {
+            return if (hexChar in '0'..'9') {
                 hexChar - '0'
-            } else if (hexChar >= 'A' && hexChar <= 'F') {
+            } else if (hexChar in 'A'..'F') {
                 hexChar - 'A' + 10
             } else {
                 throw IllegalArgumentException()
@@ -132,7 +132,7 @@ class ConvertUtils private constructor() {
          * @return input stream
          */
         fun bytes2InputStream(bytes: ByteArray?): InputStream? {
-            return if (bytes == null || bytes.size <= 0) null else ByteArrayInputStream(bytes)
+            return if (bytes == null || bytes.isEmpty()) null else ByteArrayInputStream(bytes)
         }
 
         /**
@@ -152,7 +152,7 @@ class ConvertUtils private constructor() {
          * @return output stream
          */
         fun bytes2OutputStream(bytes: ByteArray?): OutputStream? {
-            if (bytes == null || bytes.size <= 0) return null
+            if (bytes == null || bytes.isEmpty()) return null
             var os: ByteArrayOutputStream? = null
             return try {
                 os = ByteArrayOutputStream()
@@ -245,7 +245,7 @@ class ConvertUtils private constructor() {
          * @return bitmap
          */
         fun bytes2Bitmap(bytes: ByteArray?): Bitmap? {
-            return if (bytes == null || bytes.size == 0) null else BitmapFactory.decodeByteArray(
+            return if (bytes == null || bytes.isEmpty()) null else BitmapFactory.decodeByteArray(
                 bytes,
                 0,
                 bytes.size
@@ -292,7 +292,7 @@ class ConvertUtils private constructor() {
          */
         fun bitmap2Drawable(bitmap: Bitmap?): Drawable? {
             return if (bitmap == null) null else BitmapDrawable(
-                appContext.getResources(),
+                appContext.resources,
                 bitmap
             )
         }
@@ -334,8 +334,7 @@ class ConvertUtils private constructor() {
             view.isDrawingCacheEnabled = true
             view.setWillNotCacheDrawing(false)
             val drawingCache = view.drawingCache
-            val bitmap: Bitmap
-            bitmap = if (null == drawingCache) {
+            val bitmap: Bitmap = if (null == drawingCache) {
                 view.layout(0, 0, view.width, view.height)
                 view.buildDrawingCache()
                 Bitmap.createBitmap(view.drawingCache)
