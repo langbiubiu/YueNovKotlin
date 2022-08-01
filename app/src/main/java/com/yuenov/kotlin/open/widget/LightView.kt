@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.LinearLayout
 import com.yuenov.kotlin.open.R
 import com.yuenov.kotlin.open.databinding.ViewWidgetLightBinding
+import com.yuenov.kotlin.open.ext.resetVisibility
 import com.yuenov.kotlin.open.ext.setClickListener
 
 class LightView @JvmOverloads constructor(
@@ -48,13 +49,13 @@ class LightView @JvmOverloads constructor(
 
     fun setSelect(value: Boolean) {
         select = value
-        binding.riWgOutside.visibility = if (select) View.VISIBLE else View.GONE
+        resetVisibility(select, binding.riWgOutside)
     }
 
     override fun onClick(v: View?) {
         if (select) return
         select = true
-        binding.riWgOutside.visibility = View.VISIBLE
+        resetVisibility(select, binding.riWgOutside)
         listener?.onStateChange(this, select)
     }
 }

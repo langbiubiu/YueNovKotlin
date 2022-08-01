@@ -97,7 +97,7 @@ class MyFragmentNavigator(
             e.printStackTrace()
         }
         val initialNavigation = mBackStack!!.isEmpty()
-        // TODO Build first class singleTop behavior for fragments
+        // Build first class singleTop behavior for fragments
         val isSingleTopReplacement = (navOptions != null && !initialNavigation
                 && navOptions.shouldLaunchSingleTop()
                 && mBackStack.peekLast() == destId)

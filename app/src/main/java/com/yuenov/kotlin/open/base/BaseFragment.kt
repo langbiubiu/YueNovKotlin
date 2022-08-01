@@ -1,17 +1,39 @@
 package com.yuenov.kotlin.open.base
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.annotation.CallSuper
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.navigation.NavController
 import androidx.viewbinding.ViewBinding
-import com.afollestad.materialdialogs.MaterialDialog
-import com.yuenov.kotlin.open.ext.dismissLoadingExt
-import com.yuenov.kotlin.open.ext.hideSoftKeyboard
-import com.yuenov.kotlin.open.ext.showLoadingExt
+import com.yuenov.kotlin.open.ext.*
 import me.hgj.jetpackmvvm.base.fragment.BaseVmVbFragment
 import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
+import me.hgj.jetpackmvvm.ext.nav
 
 abstract class BaseFragment<VM : BaseViewModel, VB : ViewBinding> : BaseVmVbFragment<VM, VB>() {
 
-    var loadingDialog: MaterialDialog? = null
+    var nav: NavController? = null
+    private var callback: BackPressCallback? = null
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        nav = nav()
+        viewLifecycleOwner.lifecycle.addObserver(object : LifecycleEventObserver {
+            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                logd(this@BaseFragment.CLASS_TAG, "${this@BaseFragment} lifecycle event: ${event.name}")
+            }
+        })
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
 
     abstract override fun initView(savedInstanceState: Bundle?)
 
@@ -48,8 +70,19 @@ abstract class BaseFragment<VM : BaseViewModel, VB : ViewBinding> : BaseVmVbFrag
         dismissLoadingExt()
     }
 
+    override fun onResume() {
+        super.onResume()
+        // [OnBackPressedDispatcher]只会触发最新加入的enable为true的callback，
+        // 因此在onResume注册callback，在onPause去除注册，保证不同Fragment之间不会互相影响
+        if (needBackPressedCallback()) {
+            callback = BackPressCallback(true)
+            requireActivity().onBackPressedDispatcher.addCallback(callback!!)
+        }
+    }
+
     override fun onPause() {
         super.onPause()
+        callback?.remove()
         hideSoftKeyboard(activity)
     }
 
@@ -61,5 +94,25 @@ abstract class BaseFragment<VM : BaseViewModel, VB : ViewBinding> : BaseVmVbFrag
      */
     override fun lazyLoadTime(): Long {
         return 300
+    }
+
+    /**
+     * 是否注册返回键监听
+     */
+    open fun needBackPressedCallback(): Boolean = false
+
+    /**
+     * 只有在[needBackPressedCallback]为true才会回调
+     * 注意：重写时要考虑好是否需要调用super.onBackPressed()，注册callback时会拦截默认的返回键处理流程，
+     * 因此不会默认返回上一个Fragment。除非你不需要返回到上一个Fragment，或者想自己实现返回逻辑
+     */
+    open fun onBackPressed() {
+        nav?.navigateUp()
+    }
+
+    inner class BackPressCallback(enabled: Boolean) : OnBackPressedCallback(enabled) {
+        override fun handleOnBackPressed() {
+            onBackPressed()
+        }
     }
 }

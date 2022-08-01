@@ -8,6 +8,7 @@ import com.yuenov.kotlin.open.application.MyApplication
 import com.yuenov.kotlin.open.database.tb.TbBookShelf
 import com.yuenov.kotlin.open.databinding.ViewAdapterItemBookshelfBinding
 import com.yuenov.kotlin.open.ext.loadImage
+import com.yuenov.kotlin.open.ext.resetVisibility
 import me.hgj.jetpackmvvm.ext.util.layoutInflater
 
 class BookShelfListAdapter(data: ArrayList<TbBookShelf>): RecyclerView.Adapter<BookShelfListAdapter.BookShelfListViewHolder>() {
@@ -27,9 +28,7 @@ class BookShelfListAdapter(data: ArrayList<TbBookShelf>): RecyclerView.Adapter<B
         val data = listData[position]
         holder.binding.apply {
             rivBookshelfCover.loadImage(data.coverImg, R.mipmap.ic_book_list_default)
-            ivBookshelfUpdate.apply {
-                visibility = if (data.hasUpdate) View.VISIBLE else View.GONE
-            }
+            resetVisibility(data.hasUpdate, ivBookshelfUpdate)
             tvBookshelfTitle.text = data.title
             root.apply {
                 setOnClickListener {

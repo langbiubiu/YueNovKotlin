@@ -13,6 +13,7 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.afollestad.materialdialogs.lifecycle.lifecycleOwner
 import com.yuenov.kotlin.open.R
+import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_BOOL_HAS_BOOKSHELF
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_INT_BOOK_ID
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_LONG_CHAPTER_ID
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_MODEL_BOOK_BASE_INFO
@@ -130,10 +131,11 @@ fun View.showToast(str: CharSequence) {
 /**
  * TODO: 跳转至阅读界面
  */
-fun Fragment.toRead(bookInfo: BookBaseInfo, chapterId: Long) {
+fun Fragment.toRead(bookInfo: BookBaseInfo, chapterId: Long, hasBookShelf: Boolean) {
     nav().navigateAction(R.id.to_read_fragment, Bundle().apply {
         putParcelable(EXTRA_MODEL_BOOK_BASE_INFO, bookInfo)
         putLong(EXTRA_LONG_CHAPTER_ID, chapterId)
+        putBoolean(EXTRA_BOOL_HAS_BOOKSHELF, hasBookShelf)
     })
 }
 
@@ -150,5 +152,12 @@ fun Fragment.toDetail(bookId: Int) {
  * TODO: 跳转至搜索界面
  */
 fun Fragment.toSearch() {
+
+}
+
+/**
+ * TODO: 跳转至下载界面
+ */
+fun Fragment.toDownload() {
 
 }

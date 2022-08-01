@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import androidx.transition.Visibility
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
@@ -146,3 +147,19 @@ fun BottomNavigationView.interceptLongClick(vararg ids:Int) {
     }
 }
 //-------------------------------------------------------
+
+//----------------- Visibility --------------------
+fun resetVisibility(isShow: Boolean, vararg views: View) {
+    val visibility = if (isShow) View.VISIBLE else View.GONE
+    for (i in views.indices) {
+        val v = views[i]
+        if (v.visibility != visibility) v.visibility = visibility
+    }
+}
+
+fun resetVisibility(visibility: Int, vararg views: View) {
+    for (i in views.indices) {
+        val v = views[i]
+        if (v.visibility != visibility) v.visibility = visibility
+    }
+}

@@ -34,9 +34,14 @@ class BookShelfFragment : BaseFragment<BookShelfFragmentViewModel, FragmentBooks
             swipeRefresh.setOnRefreshListener { mViewModel.checkBookShelfUpdate() }
             swipeRefresh.isEnabled = false
 
-            bookShelfAdapter.setOnItemClickListener(object: BookShelfListAdapter.OnItemClickListener{
+            bookShelfAdapter.setOnItemClickListener(object :
+                BookShelfListAdapter.OnItemClickListener {
                 override fun onClick(view: View, position: Int, data: TbBookShelf) {
-                    toRead(BookBaseInfo(data.bookId, data.title, data.author, data.coverImg, null), 0L)
+                    toRead(
+                        BookBaseInfo(data.bookId, data.title, data.author, data.coverImg, null),
+                        0L,
+                        true
+                    )
                 }
 
                 override fun onLongClick(view: View, position: Int, data: TbBookShelf): Boolean {
@@ -107,7 +112,7 @@ class BookShelfFragment : BaseFragment<BookShelfFragmentViewModel, FragmentBooks
         logd(CLASS_TAG, "createObserver")
         mViewModel.run {
             bookShelfDataState.observe(viewLifecycleOwner) {
-                mViewBind.includeEmpty.root.visibility = if (it.listData.isEmpty()) View.VISIBLE else View.GONE
+                resetVisibility(it.listData.isEmpty(), mViewBind.includeEmpty.root)
                 if (it.isSuccess) {
                     bookShelfAdapter.listData = it.listData
                     mViewBind.swipeRefresh.isEnabled = bookShelfAdapter.listData.isNotEmpty()
@@ -129,7 +134,7 @@ class BookShelfFragment : BaseFragment<BookShelfFragmentViewModel, FragmentBooks
             checkUpdateDataState.observe(viewLifecycleOwner) {
                 Toast.makeText(
                     this@BookShelfFragment.context,
-                    if(it.isSuccess) R.string.checkupdate_success else R.string.checkupdate_fail,
+                    if (it.isSuccess) R.string.checkupdate_success else R.string.checkupdate_fail,
                     Toast.LENGTH_SHORT
                 ).show()
                 if (!it.isSuccess)

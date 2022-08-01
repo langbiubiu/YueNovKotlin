@@ -16,15 +16,11 @@ import com.yuenov.kotlin.open.database.tb.TbBookChapter
 import com.yuenov.kotlin.open.databinding.ViewWidgetDetailoperationBinding
 import com.yuenov.kotlin.open.ext.isFastDoubleClick
 import com.yuenov.kotlin.open.ext.isLoadingShowing
+import com.yuenov.kotlin.open.ext.resetVisibility
 import com.yuenov.kotlin.open.ext.setClickListener
 import com.yuenov.kotlin.open.utils.ConvertUtils
 import com.yuenov.kotlin.open.widget.LightView
 import com.yuenov.kotlin.open.widget.page.PageInfoConstant
-
-const val DATA_CHANGE_EVENT_BG_TYPE = 0
-const val DATA_CHANGE_EVENT_LIGHT_VALUE = 1
-const val DATA_CHANGE_EVENT_FONT_SIZE = 2
-const val DATA_CHANGE_EVENT_PAGE_ANIM_TYPE = 3
 
 class PageOperationView @JvmOverloads constructor(
     context: Context?,
@@ -64,7 +60,7 @@ class PageOperationView @JvmOverloads constructor(
     // 实际用到的也只有chapterId和chapterName这两个字段
     private var menuList: List<TbBookChapter> = listOf()
     private var menuListAdapter: DetailBottomMenuListAdapter
-    private var listener: DetailOperationViewListener? = null
+    private var listener: PageOperationViewListener? = null
 
     // 背景颜色+字体颜色
     private var bgType: PageBackground = PageBackground.TYPE_1
@@ -171,6 +167,7 @@ class PageOperationView @JvmOverloads constructor(
         bgType = type
         selectBgType()
     }
+
     fun setLightValue(value: Int) {
         lightValue = value
         binding.skWgDpLight.progress = lightValue
@@ -187,7 +184,7 @@ class PageOperationView @JvmOverloads constructor(
         selectAnim()
     }
 
-    fun setListener(lis: DetailOperationViewListener) {
+    fun setListener(lis: PageOperationViewListener) {
         listener = lis
     }
 
@@ -289,8 +286,7 @@ class PageOperationView @JvmOverloads constructor(
                     override fun onAnimationStart(animation: Animation?) {}
 
                     override fun onAnimationEnd(animation: Animation?) {
-                        if (llWgDpMenuListData.isVisible)
-                            llWgDpMenuListData.visibility = View.GONE
+                        resetVisibility(false, llWgDpMenuListData)
                         if (!menuListOrderAsc) {
                             menuListOrderAsc = true
                             menuListAdapter.orderByAes = menuListOrderAsc
@@ -373,7 +369,7 @@ class PageOperationView @JvmOverloads constructor(
                     }
                     selectAnim()
                     hideAllContent()
-                    listener?.onDetailOperationViewChange(DATA_CHANGE_EVENT_PAGE_ANIM_TYPE, pageAnimType)
+                    listener?.onDataChange(DATA_CHANGE_EVENT_PAGE_ANIM_TYPE, pageAnimType)
                 }
             }
         }
@@ -390,7 +386,7 @@ class PageOperationView @JvmOverloads constructor(
                     lvWgDpLight5 -> bgType = PageBackground.TYPE_5
                 }
                 selectBgType()
-                listener?.onDetailOperationViewChange(DATA_CHANGE_EVENT_BG_TYPE, bgType)
+                listener?.onDataChange(DATA_CHANGE_EVENT_BG_TYPE, bgType)
             }
         }
     }
@@ -413,11 +409,11 @@ class PageOperationView @JvmOverloads constructor(
                 }
                 skWgDpLight -> {
                     lightValue = progress
-                    listener?.onDetailOperationViewChange(DATA_CHANGE_EVENT_LIGHT_VALUE, lightValue)
+                    listener?.onDataChange(DATA_CHANGE_EVENT_LIGHT_VALUE, lightValue)
                 }
                 skWgDpFont -> {
                     fontSize = minFontSize + progress * 2
-                    listener?.onDetailOperationViewChange(DATA_CHANGE_EVENT_FONT_SIZE, fontSize)
+                    listener?.onDataChange(DATA_CHANGE_EVENT_FONT_SIZE, fontSize)
                 }
             }
         }
@@ -428,8 +424,8 @@ class PageOperationView @JvmOverloads constructor(
         hideAllContent()
     }
 
-    interface DetailOperationViewListener {
-        fun <T> onDetailOperationViewChange(event: Int, newValue: T)
+    interface PageOperationViewListener {
+        fun <T> onDataChange(event: Int, newValue: T)
         fun onSelectChapter(chapterId: Long)
     }
 
@@ -489,12 +485,10 @@ class PageOperationView @JvmOverloads constructor(
         for (i in contentViews.indices) {
             val views = contentViews[i]
             if (views.first == contentView) {
-                if (!views.first.isVisible)
-                    views.first.visibility = View.VISIBLE
+                resetVisibility(true, views.first)
                 views.second.setImageResource(selectedImages[i])
             } else {
-                if (views.first.isVisible)
-                    views.first.visibility = View.GONE
+                resetVisibility(false, views.first)
                 views.second.setImageResource(unselectedImages[i])
             }
         }
@@ -540,12 +534,19 @@ class PageOperationView @JvmOverloads constructor(
                 override fun onAnimationStart(animation: Animation?) {}
 
                 override fun onAnimationEnd(animation: Animation?) {
-                    contentView.visibility = View.GONE
+                    resetVisibility(false, contentView)
                 }
 
                 override fun onAnimationRepeat(animation: Animation?) {}
             })
         }
         contentView.startAnimation(hideAnimation)
+    }
+
+    companion object {
+        const val DATA_CHANGE_EVENT_BG_TYPE = 0
+        const val DATA_CHANGE_EVENT_LIGHT_VALUE = 1
+        const val DATA_CHANGE_EVENT_FONT_SIZE = 2
+        const val DATA_CHANGE_EVENT_PAGE_ANIM_TYPE = 3
     }
 }

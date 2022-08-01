@@ -17,7 +17,6 @@ import com.yuenov.kotlin.open.model.standard.BookBaseInfo
 import com.yuenov.kotlin.open.utils.TimeUtils
 import com.yuenov.kotlin.open.viewmodel.CommonViewModel
 import com.yuenov.kotlin.open.viewmodel.DetailViewModel
-import me.hgj.jetpackmvvm.ext.nav
 import me.hgj.jetpackmvvm.ext.navigateAction
 import me.hgj.jetpackmvvm.ext.parseState
 
@@ -45,15 +44,14 @@ class DetailFragment : BaseFragment<DetailViewModel, FragmentDetailBinding>() {
                 ivDpAddBookShelf, tvDpAddBookShelf
             ) { view ->
                 if (isFastDoubleClick() || isLoadingShowing()) return@setClickListener
-                //TODO: 重新写各个点击事件的响应
                 when (view) {
-                    llDpBack -> nav().navigateUp()
-                    tvDpChapterName -> toRead(bookInfo, 0L)
+                    llDpBack -> nav?.navigateUp()
+                    tvDpChapterName -> toRead(bookInfo, 0L, hasBookShelf)
                     tvDpMenuTotal, llDpMenu -> {
                         toChapterMenuList()
                     }
                     tvDpRecommendMore -> {
-                        nav().navigateAction(R.id.action_detail_to_detail, Bundle().apply {
+                        nav?.navigateAction(R.id.action_detail_to_detail, Bundle().apply {
                             putString(EXTRA_STRING_TITLE, "热门推荐")
                             putInt(EXTRA_INT_BOOK_ID, bookId)
                         })
@@ -66,8 +64,8 @@ class DetailFragment : BaseFragment<DetailViewModel, FragmentDetailBinding>() {
                             _defaultRecommendPageSize
                         )
                     }
-                    llDpDownload -> toRead(bookInfo, 0L)
-                    tvDpRead -> toRead(bookInfo, 0L)
+                    llDpDownload -> toRead(bookInfo, 0L, hasBookShelf)
+                    tvDpRead -> toRead(bookInfo, 0L, hasBookShelf)
                     llDpAddBookShelf, ivDpAddBookShelf, tvDpAddBookShelf -> {
                         mViewModel.addOrRemoveBookShelf(hasBookShelf, bookInfo)
                     }
@@ -84,19 +82,19 @@ class DetailFragment : BaseFragment<DetailViewModel, FragmentDetailBinding>() {
                     //这样就会导致llDpTop不显示
 //                        if (scrollY < measuredHeight * 2.5) {
                     llDpTop.apply {
-                        visibility = View.VISIBLE
+                        resetVisibility(true, llDpTop)
                         val alphaF = (scrollY - measuredHeight) * 1.0f / (measuredHeight * 2)
                         alpha = if (alphaF > 1.0f) 1.0f else alphaF
                     }
 //                        }
                 } else {
-                    llDpTop.visibility = View.INVISIBLE
+                    resetVisibility(View.INVISIBLE, llDpTop)
                 }
             }
             wgvDpRecommend.setOnItemClickListener { _, _, position, id ->
                 logd(CLASS_TAG, "onItemClick ${isLoadingShowing()}")
                 if (isLoadingShowing()) return@setOnItemClickListener
-                nav().navigateAction(R.id.action_detail_to_detail, Bundle().apply {
+                nav?.navigateAction(R.id.action_detail_to_detail, Bundle().apply {
                     putInt(EXTRA_INT_BOOK_ID, recommendAdapter.list!![position].bookId)
                 })
             }
@@ -133,7 +131,7 @@ class DetailFragment : BaseFragment<DetailViewModel, FragmentDetailBinding>() {
                     },
                     {
                         showToast(it.errorMsg)
-                        nav().navigateUp()
+                        nav?.navigateUp()
                     })
             }
             hasReadRecordState.observe(viewLifecycleOwner) {
@@ -173,55 +171,58 @@ class DetailFragment : BaseFragment<DetailViewModel, FragmentDetailBinding>() {
 
     //获取到书籍信息后更新UI
     private fun setupView(response: BookDetailInfoResponse) {
-        mViewBind.ivDpBgBlur.blur(response.coverImg)
-        mViewBind.rivDpCoverImg.loadImage(
-            response.coverImg,
-            R.mipmap.ic_book_list_default
-        )
-        mViewBind.tvDpTitle.text = response.title
-        mViewBind.tvDpAuthor.text = response.author
-        "${response.categoryName} ${response.word}".also { mViewBind.tvDpCategory.text = it }
-        mViewBind.tvDpDesc.text = response.desc.deleteStartAndEndNewLine()
-        response.update?.apply {
-            mViewBind.tvDpChapterName.text = chapterName
-            if (chapterStatus == InterFaceConstants.CHAPTER_STATUS_SERIALIZE) {
-                val lastTime = TimeUtils.getDiffTimeText(time)
-                mViewBind.tvDpIsEnd.text = lastTime
-                mViewBind.tvDpIsEnd.visibility =
-                    if (lastTime.isEmpty()) View.GONE else View.VISIBLE
-            } else {
-                mViewBind.tvDpIsEnd.text = getString(R.string.info_chapterStatus_end)
-                mViewBind.tvDpIsEnd.visibility = View.VISIBLE
+        mViewBind.apply {
+            ivDpBgBlur.blur(response.coverImg)
+            rivDpCoverImg.loadImage(
+                response.coverImg,
+                R.mipmap.ic_book_list_default
+            )
+            tvDpTitle.text = response.title
+            tvDpAuthor.text = response.author
+            "${response.categoryName} ${response.word}".also { tvDpCategory.text = it }
+            tvDpDesc.text = response.desc.deleteStartAndEndNewLine()
+            response.update?.apply {
+                tvDpChapterName.text = chapterName
+                if (chapterStatus == InterFaceConstants.CHAPTER_STATUS_SERIALIZE) {
+                    val lastTime = TimeUtils.getDiffTimeText(time)
+                    tvDpIsEnd.text = lastTime
+                    resetVisibility(lastTime.isNotEmpty(), tvDpIsEnd)
+                } else {
+                    tvDpIsEnd.text = getString(R.string.info_chapterStatus_end)
+                    resetVisibility(true, tvDpIsEnd)
+                }
             }
+            tvDpMenuTotal.text =
+                getString(R.string.DetailPreviewActivity_Chapter, response.chapterNum)
+
+            recommendAdapter.list = response.recommend
+            recommendPageSize = response.recommend?.size ?: _defaultRecommendPageSize
+            wgvDpRecommend.adapter = recommendAdapter
+
+            resetVisibility(true, rlDpContent)
         }
-        mViewBind.tvDpMenuTotal.text =
-            getString(R.string.DetailPreviewActivity_Chapter, response.chapterNum)
-
-        recommendAdapter.list = response.recommend
-        recommendPageSize = response.recommend?.size ?: _defaultRecommendPageSize
-        mViewBind.wgvDpRecommend.adapter = recommendAdapter
-
-        mViewBind.rlDpContent.visibility = View.VISIBLE
     }
 
     private fun refreshBookShelfState() {
-        mViewBind.ivDpAddBookShelf.setImageResource(
-            if (hasBookShelf) R.mipmap.ic_remove_bookshelf else R.mipmap.ic_add_bookshelf
-        )
-        mViewBind.tvDpAddBookShelf.text = getString(
-            if (hasBookShelf) R.string.DetailPreviewActivity_removeBookShelf else R.string.DetailPreviewActivity_addBookShelf
-        )
-        mViewBind.tvDpAddBookShelf.setTextColor(
-            resources.getColor(
-                if (hasBookShelf) R.color.gary_c5c7 else R.color.blue_b383, null
+        mViewBind.apply {
+            ivDpAddBookShelf.setImageResource(
+                if (hasBookShelf) R.mipmap.ic_remove_bookshelf else R.mipmap.ic_add_bookshelf
             )
-        )
+            tvDpAddBookShelf.text = getString(
+                if (hasBookShelf) R.string.DetailPreviewActivity_removeBookShelf else R.string.DetailPreviewActivity_addBookShelf
+            )
+            tvDpAddBookShelf.setTextColor(
+                resources.getColor(
+                    if (hasBookShelf) R.color.gary_c5c7 else R.color.blue_b383, null
+                )
+            )
+        }
     }
 
     private fun toChapterMenuList() {
         commonViewModel.updateChapterListState.observe(viewLifecycleOwner) {
             if (it.isSuccess) {
-                nav().navigateAction(R.id.action_detail_to_chapter_list, Bundle().apply {
+                nav?.navigateAction(R.id.action_detail_to_chapter_list, Bundle().apply {
                     putParcelable(EXTRA_MODEL_BOOK_BASE_INFO, bookInfo)
                 })
             }
