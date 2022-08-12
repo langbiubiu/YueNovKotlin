@@ -44,9 +44,6 @@ abstract class AppDatabase : RoomDatabase() {
                 db.setLocale(Locale.CHINESE)
             }
 
-            override fun onOpen(db: SupportSQLiteDatabase) {
-                super.onOpen(db)
-            }
         }
     }
 }

@@ -7,19 +7,26 @@ import androidx.lifecycle.*
 import com.google.gson.Gson
 import com.yuenov.kotlin.open.constant.InterFaceConstants
 import com.yuenov.kotlin.open.constant.PreferenceConstants
-import com.yuenov.kotlin.open.ext.CLASS_TAG
 import com.yuenov.kotlin.open.ext.logd
 import com.yuenov.kotlin.open.utils.DataStoreUtils
 import com.yuenov.kotlin.open.viewmodel.AppViewModel
 import com.yuenov.kotlin.open.viewmodel.EventViewModel
 import me.hgj.jetpackmvvm.base.BaseApp
 import me.hgj.jetpackmvvm.ext.util.jetpackMvvmLog
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 //Application全局的ViewModel，里面存放了一些账户信息，基本配置信息等
 val appViewMode: AppViewModel by lazy { MyApplication.appViewModelInstance }
 
 //Application全局的ViewModel，用于发送全局通知操作
 val eventViewModel: EventViewModel by lazy { MyApplication.eventViewModelInstance }
+
+val singleThreadPoolExecutor: ExecutorService by lazy { Executors.newSingleThreadExecutor {
+    val thread = Thread(it)
+    logd("MyApplication", "singleThread:${thread.id}")
+    thread
+} }
 
 //一个全局的Gson实例
 val gson: Gson by lazy { Gson() }
@@ -41,7 +48,7 @@ class MyApplication : BaseApp() {
         appViewModelInstance = getAppViewModelProvider().get(AppViewModel::class.java)
         initHttpInfo()
         //JetpackMVVM框架内部打印开关
-        jetpackMvvmLog = false
+        jetpackMvvmLog = true
     }
 
     //设置端口

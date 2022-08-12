@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2845" />
+        <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/drawable/bg_bookshelf_find.xml" value="0.3725" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/drawable/bg_search_inputarea.xml" value="0.2845" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/drawable/bg_tab_bookcity_selector.xml" value="0.2845" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/drawable/bg_tab_bookshelf_selector.xml" value="0.2845" />
@@ -21,7 +22,7 @@
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/fragment_detail.xml" value="0.1" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/fragment_discover.xml" value="0.33" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/fragment_main.xml" value="0.4433876811594203" />
-        <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/fragment_read.xml" value="0.22124560522350578" />
+        <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/fragment_read.xml" value="0.25" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/layout_custom_progress_dialog_view.xml" value="0.379981884057971" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/view_adapter_item_bookshelf.xml" value="0.442481884057971" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/view_adapter_item_bookshelf_1.xml" value="0.4148550724637681" />

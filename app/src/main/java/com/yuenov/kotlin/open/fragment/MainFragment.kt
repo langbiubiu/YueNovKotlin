@@ -2,18 +2,16 @@ package com.yuenov.kotlin.open.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
 import com.yuenov.kotlin.open.R
 import com.yuenov.kotlin.open.base.BaseFragment
+import com.yuenov.kotlin.open.base.BaseFragmentViewModel
 import com.yuenov.kotlin.open.databinding.FragmentMainBinding
 import com.yuenov.kotlin.open.ext.*
-import com.yuenov.kotlin.open.viewmodel.MainFragmentViewModel
-import me.hgj.jetpackmvvm.ext.nav
 
-class MainFragment : BaseFragment<MainFragmentViewModel, FragmentMainBinding>() {
+class MainFragment : BaseFragment<BaseFragmentViewModel, FragmentMainBinding>() {
 
     private var fragments: ArrayList<Fragment> = arrayListOf()
-    var exitTime = 0L
+    private var exitTime = 0L
 
     init {
         fragments.add(BookShelfFragment())

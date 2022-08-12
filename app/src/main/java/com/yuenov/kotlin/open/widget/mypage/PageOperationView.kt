@@ -14,13 +14,9 @@ import com.yuenov.kotlin.open.R
 import com.yuenov.kotlin.open.adapter.DetailBottomMenuListAdapter
 import com.yuenov.kotlin.open.database.tb.TbBookChapter
 import com.yuenov.kotlin.open.databinding.ViewWidgetDetailoperationBinding
-import com.yuenov.kotlin.open.ext.isFastDoubleClick
-import com.yuenov.kotlin.open.ext.isLoadingShowing
-import com.yuenov.kotlin.open.ext.resetVisibility
-import com.yuenov.kotlin.open.ext.setClickListener
+import com.yuenov.kotlin.open.ext.*
 import com.yuenov.kotlin.open.utils.ConvertUtils
 import com.yuenov.kotlin.open.widget.LightView
-import com.yuenov.kotlin.open.widget.page.PageInfoConstant
 
 class PageOperationView @JvmOverloads constructor(
     context: Context?,
@@ -28,8 +24,8 @@ class PageOperationView @JvmOverloads constructor(
 ) : LinearLayout(context, attrs), View.OnClickListener, LightView.LightViewListener,
     SeekBar.OnSeekBarChangeListener, AdapterView.OnItemClickListener {
 
-    private val minFontSize = 16f
-    private val maxFontSize = 32f
+    private val minTextSize = 16f
+    private val maxTextSize = 32f
 
     private var binding: ViewWidgetDetailoperationBinding
     private val contentViews: Array<Pair<ViewGroup, ImageView>>
@@ -61,7 +57,6 @@ class PageOperationView @JvmOverloads constructor(
     private var menuList: List<TbBookChapter> = listOf()
     private var menuListAdapter: DetailBottomMenuListAdapter
     private var listener: PageOperationViewListener? = null
-
     // 背景颜色+字体颜色
     private var bgType: PageBackground = PageBackground.TYPE_1
 
@@ -69,7 +64,7 @@ class PageOperationView @JvmOverloads constructor(
     private var lightValue: Int = 0
 
     // 字体大小
-    private var fontSize: Float = PageInfoConstant.textSize
+    private var textSize: Float = 18f
 
     // 翻页动画类型
     private var pageAnimType: PageAnimationType = PageAnimationType.SIMULATION
@@ -80,7 +75,7 @@ class PageOperationView @JvmOverloads constructor(
         binding.apply {
             addView(root, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT))
             contentViews = arrayOf(
-                Pair(rlWgDpMenuList, ivWgDpMenu),
+                Pair(llWgDpMenuListData, ivWgDpMenu),
                 Pair(llWgDpProcessContent, ivWgDpProcess),
                 Pair(llWgDpLightContent, ivWgDpLight),
                 Pair(llWgDpFontContent, ivWgDpFont)
@@ -111,7 +106,7 @@ class PageOperationView @JvmOverloads constructor(
         chapterId: Long,
         bgType: PageBackground,
         lightValue: Int,
-        fontSize: Float,
+        textSize: Float,
         pageAnimType: PageAnimationType
     ) {
         setTitle(title)
@@ -119,7 +114,7 @@ class PageOperationView @JvmOverloads constructor(
         setChapterId(chapterId)
         setBgType(bgType)
         setLightValue(lightValue)
-        setFontSize(fontSize)
+        setTextSize(textSize)
         setPageAnimType(pageAnimType)
 
         initListener()
@@ -173,10 +168,10 @@ class PageOperationView @JvmOverloads constructor(
         binding.skWgDpLight.progress = lightValue
     }
 
-    fun setFontSize(size: Float) {
-        fontSize = size
-        binding.skWgDpFont.max = ((maxFontSize - minFontSize) / 2).toInt()
-        binding.skWgDpFont.progress = ((fontSize - minFontSize) / 2).toInt()
+    fun setTextSize(size: Float) {
+        textSize = size
+        binding.skWgDpFont.max = ((maxTextSize - minTextSize) / 2).toInt()
+        binding.skWgDpFont.progress = ((textSize - minTextSize) / 2).toInt()
     }
 
     fun setPageAnimType(type: PageAnimationType) {
@@ -254,7 +249,7 @@ class PageOperationView @JvmOverloads constructor(
 
     private fun getPositionByChapterId(chapterId: Long): Int {
         var position = -1
-        for (i in 0..menuList.size) {
+        for (i in menuList.indices) {
             if (menuList[i].chapterId == chapterId) {
                 position = i
                 break
@@ -264,22 +259,24 @@ class PageOperationView @JvmOverloads constructor(
     }
 
     private fun getMenuListPosition(position: Int): Int {
-        if (menuList.isEmpty())
-            return 0
+        return if (menuList.isEmpty())
+            0
         else
-            return if (menuListOrderAsc) position else menuList.size - 1
+            if (menuListOrderAsc) position else menuList.size - 1
     }
 
     private fun showMenu() {
+        logd(CLASS_TAG, "showMenu ${menuList.size}")
         if (menuList.isEmpty()) return
         showContentView(binding.llWgDpMenuListData, R.anim.anim_widget_bookdetail_bottomshow)
         showAnimation(binding.rlWgDpMenuList, R.anim.anim_fade_in)
     }
 
     private fun hideMenu() {
+        logd(CLASS_TAG, "hideMenu")
         binding.apply {
-            hideContentView(rlWgDpMenuList, R.anim.anim_fade_out)
-            hideAnimation(
+            hideAnimation(rlWgDpMenuList, R.anim.anim_fade_out)
+            hideContentView(
                 llWgDpMenuListData,
                 R.anim.anim_widget_bookdetail_bottomhide,
                 object : Animation.AnimationListener {
@@ -368,7 +365,6 @@ class PageOperationView @JvmOverloads constructor(
                         tvWgDpAnim4 -> pageAnimType = PageAnimationType.NONE
                     }
                     selectAnim()
-                    hideAllContent()
                     listener?.onDataChange(DATA_CHANGE_EVENT_PAGE_ANIM_TYPE, pageAnimType)
                 }
             }
@@ -392,7 +388,15 @@ class PageOperationView @JvmOverloads constructor(
     }
 
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-        binding.tvWgDpProcessTitle.text = menuList[progress].chapterName
+        binding.apply {
+            when(seekBar) {
+                skWgDpProcess -> tvWgDpProcessTitle.text = menuList[progress].chapterName
+                skWgDpLight -> {
+                    lightValue = progress
+                    listener?.onDataChange(DATA_CHANGE_EVENT_LIGHT_VALUE, lightValue)
+                }
+            }
+        }
     }
 
     override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -412,8 +416,8 @@ class PageOperationView @JvmOverloads constructor(
                     listener?.onDataChange(DATA_CHANGE_EVENT_LIGHT_VALUE, lightValue)
                 }
                 skWgDpFont -> {
-                    fontSize = minFontSize + progress * 2
-                    listener?.onDataChange(DATA_CHANGE_EVENT_FONT_SIZE, fontSize)
+                    textSize = minTextSize + progress * 2
+                    listener?.onDataChange(DATA_CHANGE_EVENT_FONT_SIZE, textSize)
                 }
             }
         }
@@ -425,7 +429,9 @@ class PageOperationView @JvmOverloads constructor(
     }
 
     interface PageOperationViewListener {
+        // 数据发生变化
         fun <T> onDataChange(event: Int, newValue: T)
+        // 选择了某一章
         fun onSelectChapter(chapterId: Long)
     }
 
@@ -446,6 +452,7 @@ class PageOperationView @JvmOverloads constructor(
     }
 
     @SuppressLint("ClickableViewAccessibility")
+    // 好像没啥用，虽然能将触摸事件传进去，但是触摸位置在扩展范围内时，thumb还是不会动，可能和seekbar内部的计算有关系
     private fun addSeekBarTouchPoint(vararg seekBar: SeekBar) {
         for (i in seekBar.indices) {
             val sb = seekBar[i]
@@ -453,19 +460,22 @@ class PageOperationView @JvmOverloads constructor(
             parent.setOnTouchListener { _, event ->
                 val rect = Rect()
                 sb.getHitRect(rect)
-                if ((event.y >= (rect.top - 50)) && (event.y <= (rect.bottom + 50))) {
+                logd(PageOperationView.CLASS_TAG, "rect=$rect, event=${event.x}, ${event.y}")
+                if ((event.y >= (rect.top - 0)) && (event.y <= (rect.bottom + 0)) //){
+                    && ((event.x >= rect.left) && (event.x <= rect.right))) {
                     val y = rect.top + rect.height() / 2.0f
-                    var x = event.x - rect.left
-                    if (x < 0f) {
-                        x = 0f
-                    } else if (x > rect.width()) {
-                        x = rect.width().toFloat()
-                    }
+//                    var x = event.x - rect.left
+//                    if (x < 0f) {
+//                        x = 0f
+//                    } else if (x > rect.width()) {
+//                        x = rect.width().toFloat()
+//                    }
                     val me = MotionEvent.obtain(
                         event.downTime,
                         event.eventTime,
                         event.action,
-                        x,
+//                        x,
+                        event.x,
                         y,
                         event.metaState
                     )
@@ -517,6 +527,7 @@ class PageOperationView @JvmOverloads constructor(
         val showAnimation = AnimationUtils.loadAnimation(context, animResId)
         if (listener != null)
             showAnimation.setAnimationListener(listener)
+        resetVisibility(true, contentView)
         contentView.startAnimation(showAnimation)
     }
 

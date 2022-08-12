@@ -7,12 +7,12 @@ object InterFaceConstants {
     /**
      * 默认分页条数
      */
-    val pageSize: Int = 20
+    const val pageSize: Int = 20
 
     /**
      * 书城列表
      */
-    val categoriesListPageSize = pageSize
+    const val categoriesListPageSize = pageSize
 
     //图书连载状态：完结 或 连载
     const val CHAPTER_STATUS_END = "END"
@@ -26,7 +26,7 @@ object InterFaceConstants {
     /**
      * 默认端口
      */
-    const val domainDefaultPort = 80
+    private const val domainDefaultPort = 80
 
     /**
      * 端口

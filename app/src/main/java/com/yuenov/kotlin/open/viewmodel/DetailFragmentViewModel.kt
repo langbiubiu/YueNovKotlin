@@ -1,6 +1,7 @@
 package com.yuenov.kotlin.open.viewmodel
 
 import androidx.lifecycle.MutableLiveData
+import com.yuenov.kotlin.open.base.BaseFragmentViewModel
 import com.yuenov.kotlin.open.database.appDb
 import com.yuenov.kotlin.open.database.tb.TbBookShelf
 import com.yuenov.kotlin.open.database.tb.TbReadHistory
@@ -8,14 +9,12 @@ import com.yuenov.kotlin.open.model.response.BookDetailInfoResponse
 import com.yuenov.kotlin.open.model.response.BookListResponse
 import com.yuenov.kotlin.open.model.standard.BookBaseInfo
 import com.yuenov.kotlin.open.network.apiService
-import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
 import me.hgj.jetpackmvvm.callback.livedata.BooleanLiveData
-import me.hgj.jetpackmvvm.demo.app.network.stateCallback.UpdateUiState
+import com.yuenov.kotlin.open.network.stateCallback.UpdateUiState
 import me.hgj.jetpackmvvm.ext.launch
-import me.hgj.jetpackmvvm.ext.request
 import me.hgj.jetpackmvvm.state.ResultState
 
-class DetailViewModel: BaseViewModel() {
+class DetailFragmentViewModel: BaseFragmentViewModel() {
 
     val bookDetailDataState: MutableLiveData<ResultState<BookDetailInfoResponse>> = MutableLiveData()
 
@@ -30,7 +29,7 @@ class DetailViewModel: BaseViewModel() {
     val getRecommendListState: MutableLiveData<UpdateUiState<BookListResponse>> = MutableLiveData()
 
     fun requestBookDetail(bookId: Int) {
-        request(
+        requestDelay(
             { apiService.getDetail(bookId) },
             bookDetailDataState,
             isShowDialog = true,
@@ -41,7 +40,8 @@ class DetailViewModel: BaseViewModel() {
     fun hasReadRecord(bookId: Int) {
         launch(
             { appDb.readHistoryDao.existsRealRead(bookId) },
-            { hasReadRecordState.value = it }
+            { hasReadRecordState.value = it },
+            { hasReadRecordState.value = false}
         )
     }
 
@@ -49,7 +49,8 @@ class DetailViewModel: BaseViewModel() {
     fun hasBookShelf(bookId: Int) {
         launch(
             { appDb.bookShelfDao.exists(bookId) },
-            { hasBookShelfState.value = it }
+            { hasBookShelfState.value = it },
+            { hasBookShelfState.value = false}
         )
     }
 
@@ -57,7 +58,8 @@ class DetailViewModel: BaseViewModel() {
     fun hasChapter(bookId: Int) {
         launch(
             { appDb.chapterDao.getFirstChapter(bookId) },
-            { hasChapterState.value = it != null }
+            { hasChapterState.value = it != null },
+            { hasChapterState.value = false}
         )
     }
 
@@ -107,7 +109,7 @@ class DetailViewModel: BaseViewModel() {
     private var isReplacing:Boolean = false
     fun getRecommendList(bookId: Int, pageNum: Int, pageSize: Int) {
         if (isReplacing) return
-        request(
+        requestDelay(
             {
                 isReplacing = true
                 apiService.getRecommend(bookId, pageNum, pageSize)

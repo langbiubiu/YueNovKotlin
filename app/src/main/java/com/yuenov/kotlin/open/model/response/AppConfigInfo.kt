@@ -11,11 +11,11 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class AppConfigInfo(
     /** 书籍默认的分类列表 **/
-    var categories: List<CategoryInfoItem>?,
+    var categories: List<CategoryInfoItem>? = null,
     /** 字体列表 **/
-    var fonts: List<FontInfoItem>?,
+    var fonts: List<FontInfoItem>? = null,
     /** 热搜书籍列表 **/
-    var hotSearch: List<BookInfoItem>?,
+    var hotSearch: List<BookInfoItem>? = null,
     /** 接口使用的端口号列表 **/
-    var ports: List<Int>?
+    var ports: List<Int>? = null
 ): Parcelable

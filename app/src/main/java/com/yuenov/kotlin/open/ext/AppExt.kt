@@ -2,7 +2,6 @@ package com.yuenov.kotlin.open.ext
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.StringRes
@@ -13,7 +12,6 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.afollestad.materialdialogs.lifecycle.lifecycleOwner
 import com.yuenov.kotlin.open.R
-import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_BOOL_HAS_BOOKSHELF
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_INT_BOOK_ID
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_LONG_CHAPTER_ID
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_MODEL_BOOK_BASE_INFO
@@ -26,11 +24,11 @@ private var lastClickTime: Long = 0
 fun isFastDoubleClick(value: Long = 150L): Boolean {
     val time = System.currentTimeMillis()
     val timeD = time - lastClickTime
-    if (timeD in 1 until value) {
-        return true
+    return if (timeD in 1 until value) {
+        true
     } else {
         lastClickTime = time
-        return false
+        false
     }
 }
 
@@ -104,38 +102,21 @@ fun isLoadingShowing(): Boolean {
     return loadingDialog?.isShowing ?: false
 }
 
-fun AppCompatActivity.showToast(@StringRes resId: Int) {
-    Toast.makeText(this, resId, Toast.LENGTH_SHORT).show()
-}
-
-fun AppCompatActivity.showToast(str: CharSequence) {
-    Toast.makeText(this, str, Toast.LENGTH_SHORT).show()
-}
-
 fun Fragment.showToast(@StringRes resId: Int) {
     Toast.makeText(this.context, resId, Toast.LENGTH_SHORT).show()
 }
 
-fun Fragment.showToast(str: CharSequence) {
-    Toast.makeText(this.context, str, Toast.LENGTH_SHORT).show()
-}
-
-fun View.showToast(@StringRes resId: Int) {
-    Toast.makeText(this.context, resId, Toast.LENGTH_SHORT).show()
-}
-
-fun View.showToast(str: CharSequence) {
+fun Fragment.showToast(str: String) {
     Toast.makeText(this.context, str, Toast.LENGTH_SHORT).show()
 }
 
 /**
- * TODO: 跳转至阅读界面
+ * 跳转至阅读界面
  */
-fun Fragment.toRead(bookInfo: BookBaseInfo, chapterId: Long, hasBookShelf: Boolean) {
+fun Fragment.toRead(bookInfo: BookBaseInfo, chapterId: Long) {
     nav().navigateAction(R.id.to_read_fragment, Bundle().apply {
         putParcelable(EXTRA_MODEL_BOOK_BASE_INFO, bookInfo)
         putLong(EXTRA_LONG_CHAPTER_ID, chapterId)
-        putBoolean(EXTRA_BOOL_HAS_BOOKSHELF, hasBookShelf)
     })
 }
 

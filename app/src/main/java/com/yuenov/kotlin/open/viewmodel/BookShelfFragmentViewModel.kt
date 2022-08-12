@@ -2,6 +2,7 @@ package com.yuenov.kotlin.open.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import com.yuenov.kotlin.open.application.gson
+import com.yuenov.kotlin.open.base.BaseFragmentViewModel
 import com.yuenov.kotlin.open.database.appDb
 import com.yuenov.kotlin.open.database.tb.TbBookShelf
 import com.yuenov.kotlin.open.ext.CLASS_TAG
@@ -10,18 +11,16 @@ import com.yuenov.kotlin.open.model.request.BookCheckUpdateRequest
 import com.yuenov.kotlin.open.model.response.CheckUpdateItem
 import com.yuenov.kotlin.open.model.response.CheckUpdateResponse
 import com.yuenov.kotlin.open.network.apiService
-import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
-import me.hgj.jetpackmvvm.demo.app.network.stateCallback.ListDataUiState
-import me.hgj.jetpackmvvm.demo.app.network.stateCallback.UpdateUiState
+import com.yuenov.kotlin.open.network.stateCallback.ListDataUiState
+import com.yuenov.kotlin.open.network.stateCallback.UpdateUiState
 import me.hgj.jetpackmvvm.ext.launch
-import me.hgj.jetpackmvvm.ext.request
 
-class BookShelfFragmentViewModel : BaseViewModel() {
+class BookShelfFragmentViewModel : BaseFragmentViewModel() {
 
     /**
      * 书架内的书籍信息
      */
-    var bookShelfDataState: MutableLiveData<ListDataUiState<TbBookShelf>> = MutableLiveData()
+    var getBookShelfListState: MutableLiveData<ListDataUiState<TbBookShelf>> = MutableLiveData()
 
     /**
      * 请求书籍更新信息
@@ -68,111 +67,12 @@ class BookShelfFragmentViewModel : BaseViewModel() {
         books.add(
             TbBookShelf(
                 4,
-                54037,
-                "我师兄实在太稳健了",
-                "/file/group1/book/8c1dd37f-b32e-4769-a14b-eec5a7692a6c.jpg",
-                "言归正传",
+                78423,
+                "盗墓笔记",
+                "/file/group1/book/f80a88c7-f867-4dee-9f2f-20d06c57b79c.jpg",
+                "南派三叔",
                 false,
-                1657457196445
-            )
-        )
-        books.add(
-            TbBookShelf(
-                5,
-                43928,
-                "三寸人间",
-                "/file/group1/book/1e8c878e-4453-4d01-8fac-3a455bc82da6.jpg",
-                "耳根",
-                false,
-                1657457206820
-            )
-        )
-        books.add(
-            TbBookShelf(
-                6,
-                30746,
-                "遮天",
-                "/file/group1/book/2ea54da7-235f-403f-9da0-cc1d46edf682.jpg",
-                "辰东",
-                false,
-                1657457219468
-            )
-        )
-        books.add(
-            TbBookShelf(
-                7,
-                93547,
-                "天降鬼才",
-                "/file/group1/book/9c9750a4-6084-4f32-a366-5c81556ca35d.jpg",
-                "武异",
-                false,
-                1657465315064
-            )
-        )
-        books.add(
-            TbBookShelf(
-                8,
-                35707,
-                "斗罗大陆",
-                "/file/group1/book/d61fdbfe-58b3-4c52-9129-27c7bc5f9c0c.jpg",
-                "唐家三少",
-                false,
-                1657465323064
-            )
-        )
-        books.add(
-            TbBookShelf(
-                9,
-                47813,
-                "一剑独尊",
-                "/file/group1/book/3e505d41-edf2-4c7f-b71b-3d1d00e52fd3.jpg",
-                "青鸾峰上",
-                false,
-                1657465336151
-            )
-        )
-        books.add(
-            TbBookShelf(
-                10,
-                41255,
-                "剑来",
-                "/file/group1/book/41a98b0b-5cd4-45d2-93c9-5f4ad5d9bace.jpg",
-                "烽火戏诸侯",
-                false,
-                1657465346486
-            )
-        )
-        books.add(
-            TbBookShelf(
-                11,
-                43422,
-                "伏天氏",
-                "/file/group1/book/0f07a0b0-0b38-4d5d-990e-b4e9ac0b7cf6.jpg",
-                "净无痕",
-                false,
-                1657465357008
-            )
-        )
-        books.add(
-            TbBookShelf(
-                12,
-                34798,
-                "元尊",
-                "/file/group1/book/aaed46d4-1499-4628-94a4-af9189002293.jpg",
-                "天蚕土豆",
-                false,
-                1657465368940
-            )
-        )
-        books.add(
-            TbBookShelf(
-                13,
-                48772,
-                "斗罗大陆4终极斗罗",
-                "/file/group1/book/2fcef4e6-8a20-4ec7-bddf-b0a55c0bacb7.jpg",
-                "唐家三少",
-                false,
-                1657465380924
+                1657488492943
             )
         )
 
@@ -188,36 +88,36 @@ class BookShelfFragmentViewModel : BaseViewModel() {
     /**
      * 从数据库读取书架信息，如果读取失败也会将一个空的ArrayList写入listBookShelf，防止空异常
      */
-    fun getBookShelfData() {
+    fun getBookShelfList() {
         launch(
             { appDb.bookShelfDao.getAllList()?.let { ArrayList(it) } },
             {
-                bookShelfDataState.value = ListDataUiState(
+                getBookShelfListState.value = ListDataUiState(
                     isSuccess = true,
                     isEmpty = it?.isEmpty() ?: true,
-                    listData = it?: arrayListOf())
+                    listData = it?: listOf()
+                )
             },
             {
-                bookShelfDataState.value = ListDataUiState(
+                getBookShelfListState.value = ListDataUiState(
                     isSuccess = false,
                     errMessage = it.message,
                     isEmpty = true,
-                    listData = arrayListOf())
+                    listData = listOf()
+                )
             })
     }
 
     /**
      * 根据bookId删除书架图书
      */
-    fun deleteBookShelfData(bookId: Int) {
+    fun deleteBookShelf(bookId: Int) {
         launch(
             { appDb.bookShelfDao.deleteByBookId(bookId) },
             { //删除后更新书架信息，通知UI更新
-                getBookShelfData()
+                getBookShelfList()
             },
-            {
-                it.printStackTrace()
-            }
+            { it.printStackTrace() }
         )
     }
 
@@ -227,12 +127,8 @@ class BookShelfFragmentViewModel : BaseViewModel() {
     fun resetAddBookShelfStat(bookId: Int, stat: Boolean) {
         launch(
             { appDb.readHistoryDao.resetAddBookShelfStat(bookId, stat) },
-            {
-                logd(CLASS_TAG, "resetAddBookShelfStat success")
-            },
-            {
-                it.printStackTrace()
-            }
+            { logd(CLASS_TAG, "resetAddBookShelfStat success") },
+            { it.printStackTrace() }
         )
     }
 
@@ -240,13 +136,14 @@ class BookShelfFragmentViewModel : BaseViewModel() {
      * 书架书籍更新信息
      */
     fun checkBookShelfUpdate() {
-        request(
+        requestDelay(
             { //先请求更新数据
+                logd(CLASS_TAG, "checkBookShelfUpdate")
                 val lisUpdateInfo = appDb.chapterDao.getShelfUpdateInfo()
                 val checkUpdateItems = arrayListOf<CheckUpdateItem>()
                 if (!lisUpdateInfo.isNullOrEmpty()) {
                     for (book in lisUpdateInfo) {
-                        checkUpdateItems.add(CheckUpdateItem(book!!.bookId, book.chapterId))
+                        checkUpdateItems.add(CheckUpdateItem(book.bookId, book.chapterId))
                     }
                 }
 //                val request = BookCheckUpdateRequest(checkUpdateItems)
@@ -259,35 +156,24 @@ class BookShelfFragmentViewModel : BaseViewModel() {
             },
             { response ->
                 //请求成功后，更新BookShelf数据库中的hasUpdate字段
-                launch(
-                    {
-                        response.updateList?.apply {
-                            for (checkBook in this) {
-                                val bookShelfItem = appDb.bookShelfDao.getEntity(checkBook.bookId)
-                                if (bookShelfItem != null && !bookShelfItem.hasUpdate) {
-                                    appDb.bookShelfDao.updateHasUpdate(
-                                        checkBook.bookId,
-                                        true,
-                                        System.currentTimeMillis()
-                                    )
-                                }
-                            }
+                response.updateList?.apply {
+                    for (checkBook in this) {
+                        val bookShelfItem = appDb.bookShelfDao.getEntity(checkBook.bookId)
+                        if (bookShelfItem != null && !bookShelfItem.hasUpdate) {
+                            appDb.bookShelfDao.updateHasUpdate(
+                                checkBook.bookId,
+                                true,
+                                System.currentTimeMillis()
+                            )
                         }
-                    },
-                    {
-                        //更新成功后，重新获取书架书籍信息，触发observe回调，进而更新界面
-                        checkUpdateDataState.value = UpdateUiState(
-                            isSuccess = true,
-                            data = response,
-                        )
-                        getBookShelfData()
-                    },
-                    {
-                        checkUpdateDataState.value = UpdateUiState(
-                            isSuccess = false,
-                            errorMsg = it.message
-                        )
-                    })
+                    }
+                }
+                //更新成功后，重新获取书架书籍信息，触发observe回调，进而更新界面
+                checkUpdateDataState.value = UpdateUiState(
+                    isSuccess = true,
+                    data = response,
+                )
+                getBookShelfList()
             },
             {
                 checkUpdateDataState.value = UpdateUiState(

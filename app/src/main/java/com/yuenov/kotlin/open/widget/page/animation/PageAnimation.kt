@@ -4,38 +4,42 @@ import android.widget.Scroller
 import android.view.MotionEvent
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.view.View
 import android.view.animation.LinearInterpolator
+import com.yuenov.kotlin.open.widget.page.PageView
 
 /**
- * Created by newbiechen on 17-7-24.
  * 翻页动画抽象类
  */
-abstract class PageAnimation(
-    //屏幕的尺寸
-    protected var screenWidth: Int,
-    protected var screenHeight: Int,
-    //屏幕的间距
-    protected var marginWidth: Int,
-    protected var marginHeight: Int,
+abstract class PageAnimation constructor(
     //正在使用的View
-    protected var view: View,
-    //监听器
-    protected var listener: OnPageChangeListener?
+    protected var pageView: PageView,
 ) {
-    //滑动装置
-    protected var scroller: Scroller = Scroller(this.view.context, LinearInterpolator())
-
-    //移动方向
-    var direction = Direction.NONE
-    var isRunning = false
-        protected set
-    var autoPageIsRunning = false
-    var isCancelTouch = false
-
+    //屏幕的尺寸
+    protected var screenWidth: Int = pageView.width
+    protected var screenHeight: Int = pageView.height
+    //屏幕的间距
+    protected var marginWidth: Int = 0
+    protected var marginHeight: Int = 0
     //视图的尺寸
     protected var viewWidth: Int = screenWidth - marginWidth * 2
     protected var viewHeight: Int = screenHeight - marginHeight * 2
+
+    // 获取背景板
+    abstract var bgBitmap: Bitmap
+    // 获取当前页内容显示版面
+//    abstract var curBitmap: Bitmap
+    // 获取下一页内容显示版面
+    abstract var nextBitmap: Bitmap
+    //滑动装置
+    protected var scroller: Scroller = Scroller(pageView.context, LinearInterpolator())
+
+    //移动方向
+    open var direction = Direction.NONE
+    //是否正在执行动画
+    var isRunning = false
+    //是否正在执行自动阅读
+    var autoPageIsRunning = false
+    var isCancelTouch = false
 
     //起始点
     protected var startX = 0f
@@ -49,23 +53,14 @@ abstract class PageAnimation(
     protected var lastX = 0f
     protected var lastY = 0f
 
-    constructor(w: Int, h: Int, view: View, listener: OnPageChangeListener?) : this(
-        w,
-        h,
-        0,
-        0,
-        view,
-        listener
-    ) {}
-
-    fun setStartPoint(x: Float, y: Float) {
+    open fun setStartPoint(x: Float, y: Float) {
         startX = x
         startY = y
         lastX = startX
         lastY = startY
     }
 
-    fun setTouchPoint(x: Float, y: Float) {
+    open fun setTouchPoint(x: Float, y: Float) {
         lastX = touchX
         lastY = touchY
         touchX = x
@@ -75,7 +70,7 @@ abstract class PageAnimation(
     /**
      * 开启翻页动画
      */
-    fun startAnim() {
+    open fun startAnim() {
         if (isRunning || autoPageIsRunning) {
             return
         }
@@ -96,7 +91,7 @@ abstract class PageAnimation(
      * 绘制图形
      * @param canvas
      */
-    abstract fun draw(canvas: Canvas?)
+    abstract fun draw(canvas: Canvas)
 
     /**
      * 滚动动画
@@ -109,25 +104,8 @@ abstract class PageAnimation(
      */
     abstract fun abortAnim()
 
-    /**
-     * 获取背景板
-     * @return
-     */
-    abstract var bgBitmap: Bitmap?
-
-    /**
-     * 获取内容显示版面
-     */
-    abstract var nextBitmap: Bitmap?
-
     enum class Direction(val isHorizontal: Boolean) {
         NONE(true), NEXT(true), PRE(true), UP(false), DOWN(false);
     }
 
-    interface OnPageChangeListener {
-        fun hasPrev(execute: Boolean): Boolean
-        fun hasNext(execute: Boolean): Boolean
-        fun pageCancel()
-        fun turnPage()
-    }
 }

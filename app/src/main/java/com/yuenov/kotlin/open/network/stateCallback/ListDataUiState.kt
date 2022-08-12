@@ -1,6 +1,4 @@
-package me.hgj.jetpackmvvm.demo.app.network.stateCallback
-
-import com.yuenov.kotlin.open.database.tb.TbBookShelf
+package com.yuenov.kotlin.open.network.stateCallback
 
 /**
  * 作者　: hegaojian
@@ -21,5 +19,5 @@ data class ListDataUiState<T>(
 //    //是第一页且没有数据，用不到
 //    val isFirstEmpty: Boolean = false,
     //列表数据
-    val listData: ArrayList<T> = arrayListOf()
+    val listData: List<T> = listOf()
 )

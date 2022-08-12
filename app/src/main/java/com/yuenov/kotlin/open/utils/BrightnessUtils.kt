@@ -3,9 +3,6 @@ package com.yuenov.kotlin.open.utils
 import android.app.Activity
 import android.content.Context
 import android.provider.Settings
-import android.view.View
-import android.view.WindowManager
-import androidx.fragment.app.Fragment
 
 object BrightnessUtils {
 

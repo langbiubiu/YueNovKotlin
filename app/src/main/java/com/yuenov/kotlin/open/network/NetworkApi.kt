@@ -6,7 +6,6 @@ import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersisto
 import com.google.gson.GsonBuilder
 import me.hgj.jetpackmvvm.base.appContext
 import me.hgj.jetpackmvvm.network.BaseNetworkApi
-import me.hgj.jetpackmvvm.network.interceptor.CacheInterceptor
 import me.hgj.jetpackmvvm.network.interceptor.logging.LogInterceptor
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -18,7 +17,7 @@ import java.util.concurrent.TimeUnit
 /**
  * 作者　: hegaojian
  * 时间　: 2019/12/23
- * 描述　: 网络请求构建器，继承BasenetworkApi 并实现setHttpClientBuilder/setRetrofitBuilder方法，
+ * 描述　: 网络请求构建器，继承BaseNetworkApi 并实现setHttpClientBuilder/setRetrofitBuilder方法，
  * 在这里可以添加拦截器，设置构造器可以对Builder做任意操作
  */
 
@@ -54,7 +53,7 @@ class NetworkApi : BaseNetworkApi() {
             // 日志拦截器，日志tag：HttpLog
             addInterceptor(LogInterceptor())
             //超时时间 连接、读、写
-            connectTimeout(10, TimeUnit.SECONDS)
+            connectTimeout(15, TimeUnit.SECONDS)
             readTimeout(5, TimeUnit.SECONDS)
             writeTimeout(5, TimeUnit.SECONDS)
         }
@@ -71,7 +70,7 @@ class NetworkApi : BaseNetworkApi() {
         }
     }
 
-    val cookieJar: PersistentCookieJar by lazy {
+    private val cookieJar: PersistentCookieJar by lazy {
         PersistentCookieJar(SetCookieCache(), SharedPrefsCookiePersistor(appContext))
     }
 

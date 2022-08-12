@@ -11,18 +11,18 @@ object PageUtil {
     private const val testWord = "中"
 
     fun getLineSpacingExtra(textSize: Float): Int {
-        val textModel = TextModel()
-        textModel.textSize = textSize - 8
-        return getTestWordHeight(textModel)
+        val textLine = TextLine()
+        textLine.textSize = textSize - 8
+        return getTestWordHeight(textLine)
     }
 
 
 
-    private fun getTestWordHeight(textModel: TextModel): Int {
+    private fun getTestWordHeight(textLine: TextLine): Int {
         val testWordPaint = Paint()
         val testWordRect = Rect()
         testWordPaint.apply {
-            textSize = ConvertUtils.dp2px(textModel.textSize).toFloat()
+            textSize = ConvertUtils.dp2px(textLine.textSize).toFloat()
             isAntiAlias = true
             getTextBounds(testWord, 0, testWord.length, testWordRect)
         }

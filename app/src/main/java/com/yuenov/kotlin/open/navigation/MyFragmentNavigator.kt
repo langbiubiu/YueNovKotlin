@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.IdRes
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavDestination
@@ -16,7 +15,7 @@ import com.yuenov.kotlin.open.fragment.DetailFragment
 import java.util.ArrayDeque
 
 /**
- * 参考[FragmentNavigatorHideShow]
+ * 参考[me.hgj.jetpackmvvm.navigation.FragmentNavigatorHideShow]
  * 使用Hide/Show处理Fragment，使Fragment执行 onPause/onResume.避免页面重建.
  * 另外满足需要多个DetailFragment实例，
  */
@@ -68,18 +67,17 @@ class MyFragmentNavigator(
         // 通过tag获取到目标Fragment，然后show
         // 如果为空就生成一个实例，并add到FragmentStore中
         // 不使用replace方法，是为了避免Fragment重建
-        var frag: Fragment? = null
         val tag =
             if (className == DetailFragment::class.java.name)
                 "${destination.id}_${args?.get(EXTRA_INT_BOOK_ID)}"
             else destination.id.toString()
 //        val tag = destination.id.toString()
-        frag = mFragmentManager.findFragmentByTag(tag)
+        var frag = mFragmentManager.findFragmentByTag(tag)
         if (frag != null) {
             ft.setMaxLifecycle(frag, Lifecycle.State.RESUMED)
             ft.show(frag)
         } else {
-            frag = instantiateFragment(mContext, mFragmentManager, className, args)
+            frag = mFragmentManager.fragmentFactory.instantiate(mContext.classLoader, className)
             frag.arguments = args
             ft.add(mContainerId, frag, tag)
         }
@@ -137,8 +135,8 @@ class MyFragmentNavigator(
         }
     }
 
-    private fun generateBackStackName(backStackIndex: Int, destid: Int): String {
-        return "$backStackIndex-$destid"
+    private fun generateBackStackName(backStackIndex: Int, destId: Int?): String {
+        return "$backStackIndex-$destId"
     }
 
     companion object {

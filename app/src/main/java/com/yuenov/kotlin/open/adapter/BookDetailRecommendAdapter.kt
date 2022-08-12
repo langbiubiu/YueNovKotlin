@@ -3,8 +3,6 @@ package com.yuenov.kotlin.open.adapter
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.ImageView
-import android.widget.TextView
 import com.yuenov.kotlin.open.R
 import com.yuenov.kotlin.open.databinding.ViewAdapterItemDetailRecommendBinding
 import com.yuenov.kotlin.open.ext.loadImage
@@ -15,7 +13,7 @@ import me.hgj.jetpackmvvm.ext.util.layoutInflater
 /**
  * 预览页推荐书籍
  */
-class BookDetailRecommendAdapter() : BaseAdapter() {
+class BookDetailRecommendAdapter : BaseAdapter() {
 
     var list: List<BookInfoItem>? = null
 

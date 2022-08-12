@@ -3,17 +3,19 @@ package com.yuenov.kotlin.open.fragment
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.yuenov.kotlin.open.R
 import com.yuenov.kotlin.open.adapter.BookShelfListAdapter
+import com.yuenov.kotlin.open.application.appViewMode
 import com.yuenov.kotlin.open.base.BaseFragment
+import com.yuenov.kotlin.open.constant.PreferenceConstants
 import com.yuenov.kotlin.open.database.tb.TbBookShelf
 import com.yuenov.kotlin.open.databinding.FragmentBookshelfBinding
 import com.yuenov.kotlin.open.ext.*
 import com.yuenov.kotlin.open.model.standard.BookBaseInfo
 import com.yuenov.kotlin.open.utils.ConvertUtils
+import com.yuenov.kotlin.open.utils.DataStoreUtils
 import com.yuenov.kotlin.open.widget.DeleteBookShelfDialog
 import com.yuenov.kotlin.open.widget.recyclerview.GridDividerItemDecoration
 import com.yuenov.kotlin.open.viewmodel.BookShelfFragmentViewModel
@@ -37,10 +39,10 @@ class BookShelfFragment : BaseFragment<BookShelfFragmentViewModel, FragmentBooks
             bookShelfAdapter.setOnItemClickListener(object :
                 BookShelfListAdapter.OnItemClickListener {
                 override fun onClick(view: View, position: Int, data: TbBookShelf) {
+                    logd(CLASS_TAG, "onItemClick onCLick")
                     toRead(
                         BookBaseInfo(data.bookId, data.title, data.author, data.coverImg, null),
-                        0L,
-                        true
+                        0L
                     )
                 }
 
@@ -54,7 +56,7 @@ class BookShelfFragment : BaseFragment<BookShelfFragmentViewModel, FragmentBooks
 
                         override fun toDelete(position: Int) {
                             val bookId = bookShelfAdapter.listData[position].bookId
-                            mViewModel.deleteBookShelfData(bookId)
+                            mViewModel.deleteBookShelf(bookId)
                             mViewModel.resetAddBookShelfStat(bookId, false)
                         }
 
@@ -104,43 +106,40 @@ class BookShelfFragment : BaseFragment<BookShelfFragmentViewModel, FragmentBooks
     override fun lazyLoadData() {
         logd(CLASS_TAG, "lazyLoadData")
         isFirstLoadData = true
-        mViewModel.getBookShelfData()
+        mViewModel.getBookShelfList()
 //        openLastReadBook()
     }
 
     override fun createObserver() {
         logd(CLASS_TAG, "createObserver")
         mViewModel.run {
-            bookShelfDataState.observe(viewLifecycleOwner) {
+            getBookShelfListState.observe(viewLifecycleOwner) {
                 resetVisibility(it.listData.isEmpty(), mViewBind.includeEmpty.root)
                 if (it.isSuccess) {
-                    bookShelfAdapter.listData = it.listData
+                    bookShelfAdapter.listData = ArrayList(it.listData)
                     mViewBind.swipeRefresh.isEnabled = bookShelfAdapter.listData.isNotEmpty()
                     bookShelfAdapter.notifyDataSetChanged()
                     //第一次获取书架数据后，获取书籍更新数据
-                    //目前第一次更新数据一定会失败，可能是接口限制，增加延迟后也无效，暂时不进行更新
                     if (isFirstLoadData && it.listData.isNotEmpty()) {
-//                        checkBookShelfUpdate()
+                        checkBookShelfUpdate()
+                        // 在更新完书架信息后再更新AppConfigInfo
+                        appViewMode.updateAppConfigInfo()
                         isFirstLoadData = false
                     }
                 } else {
-                    Toast.makeText(
-                        this@BookShelfFragment.context,
-                        it.errMessage,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    it.errMessage?.let { it1 -> showToast(it1) }
                 }
             }
             checkUpdateDataState.observe(viewLifecycleOwner) {
-                Toast.makeText(
-                    this@BookShelfFragment.context,
-                    if (it.isSuccess) R.string.checkupdate_success else R.string.checkupdate_fail,
-                    Toast.LENGTH_SHORT
-                ).show()
+                showToast(if (it.isSuccess) R.string.checkupdate_success else R.string.checkupdate_fail)
                 if (!it.isSuccess)
-                    logd(CLASS_TAG, "checkUpdateDataState error message: ${it.errorMsg}")
+                    loge(CLASS_TAG, "checkUpdateDataState error message: ${it.errorMsg}")
                 mViewBind.swipeRefresh.isRefreshing = false
             }
+        }
+        appViewMode.appConfigInfo.observeInFragment(this) {
+            logd(CLASS_TAG, "AppConfigInfo observe")
+            DataStoreUtils.putJsonData(PreferenceConstants.KEY_CATEGORY_INFO, it)
         }
     }
 

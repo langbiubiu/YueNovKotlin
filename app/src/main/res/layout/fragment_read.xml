@@ -19,16 +19,15 @@
         android:layout_height="match_parent"
         android:background="@android:color/white">
 
-        <View
-            android:id="@+id/pvDiContent"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clickable="true"
-            android:paddingLeft="20dp"
-            android:paddingTop="3dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="40dp"
-            tools:visibility="gone" />
+<!--        <com.yuenov.kotlin.open.widget.page.PageView-->
+<!--            android:id="@+id/pvDiContent"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:clickable="true"-->
+<!--            android:paddingLeft="20dp"-->
+<!--            android:paddingTop="3dp"-->
+<!--            android:paddingRight="20dp"-->
+<!--            android:paddingBottom="40dp" />-->
 
         <!--top-->
         <RelativeLayout
@@ -57,7 +56,7 @@
                 android:layout_height="20dp"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="15dp"
-                android:layout_toLeftOf="@+id/tvDiLeft"
+                android:layout_alignParentRight="true"
                 android:src="@mipmap/ic_book_download_black" />
 
             <ImageView

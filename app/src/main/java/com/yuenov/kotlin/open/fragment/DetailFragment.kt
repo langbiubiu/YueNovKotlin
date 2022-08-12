@@ -2,7 +2,6 @@ package com.yuenov.kotlin.open.fragment
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.viewModels
 import com.yuenov.kotlin.open.R
 import com.yuenov.kotlin.open.adapter.BookDetailRecommendAdapter
 import com.yuenov.kotlin.open.base.BaseFragment
@@ -15,20 +14,18 @@ import com.yuenov.kotlin.open.ext.*
 import com.yuenov.kotlin.open.model.response.BookDetailInfoResponse
 import com.yuenov.kotlin.open.model.standard.BookBaseInfo
 import com.yuenov.kotlin.open.utils.TimeUtils
-import com.yuenov.kotlin.open.viewmodel.CommonViewModel
-import com.yuenov.kotlin.open.viewmodel.DetailViewModel
+import com.yuenov.kotlin.open.viewmodel.DetailFragmentViewModel
 import me.hgj.jetpackmvvm.ext.navigateAction
 import me.hgj.jetpackmvvm.ext.parseState
 
 /**
  * 书籍详情界面
  */
-class DetailFragment : BaseFragment<DetailViewModel, FragmentDetailBinding>() {
+class DetailFragment : BaseFragment<DetailFragmentViewModel, FragmentDetailBinding>() {
 
     private var bookId: Int = 0
     private var response: BookDetailInfoResponse? = null
     private lateinit var bookInfo: BookBaseInfo
-    private val commonViewModel: CommonViewModel by viewModels()
     private val recommendAdapter = BookDetailRecommendAdapter()
     private var hasBookShelf: Boolean = false
     private var recommendPageNum: Int = 1
@@ -46,7 +43,7 @@ class DetailFragment : BaseFragment<DetailViewModel, FragmentDetailBinding>() {
                 if (isFastDoubleClick() || isLoadingShowing()) return@setClickListener
                 when (view) {
                     llDpBack -> nav?.navigateUp()
-                    tvDpChapterName -> toRead(bookInfo, 0L, hasBookShelf)
+                    tvDpChapterName -> toRead(bookInfo, 0L)
                     tvDpMenuTotal, llDpMenu -> {
                         toChapterMenuList()
                     }
@@ -64,8 +61,9 @@ class DetailFragment : BaseFragment<DetailViewModel, FragmentDetailBinding>() {
                             _defaultRecommendPageSize
                         )
                     }
-                    llDpDownload -> toRead(bookInfo, 0L, hasBookShelf)
-                    tvDpRead -> toRead(bookInfo, 0L, hasBookShelf)
+                    // TODO 下载界面
+                    llDpDownload -> toRead(bookInfo, 0L)
+                    tvDpRead -> toRead(bookInfo, 0L)
                     llDpAddBookShelf, ivDpAddBookShelf, tvDpAddBookShelf -> {
                         mViewModel.addOrRemoveBookShelf(hasBookShelf, bookInfo)
                     }
@@ -91,7 +89,7 @@ class DetailFragment : BaseFragment<DetailViewModel, FragmentDetailBinding>() {
                     resetVisibility(View.INVISIBLE, llDpTop)
                 }
             }
-            wgvDpRecommend.setOnItemClickListener { _, _, position, id ->
+            wgvDpRecommend.setOnItemClickListener { _, _, position, _ ->
                 logd(CLASS_TAG, "onItemClick ${isLoadingShowing()}")
                 if (isLoadingShowing()) return@setOnItemClickListener
                 nav?.navigateAction(R.id.action_detail_to_detail, Bundle().apply {
@@ -143,7 +141,7 @@ class DetailFragment : BaseFragment<DetailViewModel, FragmentDetailBinding>() {
                 refreshBookShelfState()
             }
             hasChapterState.observe(viewLifecycleOwner) {
-                if (it) commonViewModel.updateChapterList(bookId, false)
+                if (it) updateChapterList(bookId, false)
             }
             addOrRemoveBookShelfState.observe(viewLifecycleOwner) {
                 if (it) {
@@ -220,13 +218,15 @@ class DetailFragment : BaseFragment<DetailViewModel, FragmentDetailBinding>() {
     }
 
     private fun toChapterMenuList() {
-        commonViewModel.updateChapterListState.observe(viewLifecycleOwner) {
+        mViewModel.updateChapterListState.observe(viewLifecycleOwner) {
             if (it.isSuccess) {
                 nav?.navigateAction(R.id.action_detail_to_chapter_list, Bundle().apply {
                     putParcelable(EXTRA_MODEL_BOOK_BASE_INFO, bookInfo)
                 })
+            } else {
+                showToast(it.errorMsg!!)
             }
         }
-        commonViewModel.updateChapterList(bookId, true)
+        mViewModel.updateChapterList(bookId, true)
     }
 }

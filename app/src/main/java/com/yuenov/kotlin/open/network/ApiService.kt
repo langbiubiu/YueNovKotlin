@@ -193,7 +193,7 @@ interface ApiService {
      * 刷新章节内容，获取最新的章节数据，不支持批量下载，即每次请求只能传一个chapterId。
      * 与下载不一样，下载是获取服务器缓存的数据，但不是最新的数据。一般是下载的内容不正确时会调用该接口。
      * 该接口响应时间比较长，谨慎调用。
-     * @param bookId 必需 书籍号
+     * @param body 详见[ChapterUpdateRequest]
      */
     @Headers("Content-Type: application/json;charset=UTF-8")
     @POST("chapter/updateForce")

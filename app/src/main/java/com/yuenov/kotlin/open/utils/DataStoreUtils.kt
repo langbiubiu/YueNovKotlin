@@ -73,27 +73,27 @@ object DataStoreUtils {
     /**
      * 异步获取Json数据
      */
-    fun <Value> getJsonData(key: String, clazz: Class<Value>): Value {
+    fun <Value> getJsonData(key: String, clazz: Class<Value>, defaultValue: Value): Value {
         return try {
-            val result = getData(key, "")
+            val result = getData(key, defaultValue.toString())
             gson.fromJson(result, clazz)
         } catch (ex: Exception) {
             ex.printStackTrace()
-            clazz.newInstance()
+            defaultValue
         }
     }
 
     /**
      * 同步获取Json数据
      */
-    fun <Value> getJsonSyncData(key: String, clazz: Class<Value>): Flow<Value> {
-        return getSyncData(key, "")
+    fun <Value> getJsonSyncData(key: String, clazz: Class<Value>, defaultValue: Value): Flow<Value> {
+        return getSyncData(key, defaultValue.toString())
             .map {
                 try {
                     gson.fromJson(it, clazz)
                 } catch (ex: Exception) {
                     ex.printStackTrace()
-                    clazz.newInstance()
+                    defaultValue
                 }
             }
     }

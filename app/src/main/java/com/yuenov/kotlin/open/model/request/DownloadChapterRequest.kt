@@ -1,7 +1,5 @@
 package com.yuenov.kotlin.open.model.request
 
-import java.util.ArrayList
-
 /**
  * 书籍章节下载请求body，需要转为json
  */

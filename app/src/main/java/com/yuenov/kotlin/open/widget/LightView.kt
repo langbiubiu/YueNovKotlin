@@ -19,7 +19,7 @@ class LightView @JvmOverloads constructor(
         fun onStateChange(view: View, select: Boolean)
     }
 
-    private lateinit var binding: ViewWidgetLightBinding
+    private var binding: ViewWidgetLightBinding
     private var listener: LightViewListener? = null
     //属性名不能用isSelected，因为和View.isSelected()函数重复，无语
     private var select: Boolean = false

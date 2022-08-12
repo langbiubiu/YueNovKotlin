@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.ListView
 import com.yuenov.kotlin.open.R
-import kotlin.math.max
 
 class MyListView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null

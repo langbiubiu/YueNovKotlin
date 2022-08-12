@@ -42,11 +42,11 @@ class ConvertUtils private constructor() {
          * @return bytes
          */
         fun chars2Bytes(chars: CharArray?): ByteArray? {
-            if (chars == null || chars.size <= 0) return null
+            if (chars == null || chars.isEmpty()) return null
             val len = chars.size
             val bytes = ByteArray(len)
             for (i in 0 until len) {
-                bytes[i] = chars[i].toByte()
+                bytes[i] = chars[i].code.toByte()
             }
             return bytes
         }
@@ -56,16 +56,16 @@ class ConvertUtils private constructor() {
          *
          * e.g. hexString2Bytes("00A8") returns { 0, (byte) 0xA8 }
          *
-         * @param hexString The hex string.
+         * @param _hexString The hex string.
          * @return the bytes
          */
-        fun hexString2Bytes(hexString: String): ByteArray? {
-            var hexString = hexString
+        fun hexString2Bytes(_hexString: String): ByteArray? {
+            var hexString = _hexString
             if (isSpace(hexString)) return null
             var len = hexString.length
             if (len % 2 != 0) {
                 hexString = "0$hexString"
-                len = len + 1
+                len += 1
             }
             val hexBytes = hexString.uppercase(Locale.getDefault()).toCharArray()
             val ret = ByteArray(len shr 1)
@@ -80,22 +80,26 @@ class ConvertUtils private constructor() {
         }
 
         private fun hex2Int(hexChar: Char): Int {
-            return if (hexChar in '0'..'9') {
-                hexChar - '0'
-            } else if (hexChar in 'A'..'F') {
-                hexChar - 'A' + 10
-            } else {
-                throw IllegalArgumentException()
+            return when (hexChar) {
+                in '0'..'9' -> {
+                    hexChar - '0'
+                }
+                in 'A'..'F' -> {
+                    hexChar - 'A' + 10
+                }
+                else -> {
+                    throw IllegalArgumentException()
+                }
             }
         }
 
         /**
          * Milliseconds to fit time span.
          *
-         * @param millis    The milliseconds.
+         * @param _millis    The milliseconds.
          *
          * millis &lt;= 0, return null
-         * @param precision The precision of time span.
+         * @param _precision The precision of time span.
          *
          *  * precision = 0, return null
          *  * precision = 1, return 天
@@ -107,14 +111,14 @@ class ConvertUtils private constructor() {
          * @return fit time span
          */
         @SuppressLint("DefaultLocale")
-        fun millis2FitTimeSpan(millis: Long, precision: Int): String? {
-            var millis = millis
-            var precision = precision
+        fun millis2FitTimeSpan(_millis: Long, _precision: Int): String? {
+            var millis = _millis
+            var precision = _precision
             if (millis <= 0 || precision <= 0) return null
             val sb = StringBuilder()
             val units = arrayOf("天", "小时", "分钟", "秒", "毫秒")
             val unitLen = intArrayOf(86400000, 3600000, 60000, 1000, 1)
-            precision = Math.min(precision, 5)
+            precision = precision.coerceAtMost(5)
             for (i in 0 until precision) {
                 if (millis >= unitLen[i]) {
                     val mode = millis / unitLen[i]
@@ -260,13 +264,11 @@ class ConvertUtils private constructor() {
          */
         fun drawable2Bitmap(drawable: Drawable): Bitmap {
             if (drawable is BitmapDrawable) {
-                val bitmapDrawable = drawable
-                if (bitmapDrawable.bitmap != null) {
-                    return bitmapDrawable.bitmap
+                if (drawable.bitmap != null) {
+                    return drawable.bitmap
                 }
             }
-            val bitmap: Bitmap
-            bitmap = if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) {
+            val bitmap: Bitmap = if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) {
                 Bitmap.createBitmap(
                     1, 1,
                     if (drawable.opacity != PixelFormat.OPAQUE) Bitmap.Config.ARGB_8888 else Bitmap.Config.RGB_565

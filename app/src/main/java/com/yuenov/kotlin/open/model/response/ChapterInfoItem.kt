@@ -3,7 +3,6 @@ package com.yuenov.kotlin.open.model.response
 import android.annotation.SuppressLint
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
-import com.yuenov.kotlin.open.network.ApiService
 
 /**
  * 章节信息

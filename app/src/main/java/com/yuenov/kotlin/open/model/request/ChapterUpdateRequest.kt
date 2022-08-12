@@ -1,6 +1,5 @@
 package com.yuenov.kotlin.open.model.request
 
-import com.yuenov.kotlin.open.application.gson
 import java.util.ArrayList
 
 /**

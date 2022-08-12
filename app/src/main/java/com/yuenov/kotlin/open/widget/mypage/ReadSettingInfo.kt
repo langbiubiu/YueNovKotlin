@@ -1,6 +1,5 @@
 package com.yuenov.kotlin.open.widget.mypage
 
-import com.yuenov.kotlin.open.widget.page.PageInfoConstant
 import com.yuenov.kotlin.open.widget.page.PageUtil
 
 /**
@@ -10,7 +9,7 @@ data class ReadSettingInfo (
     /**
      * 背景颜色和字体颜色
      */
-    var bgColor: PageBackground = PageBackground.TYPE_1,
+    var pageBackground: PageBackground = PageBackground.TYPE_1,
 
     /**
      * 亮度值
@@ -20,12 +19,12 @@ data class ReadSettingInfo (
     /**
      * 字体大小
      */
-    var fontSize: Float = PageInfoConstant.textSize,
+    var textSize: Float = 18f,
 
     /**
      * 字体上下行间距，暂时没用
      */
-    var lineSpacingExtra: Int = PageUtil.getLineSpacingExtra(fontSize),
+    var lineSpacingExtra: Int = PageUtil.getLineSpacingExtra(textSize),
 
     /**
      * 翻页动画类型

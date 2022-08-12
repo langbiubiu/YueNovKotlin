@@ -1,4 +1,4 @@
-package me.hgj.jetpackmvvm.demo.app.network.stateCallback
+package com.yuenov.kotlin.open.network.stateCallback
 
 /**
  * 作者　: hegaojian

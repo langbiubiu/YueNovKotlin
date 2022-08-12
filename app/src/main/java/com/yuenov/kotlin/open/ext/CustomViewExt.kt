@@ -1,25 +1,19 @@
 package com.yuenov.kotlin.open.ext
 
 import android.app.Activity
-import android.app.Dialog
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
-import androidx.transition.Visibility
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.CustomViewTarget
-import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.yuenov.kotlin.open.constant.InterFaceConstants
@@ -63,7 +57,7 @@ fun ViewPager2.init(
 //--------------------- ViewPager ------------------
 
 //--------------------- set click listener ------------------
-fun Fragment.setClickListener(vararg views: View, listener: View.OnClickListener?) {
+fun setClickListener(vararg views: View, listener: View.OnClickListener?) {
     for (i in views.indices) {
         views[i].setOnClickListener(listener)
     }
@@ -75,26 +69,14 @@ fun Fragment.setClickListener(listener: (v: View) -> Unit, vararg views: View) {
         view.setOnClickListener { listener(it) }
     }
 }
-
-fun Dialog.setClickListener(vararg views: View, listener: View.OnClickListener?) {
-    for (i in views.indices) {
-        views[i].setOnClickListener(listener)
-    }
-}
-
-fun ViewGroup.setClickListener(vararg views: View, listener: View.OnClickListener?) {
-    for (i in views.indices) {
-        views[i].setOnClickListener(listener)
-    }
-}
 //--------------------- set click listener ------------------
 
 //--------------------- ImageView ------------------
 private fun getImageUrl(url: String?): String? {
-    if (!url.isNullOrBlank() && url.startsWith("/"))
-        return InterFaceConstants.getImageDomain() + url
+    return if (!url.isNullOrBlank() && url.startsWith("/"))
+        InterFaceConstants.getImageDomain() + url
     else
-        return url
+        url
 }
 
 fun ImageView.loadLocalImage(filePath: String?) {

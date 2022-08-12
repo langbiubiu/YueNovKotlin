@@ -37,10 +37,10 @@ fun loge(tag: String = DEFAULT_TAG, message: String) =
  * 这里使用自己分节的方式来输出足够长度的 message
  *
  * @param tag 标签
- * @param msg 日志内容
+ * @param _msg 日志内容
  */
-fun logLongInfo(tag: String, msg: String) {
-    var msg = msg
+fun logLongInfo(tag: String, _msg: String) {
+    var msg = _msg
     val newTag = DEFAULT_TAG + "_" + tag
     if (!BuildConfig.DEBUG || TextUtils.isEmpty(msg)) {
         return

@@ -45,7 +45,7 @@ class GridDividerItemDecoration(
         0,
         isNeedSpace,
         false
-    ) {}
+    )
 
     init {
         mPaint.color = color
@@ -60,9 +60,9 @@ class GridDividerItemDecoration(
     ) {
         super.getItemOffsets(outRect, view, parent, state)
         var top = 0
-        var left = 0
-        var right = 0
-        var bottom = 0
+        val left: Int
+        val right: Int
+        var bottom: Int
         val itemPosition = (view.layoutParams as RecyclerView.LayoutParams).viewLayoutPosition
         spanCount = getSpanCount(parent)
         val childCount = parent.adapter!!.itemCount
@@ -87,7 +87,6 @@ class GridDividerItemDecoration(
             bottom = 0
         }
         outRect[left, top, right] = bottom
-//        logd(CLASS_TAG, "$itemPosition $outRect")
     }
 
     /**
@@ -197,7 +196,6 @@ class GridDividerItemDecoration(
                 if (pos % spanCount == 0) { // 第一列
                     return true
                 }
-            } else {
             }
         }
         return false
@@ -230,7 +228,6 @@ class GridDividerItemDecoration(
                 if ((pos + 1) % spanCount == 0) { // 最后一列
                     return true
                 }
-            } else {
             }
         }
         return false

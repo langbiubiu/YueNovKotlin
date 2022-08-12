@@ -13,23 +13,19 @@ import java.lang.Exception
  */
 object ScreenUtils {
     fun dpToPx(dp: Int): Int {
-        val metrics: DisplayMetrics = displayMetrics
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), metrics).toInt()
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), displayMetrics).toInt()
     }
 
     fun pxToDp(px: Int): Int {
-        val metrics: DisplayMetrics = displayMetrics
-        return (px / metrics.density).toInt()
+        return (px / displayMetrics.density).toInt()
     }
 
     fun spToPx(sp: Int): Int {
-        val metrics: DisplayMetrics = displayMetrics
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp.toFloat(), metrics).toInt()
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp.toFloat(), displayMetrics).toInt()
     }
 
     fun pxToSp(px: Int): Int {
-        val metrics: DisplayMetrics = displayMetrics
-        return (px / metrics.scaledDensity).toInt()
+        return (px / displayMetrics.scaledDensity).toInt()
     }
 
     /**
@@ -39,9 +35,8 @@ object ScreenUtils {
     val appSize: IntArray
         get() {
             val size = IntArray(2)
-            val metrics: DisplayMetrics = displayMetrics
-            size[0] = metrics.widthPixels
-            size[1] = metrics.heightPixels
+            size[0] = displayMetrics.widthPixels
+            size[1] = displayMetrics.heightPixels
             return size
         }
 
@@ -110,6 +105,6 @@ object ScreenUtils {
         return hasNavigationBar
     }
 
-    val displayMetrics: DisplayMetrics
+    private val displayMetrics: DisplayMetrics
         get() = appContext.resources.displayMetrics
 }

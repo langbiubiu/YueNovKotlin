@@ -2,16 +2,15 @@ package com.yuenov.kotlin.open.viewmodel
 
 import com.yuenov.kotlin.open.application.MyApplication
 import com.yuenov.kotlin.open.application.gson
+import com.yuenov.kotlin.open.base.BaseFragmentViewModel
 import com.yuenov.kotlin.open.constant.PreferenceConstants
 import com.yuenov.kotlin.open.ext.readFromAssets
 import com.yuenov.kotlin.open.model.response.AppConfigInfo
 import com.yuenov.kotlin.open.network.apiService
 import com.yuenov.kotlin.open.utils.DataStoreUtils
-import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
 import me.hgj.jetpackmvvm.callback.livedata.event.EventLiveData
-import me.hgj.jetpackmvvm.ext.request
 
-class AppViewModel : BaseViewModel() {
+class AppViewModel : BaseFragmentViewModel() {
 
     var appConfigInfo = EventLiveData<AppConfigInfo>()
 
@@ -20,9 +19,10 @@ class AppViewModel : BaseViewModel() {
             try {
                 val info = DataStoreUtils.getJsonData(
                     PreferenceConstants.KEY_CATEGORY_INFO,
-                    AppConfigInfo::class.java
+                    AppConfigInfo::class.java,
+                    AppConfigInfo()
                 )
-                if (info == null || info.categories.isNullOrEmpty()) {
+                if (info.categories.isNullOrEmpty()) {
                     val categoriesMenuJson =
                         readFromAssets(MyApplication.appContext, "categories.json")
                     appConfigInfo.value =
@@ -41,7 +41,7 @@ class AppViewModel : BaseViewModel() {
      * 通过网络接口，更新AppConfigInfo，并将数据存入DataStore中
      */
     fun updateAppConfigInfo() {
-        request({ apiService.getAppConfig() },
+        requestDelay({ apiService.getAppConfig() },
             {
                 appConfigInfo.value = it
                 DataStoreUtils.putJsonData(PreferenceConstants.KEY_CATEGORY_INFO, it)

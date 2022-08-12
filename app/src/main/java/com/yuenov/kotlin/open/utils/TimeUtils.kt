@@ -1,5 +1,6 @@
 package com.yuenov.kotlin.open.utils
 
+import java.text.SimpleDateFormat
 import java.util.*
 
 object TimeUtils {
@@ -22,7 +23,7 @@ object TimeUtils {
             currentTimes.add(Calendar.MONTH, -1)
         }
         if (month < 0) {
-            month = (month + 12) % 12; //获取月
+            month = (month + 12) % 12 //获取月
             year--
         }
         val days = diff / (1000 * 60 * 60 * 24)
@@ -48,4 +49,7 @@ object TimeUtils {
         }
         return diffTime
     }
+
+    fun getShowTimeText(): String =
+        SimpleDateFormat("HH:mm", Locale.CHINA).format(System.currentTimeMillis())
 }
