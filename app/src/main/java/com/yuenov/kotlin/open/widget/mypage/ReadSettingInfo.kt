@@ -29,5 +29,5 @@ data class ReadSettingInfo (
     /**
      * 翻页动画类型
      */
-    var pageAnimType: PageAnimationType = PageAnimationType.SIMULATION
+    var pageAnimType: PageAnimationType = PageAnimationType.NONE
 )

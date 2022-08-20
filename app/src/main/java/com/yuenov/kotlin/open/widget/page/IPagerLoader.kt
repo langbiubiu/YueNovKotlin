@@ -24,6 +24,12 @@ interface IPagerLoader {
     fun getContent(): String
 
     /**
+     * 是否存在下一章内容
+     * @param isNext 翻页方向，true为向前，false为向后
+     */
+    fun getNextContent(isNext: Boolean): String
+
+    /**
      * 获取时间
      */
     fun getTime(): String
@@ -34,9 +40,15 @@ interface IPagerLoader {
     fun getTitle(): String
 
     /**
+     * 是否存在下一章名称
+     * @param isNext 翻页方向，true为向前，false为向后
+     */
+    fun getNextTitle(isNext: Boolean): String
+
+    /**
      * 获取阅读进度百分比
      */
-    fun getProgressPercent(): String
+    fun getProgress(pageNum: Int, pageCount: Int, isNextChapter: Boolean): String
 
     /**
      * 获取背景色
@@ -61,15 +73,18 @@ interface IPagerLoader {
     fun getPageAnimation(): PageAnimation
 
     /**
-     * 是否允许翻页，当主界面处于数据加载中或者其他UI组件正在显示时，可能会需要暂时拦截翻页动作
-     * @param isPrev 翻页方向，true为向前，false为向后
+     * 是否允许响应触摸事件
      */
-    fun allowTurnPage(isPrev: Boolean): Boolean
+    fun canTouch(): Boolean
 
     /**
-     * 是否存在下一章内容
-     * @param isPrev 翻页方向，true为向前，false为向后
+     * 是否允许翻页，当主界面其他UI组件正在显示时，需要暂时拦截翻页动作
      */
-    fun hasNextContent(isPrev: Boolean): Boolean
+    fun allowPageAnimation(): Boolean
+
+    /**
+     * 是否存在下一张
+     */
+    fun hasNextChapter(isNext: Boolean): Boolean
 
 }

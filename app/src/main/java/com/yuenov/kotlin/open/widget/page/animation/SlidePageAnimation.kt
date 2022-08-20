@@ -5,12 +5,12 @@ import android.graphics.Rect
 import com.yuenov.kotlin.open.widget.page.PageView
 import kotlin.math.abs
 
-class SlidePageAnimation(pageView: PageView) : HorizontalPageAnimation(pageView) {
+class SlidePageAnimation: HorizontalPageAnimation() {
 
-    private val srcRect = Rect(0, 0, viewWidth, viewHeight)
-    private val destRect = Rect(0, 0, viewWidth, viewHeight)
-    private val nextSrcRect = Rect(0, 0, viewWidth, viewHeight)
-    private val nextDestRect = Rect(0, 0, viewWidth, viewHeight)
+    private lateinit var srcRect: Rect
+    private lateinit var destRect: Rect
+    private lateinit var nextSrcRect: Rect
+    private lateinit var nextDestRect: Rect
 
     override fun drawStatic(canvas: Canvas) {
         if (isCancel) {
@@ -59,6 +59,14 @@ class SlidePageAnimation(pageView: PageView) : HorizontalPageAnimation(pageView)
         }
     }
 
+    override fun setView(view: PageView) {
+        super.setView(view)
+        srcRect = Rect(0, 0, viewWidth, viewHeight)
+        destRect = Rect(0, 0, viewWidth, viewHeight)
+        nextSrcRect = Rect(0, 0, viewWidth, viewHeight)
+        nextDestRect = Rect(0, 0, viewWidth, viewHeight)
+    }
+
     override fun startAnim() {
         super.startAnim()
         val dx: Int
@@ -81,6 +89,6 @@ class SlidePageAnimation(pageView: PageView) : HorizontalPageAnimation(pageView)
             }
         }
         val duration = (400 * abs(dx)) / screenWidth
-        scroller.startScroll(touchX.toInt(), 0, dx, 0, duration)
+        scroller?.startScroll(touchX.toInt(), 0, dx, 0, duration)
     }
 }

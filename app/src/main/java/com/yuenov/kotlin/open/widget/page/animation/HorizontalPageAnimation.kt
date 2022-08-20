@@ -4,15 +4,17 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.view.MotionEvent
 import android.view.ViewConfiguration
+import com.yuenov.kotlin.open.ext.CLASS_TAG
+import com.yuenov.kotlin.open.ext.logd
 import com.yuenov.kotlin.open.widget.page.PageView
 import kotlin.math.abs
 
 /**
  * 横向动画的模板
  */
-abstract class HorizontalPageAnimation(pageView: PageView) : PageAnimation(pageView) {
-    var curBitmap: Bitmap = Bitmap.createBitmap(viewWidth, viewHeight, Bitmap.Config.RGB_565)
-    override var nextBitmap: Bitmap = Bitmap.createBitmap(viewWidth, viewHeight, Bitmap.Config.RGB_565)
+abstract class HorizontalPageAnimation : PageAnimation() {
+    override var curBitmap: Bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565)
+    override var nextBitmap: Bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565)
     //水平翻页时，背景跟随书页翻动，因此不需要单独绘制
     override var bgBitmap: Bitmap
         get() = nextBitmap
@@ -25,25 +27,28 @@ abstract class HorizontalPageAnimation(pageView: PageView) : PageAnimation(pageV
     private var moveX = 0
     private var moveY = 0
 
-    //是否移动了
-    private var isMove = false
+    // 触点是否发生过移动了
+    private var hasMoved = false
 
     //是否翻阅下一页。true表示翻到下一页，false表示上一页。
     private var isNext = false
 
     //是否没下一页或者上一页
-    private var noNext = false
+    protected var hasNext = false
 
     // move时是否执行过一次hasPre或hasNext方法(下载时候按住不放 会执行两次，所以加此标志只执行一次)
     private var executePreOrNextPage = false
 
     /**
      * 转换页面，在显示下一章的时候，必须首先调用此方法
+     * ### 调用时机需要注意！！！
      */
     fun changePage() {
-        val bitmap = curBitmap
-        curBitmap = nextBitmap
-        nextBitmap = bitmap
+        curBitmap.apply {
+            curBitmap = nextBitmap
+            nextBitmap = this
+        }
+        pageView.swapPage()
     }
 
     //绘制不滑动页面
@@ -55,20 +60,13 @@ abstract class HorizontalPageAnimation(pageView: PageView) : PageAnimation(pageV
         //移动的点击位置
         moveX = 0
         moveY = 0
-        //是否移动
-        isMove = false
-        //是否存在下一章
-        noNext = false
-        //是下一章还是前一章
+        hasMoved = false
+        hasNext = true
         isNext = false
-        //是否正在执行动画
         isRunning = false
-        //取消
         isCancel = false
         executePreOrNextPage = true
-        //设置起始位置的触摸点
         setStartPoint(x.toFloat(), y.toFloat())
-        //如果存在动画则取消动画
         abortAnim()
     }
 
@@ -84,10 +82,10 @@ abstract class HorizontalPageAnimation(pageView: PageView) : PageAnimation(pageV
             MotionEvent.ACTION_MOVE -> {
                 val slop = ViewConfiguration.get(pageView.context).scaledTouchSlop
                 //判断是否移动了
-                if (!isMove) {
-                    isMove = abs(startX - x) > slop || abs(startY - y) > slop
+                if (!hasMoved) {
+                    hasMoved = abs(startX - x) > slop || abs(startY - y) > slop
                 }
-                if (isMove) {
+                if (hasMoved) {
                     //判断是否是准备移动的状态(将要移动但是还没有移动)
                     if (moveX == 0 && moveY == 0) {
 
@@ -98,8 +96,8 @@ abstract class HorizontalPageAnimation(pageView: PageView) : PageAnimation(pageV
                             executePreOrNextPage = false
                             direction = Direction.PRE
                             //如果上一页不存在
-                            if (!pageView.hasNext(direction == Direction.PRE, executePreOrNextPage)) {
-                                noNext = true
+                            if (!pageView.hasNext(isNext, executePreOrNextPage)) {
+                                hasNext = false
                                 return true
                             }
                         } else {
@@ -110,11 +108,12 @@ abstract class HorizontalPageAnimation(pageView: PageView) : PageAnimation(pageV
                             //如果存在设置动画方向
                             direction = Direction.NEXT
                             //如果下一页不存在 表示没有下一页了
-                            if (!pageView.hasNext(direction == Direction.PRE, executePreOrNextPage)) {
-                                noNext = true
+                            if (!pageView.hasNext(isNext, executePreOrNextPage)) {
+                                hasNext = false
                                 return true
                             }
                         }
+                        pageView.turnPageStart()
                     } else {
                         //判断是否取消翻页
                         isCancel = if (isNext) {
@@ -128,39 +127,36 @@ abstract class HorizontalPageAnimation(pageView: PageView) : PageAnimation(pageV
                     isRunning = true
 
                     // 防止无动画抖动
-//                    if (this !is NonePageAnim) view!!.invalidate()
-                    pageView.invalidate()
+                    if (this !is NonePageAnimation)
+                        pageView.invalidate()
                 }
             }
             MotionEvent.ACTION_UP -> {
-                if (!isMove) {
+                if (!hasMoved) {
                     isNext = x >= screenWidth / 2
                     if (isNext) {
                         //设置动画方向
                         direction = Direction.NEXT
                         //判断是否下一页存在
-                        if (!pageView.hasNext(direction == Direction.PRE, true)) {
+                        if (!pageView.hasNext(isNext, true)) {
                             return true
                         }
                     } else {
                         direction = Direction.PRE
-                        if (!pageView.hasNext(direction == Direction.PRE, true)) {
+                        if (!pageView.hasNext(isNext, true)) {
                             return true
                         }
                     }
+                    pageView.turnPageStart()
                 }
 
                 // 是否取消翻页
                 if (isCancel) {
-                    // 无动画，不执行取消回调
-                    if (this !is NonePageAnimation) pageView.cancelTurn()
-                    pageView.cancelTurn()
-                } else {
-                    pageView.turnPage()
+                    pageView.turnPageCanceled()
                 }
 
                 // 开启翻页效果
-                if (!noNext) {
+                if (hasNext) {
                     startAnim()
                     pageView.invalidate()
                 }
@@ -170,43 +166,57 @@ abstract class HorizontalPageAnimation(pageView: PageView) : PageAnimation(pageV
     }
 
     override fun draw(canvas: Canvas) {
+        logd(CLASS_TAG, "draw isRunning:$isRunning isCancel:$isCancel")
         if (isRunning) {
             drawMove(canvas)
         } else {
             if (isCancel) {
                 nextBitmap = curBitmap.copy(Bitmap.Config.RGB_565, true)
             }
+            if (!isCancel) pageView.turnPageCompleted()
             drawStatic(canvas)
         }
     }
 
-    override fun scrollAnim() {
-        if (scroller.computeScrollOffset()) {
-            val x = scroller.currX
-            val y = scroller.currY
-            setTouchPoint(x.toFloat(), y.toFloat())
-            if (scroller.finalX == x && scroller.finalY == y) {
-                isRunning = false
+    override fun setView(view: PageView) {
+        super.setView(view)
+        curBitmap = Bitmap.createBitmap(viewWidth, viewHeight, Bitmap.Config.RGB_565)
+        nextBitmap = Bitmap.createBitmap(viewWidth, viewHeight, Bitmap.Config.RGB_565)
+    }
 
-                // 自动翻页后，重新记录下down的位置，否则翻页前的动画不知道down的起始点
-                if (autoPageIsRunning) {
-                    isCancel = true
-                    reset(0, 0)
-                    setTouchPoint(scroller.finalX.toFloat(), scroller.finalY.toFloat())
-                    autoPageIsRunning = false
+    override fun scrollAnim() {
+        scroller?.apply {
+            if (computeScrollOffset()) {
+                val x = currX
+                val y = currY
+                setTouchPoint(x.toFloat(), y.toFloat())
+                if (finalX == x && finalY == y) {
+                    if (!isCancel) pageView.turnPageCompleted()
+                    isRunning = false
+
+                    // 自动翻页后，重新记录下down的位置，否则翻页前的动画不知道down的起始点
+                    if (autoPageIsRunning) {
+                        isCancel = true
+                        reset(0, 0)
+                        setTouchPoint(finalX.toFloat(), finalY.toFloat())
+                        autoPageIsRunning = false
+                    }
+                    logd(CLASS_TAG, "onTurnPageCompleted call 1")
                 }
+                pageView.postInvalidate()
             }
-            pageView.postInvalidate()
         }
     }
 
     override fun abortAnim() {
-        if (!scroller.isFinished) {
-            scroller.abortAnimation()
-            isRunning = false
-            autoPageIsRunning = false
-            setTouchPoint(scroller.finalX.toFloat(), scroller.finalY.toFloat())
-            pageView.postInvalidate()
+        scroller?.apply {
+            if (!isFinished) {
+                abortAnimation()
+                isRunning = false
+                autoPageIsRunning = false
+                setTouchPoint(finalX.toFloat(), finalY.toFloat())
+                pageView.postInvalidate()
+            }
         }
     }
 

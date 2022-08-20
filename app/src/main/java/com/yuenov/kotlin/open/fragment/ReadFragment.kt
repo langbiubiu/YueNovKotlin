@@ -23,8 +23,11 @@ import com.yuenov.kotlin.open.utils.*
 import com.yuenov.kotlin.open.viewmodel.ReadFragmentViewModel
 import com.yuenov.kotlin.open.widget.mypage.*
 import com.yuenov.kotlin.open.widget.page.IPagerLoader
+import com.yuenov.kotlin.open.widget.page.PageView
 import com.yuenov.kotlin.open.widget.page.animation.*
 import me.hgj.jetpackmvvm.ext.nav
+import java.math.RoundingMode
+import java.text.DecimalFormat
 
 /**
  * 从外部调用DetailFragment时，先确保章节列表更新完毕，并且有确定的chapterId，
@@ -34,29 +37,40 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
 
     // 书籍基础信息
     private var bookBaseInfo: BookBaseInfo? = null
+
     // 当前章节ID
     private var chapterId: Long = 0
+
     // 章节列表，不包含章节内容
     private var menuList: ArrayList<TbBookChapter> = arrayListOf()
+
     // 当前章节，包含章节内容
     private var currentChapter: TbBookChapter? = null
+
+    // 下一章节，包含章节内容
+    private var nextChapter: TbBookChapter? = null
+
     // 章节内页数
     private var pageNum: Int = 0
 
     //电池电量
     private var quantity: Int = 0
 
+    // 阅读进度
+    private var percentage: String = ""
+
     private lateinit var readSettingInfo: ReadSettingInfo
 
-//    private var pageLoader = ReadPageLoader()
+    private lateinit var pageLoader: ReadPageLoader
 
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.action == Intent.ACTION_BATTERY_CHANGED) {
                 val level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0)
                 quantity = level
+                // TODO 更新电量
             } else if (intent?.action == Intent.ACTION_TIME_TICK) {
-                // TODO 更新Time？
+                // TODO 更新Time
             }
         }
     }
@@ -95,7 +109,7 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
                             val bgType = newValue as PageBackground
                             if (readSettingInfo.pageBackground != bgType) {
                                 readSettingInfo.pageBackground = bgType
-//                                pvDiContent.invalidate()
+                                pvDiContent.drawCurPage(true)
                             }
                         }
                         PageOperationView.DATA_CHANGE_EVENT_LIGHT_VALUE -> {
@@ -112,14 +126,14 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
                             val textSize = newValue as Float
                             if (readSettingInfo.textSize != textSize) {
                                 readSettingInfo.textSize = textSize
-//                                pvDiContent.invalidate()
+                                pvDiContent.drawCurPage(true)
                             }
                         }
                         PageOperationView.DATA_CHANGE_EVENT_PAGE_ANIM_TYPE -> {
                             val animType = newValue as PageAnimationType
                             if (readSettingInfo.pageAnimType != animType) {
                                 readSettingInfo.pageAnimType = animType
-//                                pvDiContent.invalidate()
+                                pvDiContent.drawCurPage(true)
                             }
                         }
                     }
@@ -135,7 +149,31 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
                     openChapter(chapterId, 0)
                 }
             })
-            // TODO 还有PageView的Touch Listener
+            pvDiContent.touchListener = object: PageView.TouchListener {
+                override fun onTouchUp() { if (rlDiTop.isVisible) hideOperation() }
+
+                override fun onCenter() { showOrHideOperation() }
+            }
+            pvDiContent.listener = object : PageView.PageViewListener {
+                override fun onTurnPageStart() {}
+
+                override fun onTurnPageCompleted() {
+                    pageNum = pvDiContent.curPageNum
+                    mViewModel.addReadHistory(bookBaseInfo!!, chapterId, pageNum)
+                }
+
+                override fun onTurnPageCanceled() {}
+
+                override fun onTurnChapterCompleted() {
+                    logd(CLASS_TAG, "onTurnChapterCompleted")
+                    currentChapter = nextChapter
+                    chapterId = currentChapter!!.chapterId
+                    mViewBind.dovDiOperation.setChapterId(chapterId)
+                    nextChapter = null
+                    mViewModel.addReadHistory(bookBaseInfo!!, chapterId, pageNum)
+                    autoDownload()
+                }
+            }
 
             SystemBarUtils.hideStableStatusBar(requireActivity())
             val lp = rlDiTop.layoutParams as RelativeLayout.LayoutParams
@@ -147,14 +185,13 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
     override fun initData() {
         bookBaseInfo = arguments?.getParcelable(PreferenceConstants.EXTRA_MODEL_BOOK_BASE_INFO)
         chapterId = arguments?.getLong(PreferenceConstants.EXTRA_LONG_CHAPTER_ID, 0)!!
-//        chapterId = 1317914605532459009L
-
 
         readSettingInfo = DataStoreUtils.getJsonData(
             PreferenceConstants.KEY_READ_SETTING_INFO,
             ReadSettingInfo::class.java,
             ReadSettingInfo()
         )
+        logd(CLASS_TAG, "initData $readSettingInfo")
 
         if (bookBaseInfo == null || bookBaseInfo!!.bookId < 1) {
             showToast("未知数据")
@@ -183,18 +220,13 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
             readSettingInfo.textSize,
             readSettingInfo.pageAnimType
         )
-
-        initPageLoader()
-
         val intentFilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
         intentFilter.addAction(Intent.ACTION_TIME_TICK)
         requireActivity().registerReceiver(receiver, intentFilter)
     }
 
-    // 感觉没啥用
-    private fun initPageLoader() {}
-
     override fun lazyLoadData() {
+        pageLoader = ReadPageLoader()
         mViewModel.apply {
             // 是否在书架中，用来更新上top栏的图标
             hasBookShelf(bookBaseInfo!!.bookId, false)
@@ -236,7 +268,7 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
                     }
                     mViewBind.dovDiOperation.setMenuList(menuList)
                 }
-                getStartChapterAndPage(bookBaseInfo!!.bookId, chapterId)
+//                getStartChapterAndPage(bookBaseInfo!!.bookId, chapterId)
             }
             getStartChapterAndPageState.observe(viewLifecycleOwner) {
                 logd(CLASS_TAG, "getStartChapterAndPage Pair:$it")
@@ -245,7 +277,10 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
                     pageNum = second
                 }
                 // 记录当前阅读的书籍，用于异常退出后下次打开APP时的恢复操作，BookShelfFragment的openLastBook()
-                DataStoreUtils.putJsonData(PreferenceConstants.KEY_NOW_READING_BOOK_ID, bookBaseInfo)
+                DataStoreUtils.putJsonData(
+                    PreferenceConstants.KEY_NOW_READING_BOOK_ID,
+                    bookBaseInfo
+                )
                 openChapter(chapterId, pageNum)
             }
             addBookShelfState.observe(viewLifecycleOwner) {
@@ -313,13 +348,15 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
         logd(CLASS_TAG, "openChapter chapterId:$chapterId pageNum:$pageNum")
         this.chapterId = chapterId
         this.pageNum = pageNum
+        mViewBind.dovDiOperation.setChapterId(chapterId)
         currentChapter = mViewModel.getChapter(bookBaseInfo!!.bookId, chapterId)
         if (currentChapter == null || currentChapter!!.content.isNullOrEmpty()) {
-            //mViewBind.pvDiContent.drawCurPage(true)
+//            mViewBind.pvDiContent.drawCurPage(true)
             downloadChapter(chapterId)
         } else {
             initReadInfo()
-            //mViewBind.pvDiContent.drawCurPage(false)
+            mViewBind.pvDiContent.setPageLoader(pageLoader)
+            mViewBind.pvDiContent.drawCurPage(false)
         }
     }
 
@@ -340,55 +377,30 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
      * 自动下载前后章节
      */
     private fun autoDownload() {
-        logd(CLASS_TAG, "autoDownload menu size:${menuList.size}")
         if (menuList.isEmpty()) return
         // 记录下载的两章在列表中的位置
         val posList = mutableListOf<Int>()
-        val firstChapter: Long
-        val secondChapter: Long
         val position = menuList.indexOfFirst { it.chapterId == chapterId }
-        logd(CLASS_TAG, "autoDownload position:$position")
         if (position >= 0) {
             if (position - 1 >= 0) { // 取前一章
-                posList.add(position-1)
+                posList.add(position - 1)
             } else if (position + 2 <= menuList.size - 1) { // 取后下下一章
-                posList.add(position+2)
+                posList.add(position + 2)
             }
             if (position + 1 <= menuList.size - 1) { // 取后一章
-                posList.add(position+1)
-            } else if (position -2 >= 0) { // 取前前一章
-                posList.add(position-2)
+                posList.add(position + 1)
+            } else if (position - 2 >= 0) { // 取前前一章
+                posList.add(position - 2)
             }
         }
-        logd(CLASS_TAG, "autoDownload posList:$posList")
-        if (posList.size == 2) {
-            val first = mViewModel.getChapter(bookBaseInfo!!.bookId, menuList[posList[0]].chapterId)
-            first?.apply {
+        for (pos in posList) {
+            val chapter = mViewModel.getChapter(bookBaseInfo!!.bookId, menuList[pos].chapterId)
+            chapter?.apply {
                 if (content.isNullOrEmpty()) {
-                    firstChapter = chapterId
-                    downloadChapter(firstChapter)
-                    logd(CLASS_TAG, "autoDownload first:$firstChapter")
+                    downloadChapter(chapterId)
+                    logd(CLASS_TAG, "autoDownload chapter:$chapterId $chapterName")
                 } else {
-                    logd(CLASS_TAG, "first chapter has been downloaded!")
-                }
-            }
-            val second = mViewModel.getChapter(bookBaseInfo!!.bookId, menuList[posList[1]].chapterId)
-            second?.apply {
-                if (content.isNullOrEmpty()) {
-                    secondChapter = chapterId
-                    downloadChapter(secondChapter)
-                    logd(CLASS_TAG, "autoDownload second:$secondChapter")
-                } else {
-                    logd(CLASS_TAG, "second chapter has been downloaded!")
-                }
-            }
-        } else if (posList.size == 1) {
-            val first = mViewModel.getChapter(bookBaseInfo!!.bookId, menuList[posList[0]].chapterId)
-            first?.apply {
-                if (!content.isNullOrEmpty()) {
-                    firstChapter = chapterId
-                    downloadChapter(firstChapter)
-                    logd(CLASS_TAG, "autoDownload first:$firstChapter")
+                    logd(CLASS_TAG, "chapter[$chapterId $chapterName] has been downloaded!")
                 }
             }
         }
@@ -450,57 +462,67 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
     }
 
     inner class ReadPageLoader : IPagerLoader {
-       private var curPageAnimType: PageAnimationType = PageAnimationType.NONE
-//       private var curPageAnimation: PageAnimation = NonePageAnimation(mViewBind.pvDiContent)
+        private var curPageAnimType: PageAnimationType = PageAnimationType.NONE
+        private var curPageAnimation: PageAnimation = NonePageAnimation()
 
-       override fun getBattery(): Int = quantity
+        override fun getBattery(): Int = quantity
 
-       override fun getContent(): String {
-           return currentChapter?.content ?: ""
-       }
+        override fun getContent(): String = currentChapter?.content ?: ""
 
-       override fun getTime(): String = TimeUtils.getShowTimeText()
+        override fun getNextContent(isNext: Boolean): String = nextChapter?.content ?: ""
 
-       override fun getTitle(): String {
-           return currentChapter?.chapterName ?: ""
-       }
+        override fun getTime(): String = TimeUtils.getShowTimeText()
 
-        override fun getProgressPercent(): String {
-            TODO("Not yet implemented")
+        override fun getTitle(): String = currentChapter?.chapterName ?: ""
+
+        override fun getNextTitle(isNext: Boolean): String = nextChapter?.chapterName ?: ""
+
+        override fun getProgress(pageNum: Int, pageCount: Int, isNextChapter: Boolean): String {
+            val id =  if (isNextChapter) nextChapter!!.chapterId else chapterId
+            val position = menuList.indexOfFirst { it.chapterId == id }
+            val format = DecimalFormat("0.00")
+            format.roundingMode = RoundingMode.FLOOR
+            val progress =
+                if (menuList.isEmpty() || pageCount == 0) 0f
+                else (position * pageCount + pageNum + 1) * 100f / (menuList.size * pageCount)
+            return format.format(progress) + "%"
         }
 
-       override fun getBgColor(): Int = readSettingInfo.pageBackground.bgColor
+        override fun getBgColor(): Int = readSettingInfo.pageBackground.bgColor
 
-       override fun getTextColor(): Int = readSettingInfo.pageBackground.textColor
+        override fun getTextColor(): Int = readSettingInfo.pageBackground.textColor
 
-       override fun getTextSize(): Float = readSettingInfo.textSize
+        override fun getTextSize(): Float = readSettingInfo.textSize
 
-       override fun getPageAnimation(): PageAnimation {
-//           if (curPageAnimType == readSettingInfo.pageAnimType) return curPageAnimation
-//           curPageAnimation = when(readSettingInfo.pageAnimType) {
-//               PageAnimationType.SIMULATION -> SimulationPageAnimation(mViewBind.pvDiContent)
-//               PageAnimationType.COVER -> CoverPageAnimation(mViewBind.pvDiContent)
-//               PageAnimationType.SLIDE -> SlidePageAnimation(mViewBind.pvDiContent)
-//               PageAnimationType.NONE -> NonePageAnimation(mViewBind.pvDiContent)
-//               PageAnimationType.SCROLL -> VerticalPageAnimation(mViewBind.pvDiContent)
-//           }
-//           curPageAnimType = readSettingInfo.pageAnimType
-//           return curPageAnimation
-           TODO("Not yet implemented")
-       }
+        override fun getPageAnimation(): PageAnimation {
+            if (curPageAnimType == readSettingInfo.pageAnimType) return curPageAnimation
+            curPageAnimation = when(readSettingInfo.pageAnimType) {
+               PageAnimationType.SIMULATION -> SimulationPageAnimation()
+               PageAnimationType.COVER -> CoverPageAnimation()
+               PageAnimationType.SLIDE -> SlidePageAnimation()
+               PageAnimationType.NONE -> NonePageAnimation()
+               PageAnimationType.SCROLL -> VerticalPageAnimation()
+            }
+            curPageAnimType = readSettingInfo.pageAnimType
+            return curPageAnimation
+        }
 
-       override fun allowTurnPage(isPrev: Boolean): Boolean {
-           return if (mViewBind.rlDiTop.isVisible) {
-               hideOperation()
-               false
-           } else {
-               true
-           }
-       }
+        override fun canTouch(): Boolean = !isLoadingShowing()
 
-       override fun hasNextContent(isPrev: Boolean): Boolean {
-           TODO("Not yet implemented")
-       }
+        override fun allowPageAnimation(): Boolean = !mViewBind.rlDiTop.isVisible
 
-   }
+        override fun hasNextChapter(isNext: Boolean): Boolean {
+            val curIndex = menuList.indexOfFirst { it.chapterId == currentChapter!!.chapterId }
+            if (curIndex < 0) return false
+            logd(CLASS_TAG, "hasNextChapter curIndex:$curIndex")
+            val nextIndex = if (isNext) curIndex + 1 else curIndex - 1
+            return if (nextIndex in menuList.indices) {
+                nextChapter = mViewModel.getChapter(bookBaseInfo!!.bookId, menuList[nextIndex].chapterId)
+                true
+            } else {
+                nextChapter = null
+                false
+            }
+        }
+    }
 }

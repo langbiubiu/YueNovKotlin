@@ -19,15 +19,14 @@
         android:layout_height="match_parent"
         android:background="@android:color/white">
 
-<!--        <com.yuenov.kotlin.open.widget.page.PageView-->
-<!--            android:id="@+id/pvDiContent"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:clickable="true"-->
-<!--            android:paddingLeft="20dp"-->
-<!--            android:paddingTop="3dp"-->
-<!--            android:paddingRight="20dp"-->
-<!--            android:paddingBottom="40dp" />-->
+        <com.yuenov.kotlin.open.widget.page.PageView
+            android:id="@+id/pvDiContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="40dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="3dp" />
 
         <!--top-->
         <RelativeLayout

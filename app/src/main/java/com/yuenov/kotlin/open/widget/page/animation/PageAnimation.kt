@@ -5,33 +5,36 @@ import android.view.MotionEvent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.view.animation.LinearInterpolator
+import androidx.annotation.CallSuper
+import com.yuenov.kotlin.open.ext.CLASS_TAG
+import com.yuenov.kotlin.open.ext.logd
 import com.yuenov.kotlin.open.widget.page.PageView
 
 /**
  * 翻页动画抽象类
  */
-abstract class PageAnimation constructor(
+abstract class PageAnimation {
+
     //正在使用的View
-    protected var pageView: PageView,
-) {
+    protected lateinit var pageView: PageView
     //屏幕的尺寸
-    protected var screenWidth: Int = pageView.width
-    protected var screenHeight: Int = pageView.height
+    protected var screenWidth: Int = 0
+    protected var screenHeight: Int = 0
     //屏幕的间距
     protected var marginWidth: Int = 0
     protected var marginHeight: Int = 0
     //视图的尺寸
-    protected var viewWidth: Int = screenWidth - marginWidth * 2
-    protected var viewHeight: Int = screenHeight - marginHeight * 2
+    protected var viewWidth: Int = 0
+    protected var viewHeight: Int = 0
 
     // 获取背景板
     abstract var bgBitmap: Bitmap
     // 获取当前页内容显示版面
-//    abstract var curBitmap: Bitmap
+    abstract var curBitmap: Bitmap
     // 获取下一页内容显示版面
     abstract var nextBitmap: Bitmap
-    //滑动装置
-    protected var scroller: Scroller = Scroller(pageView.context, LinearInterpolator())
+    // 滑动装置
+    protected var scroller: Scroller? = null
 
     //移动方向
     open var direction = Direction.NONE
@@ -53,6 +56,7 @@ abstract class PageAnimation constructor(
     protected var lastX = 0f
     protected var lastY = 0f
 
+    // 设置起始位置的触摸点，并记录上次的触摸点
     open fun setStartPoint(x: Float, y: Float) {
         startX = x
         startY = y
@@ -67,6 +71,16 @@ abstract class PageAnimation constructor(
         touchY = y
     }
 
+    @CallSuper
+    internal open fun setView(view: PageView) {
+        pageView = view
+        screenWidth = pageView.width
+        screenHeight = pageView.height
+        scroller = Scroller(pageView.context, LinearInterpolator())
+        viewWidth = screenWidth - marginWidth * 2
+        viewHeight = screenHeight - marginHeight * 2
+    }
+
     /**
      * 开启翻页动画
      */
@@ -75,10 +89,6 @@ abstract class PageAnimation constructor(
             return
         }
         isRunning = true
-    }
-
-    fun clear() {
-//        view = null
     }
 
     /**
@@ -106,6 +116,12 @@ abstract class PageAnimation constructor(
 
     enum class Direction(val isHorizontal: Boolean) {
         NONE(true), NEXT(true), PRE(true), UP(false), DOWN(false);
+    }
+
+    interface PageAnimationListener {
+        fun onTurnPageStart()
+        fun onTurnPageCompleted()
+        fun onTurnPageCanceled()
     }
 
 }

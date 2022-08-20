@@ -7,9 +7,9 @@ import android.graphics.Rect
 import com.yuenov.kotlin.open.widget.page.PageView
 import kotlin.math.abs
 
-class CoverPageAnimation(pageView: PageView) : HorizontalPageAnimation(pageView) {
-    private val mSrcRect: Rect = Rect(0, 0, viewWidth, viewHeight)
-    private val mDestRect: Rect = Rect(0, 0, viewWidth, viewHeight)
+class CoverPageAnimation: HorizontalPageAnimation() {
+    private lateinit var mSrcRect: Rect
+    private lateinit var mDestRect: Rect
     private val mBackShadowDrawableLR: GradientDrawable
     override fun drawStatic(canvas: Canvas) {
         if (isCancel) {
@@ -51,6 +51,12 @@ class CoverPageAnimation(pageView: PageView) : HorizontalPageAnimation(pageView)
         mBackShadowDrawableLR.draw(canvas!!)
     }
 
+    override fun setView(view: PageView) {
+        super.setView(view)
+        mSrcRect = Rect(0, 0, viewWidth, viewHeight)
+        mDestRect = Rect(0, 0, viewWidth, viewHeight)
+    }
+
     override fun startAnim() {
         super.startAnim()
         val dx: Int
@@ -73,7 +79,7 @@ class CoverPageAnimation(pageView: PageView) : HorizontalPageAnimation(pageView)
 
         //滑动速度保持一致
         val duration: Int = 400 * abs(dx) / viewWidth
-        scroller.startScroll(touchX.toInt(), 0, dx, 0, duration)
+        scroller?.startScroll(touchX.toInt(), 0, dx, 0, duration)
     }
 
     init {

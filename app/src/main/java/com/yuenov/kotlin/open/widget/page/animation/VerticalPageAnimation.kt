@@ -7,14 +7,16 @@ import android.view.MotionEvent
 import android.view.VelocityTracker
 import com.yuenov.kotlin.open.widget.page.PageView
 
-class VerticalPageAnimation(pageView: PageView) : PageAnimation(pageView) {
+class VerticalPageAnimation: PageAnimation() {
     // 滑动追踪的时间
     private val velocityDuration = 1000
     private var velocity: VelocityTracker? = null
     private val bitmapViewSize = 2
 
-    override var bgBitmap: Bitmap =
-        Bitmap.createBitmap(screenWidth, screenHeight, Bitmap.Config.RGB_565)
+    override lateinit var bgBitmap: Bitmap
+    override var curBitmap: Bitmap
+        get() = bgBitmap
+        set(_) {}
 
     override lateinit var nextBitmap: Bitmap
 
@@ -86,7 +88,7 @@ class VerticalPageAnimation(pageView: PageView) : PageAnimation(pageView) {
                 iterator.remove()
                 // 如果原先是从上加载，现在变成从下加载，则表示取消
                 if (direction == Direction.UP) {
-                    pageView.cancelTurn()
+                    pageView.turnPageCanceled()
                     direction = Direction.NONE
                 }
             }
@@ -162,7 +164,7 @@ class VerticalPageAnimation(pageView: PageView) : PageAnimation(pageView) {
 
                 // 如果原先是下，现在变成从上加载了，则表示取消加载
                 if (direction == Direction.DOWN) {
-                    pageView.cancelTurn()
+                    pageView.turnPageCanceled()
                     direction = Direction.NONE
                 }
             }
@@ -286,10 +288,15 @@ class VerticalPageAnimation(pageView: PageView) : PageAnimation(pageView) {
         canvas.restore()
     }
 
+    override fun setView(view: PageView) {
+        super.setView(view)
+        bgBitmap = Bitmap.createBitmap(screenWidth, screenHeight, Bitmap.Config.RGB_565)
+    }
+
     @Synchronized
     override fun startAnim() {
         isRunning = true
-        scroller.fling(
+        scroller?.fling(
             0,
             touchY.toInt(),
             0,
@@ -302,23 +309,27 @@ class VerticalPageAnimation(pageView: PageView) : PageAnimation(pageView) {
     }
 
     override fun scrollAnim() {
-        if (scroller.computeScrollOffset()) {
-            val x = scroller.currX
-            val y = scroller.currY
-            setTouchPoint(x.toFloat(), y.toFloat())
-            if (scroller.finalX == x && scroller.finalY == y) {
-                isRunning = false
-                autoPageIsRunning = false
+        scroller?.apply {
+            if (computeScrollOffset()) {
+                val x = currX
+                val y = currY
+                setTouchPoint(x.toFloat(), y.toFloat())
+                if (finalX == x && finalY == y) {
+                    isRunning = false
+                    autoPageIsRunning = false
+                }
+                pageView.postInvalidate()
             }
-            pageView.postInvalidate()
         }
     }
 
     override fun abortAnim() {
-        if (!scroller.isFinished) {
-            scroller.abortAnimation()
-            isRunning = false
-            autoPageIsRunning = false
+        scroller?.apply {
+            if (!isFinished) {
+                abortAnimation()
+                isRunning = false
+                autoPageIsRunning = false
+            }
         }
     }
 

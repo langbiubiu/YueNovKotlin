@@ -7,7 +7,7 @@ import com.yuenov.kotlin.open.widget.page.PageView
 import java.lang.Exception
 import kotlin.math.*
 
-class SimulationPageAnimation(pageView: PageView) : HorizontalPageAnimation(pageView) {
+class SimulationPageAnimation: HorizontalPageAnimation() {
     private var cornerX = 1 // 拖拽点对应的页脚
     private var cornerY = 1
     private val path0: Path = Path()
@@ -28,7 +28,7 @@ class SimulationPageAnimation(pageView: PageView) : HorizontalPageAnimation(page
     private val matrix: Matrix = Matrix()
     private val matrixArray = floatArrayOf(0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 1.0f)
     private var isRTAndLB = false // 是否属于右上左下
-    private val maxLength: Float = hypot(screenWidth.toDouble(), screenHeight.toDouble()).toFloat()
+    private var maxLength: Float = 0f
     private var backShadowDrawableLR: GradientDrawable? = null // 有阴影的GradientDrawable
     private var backShadowDrawableRL: GradientDrawable? = null
     private var folderShadowDrawableLR: GradientDrawable? = null
@@ -102,7 +102,12 @@ class SimulationPageAnimation(pageView: PageView) : HorizontalPageAnimation(page
                 (1 - touchY).toInt() // 防止touchY最终变为0
             }
         }
-        scroller.startScroll(touchX.toInt(), touchY.toInt(), dx, dy, 400)
+        scroller?.startScroll(touchX.toInt(), touchY.toInt(), dx, dy, 400)
+    }
+
+    override fun setView(view: PageView) {
+        super.setView(view)
+        maxLength = hypot(screenWidth.toDouble(), screenHeight.toDouble()).toFloat()
     }
 
     override var direction: Direction = Direction.NONE
