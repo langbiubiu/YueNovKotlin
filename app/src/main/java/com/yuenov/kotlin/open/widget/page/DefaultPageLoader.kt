@@ -6,7 +6,7 @@ import com.yuenov.kotlin.open.widget.page.animation.PageAnimation
 /**
  * 一个默认的PageLoader实现
  */
-class DefaultPageLoader: IPagerLoader {
+class DefaultPageLoader : IPagerLoader {
     private val animation = NonePageAnimation()
 
     override fun getBattery(): Int = 0

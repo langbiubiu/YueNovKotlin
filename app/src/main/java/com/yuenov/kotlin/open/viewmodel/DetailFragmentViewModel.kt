@@ -14,7 +14,7 @@ import com.yuenov.kotlin.open.network.stateCallback.UpdateUiState
 import me.hgj.jetpackmvvm.ext.launch
 import me.hgj.jetpackmvvm.state.ResultState
 
-class DetailFragmentViewModel: BaseFragmentViewModel() {
+class DetailFragmentViewModel : BaseFragmentViewModel() {
 
     val bookDetailDataState: MutableLiveData<ResultState<BookDetailInfoResponse>> = MutableLiveData()
 
@@ -41,7 +41,7 @@ class DetailFragmentViewModel: BaseFragmentViewModel() {
         launch(
             { appDb.readHistoryDao.existsRealRead(bookId) },
             { hasReadRecordState.value = it },
-            { hasReadRecordState.value = false}
+            { hasReadRecordState.value = false }
         )
     }
 
@@ -50,7 +50,7 @@ class DetailFragmentViewModel: BaseFragmentViewModel() {
         launch(
             { appDb.bookShelfDao.exists(bookId) },
             { hasBookShelfState.value = it },
-            { hasBookShelfState.value = false}
+            { hasBookShelfState.value = false }
         )
     }
 
@@ -59,7 +59,7 @@ class DetailFragmentViewModel: BaseFragmentViewModel() {
         launch(
             { appDb.chapterDao.getFirstChapter(bookId) },
             { hasChapterState.value = it != null },
-            { hasChapterState.value = false}
+            { hasChapterState.value = false }
         )
     }
 
@@ -90,23 +90,25 @@ class DetailFragmentViewModel: BaseFragmentViewModel() {
                     appDb.bookShelfDao.deleteByBookId(bookInfo.bookId)
                     appDb.readHistoryDao.resetAddBookShelfStat(bookInfo.bookId, false)
                 } else {
-                    appDb.bookShelfDao.addOrUpdate(TbBookShelf(
-                        bookInfo.bookId,
-                        bookInfo.title,
-                        bookInfo.coverImg,
-                        bookInfo.author,
-                        false,
-                        System.currentTimeMillis()
-                    ))
+                    appDb.bookShelfDao.addOrUpdate(
+                        TbBookShelf(
+                            bookInfo.bookId,
+                            bookInfo.title,
+                            bookInfo.coverImg,
+                            bookInfo.author,
+                            false,
+                            System.currentTimeMillis()
+                        )
+                    )
                     appDb.readHistoryDao.resetAddBookShelfStat(bookInfo.bookId, true)
                 }
             },
             { addOrRemoveBookShelfState.value = true },
-            { addOrRemoveBookShelfState.value = false}
+            { addOrRemoveBookShelfState.value = false }
         )
     }
 
-    private var isReplacing:Boolean = false
+    private var isReplacing: Boolean = false
     fun getRecommendList(bookId: Int, pageNum: Int, pageSize: Int) {
         if (isReplacing) return
         requestDelay(

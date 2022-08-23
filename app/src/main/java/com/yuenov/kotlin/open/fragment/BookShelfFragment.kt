@@ -31,7 +31,6 @@ class BookShelfFragment : BaseFragment<BookShelfFragmentViewModel, FragmentBooks
     private var isFirstLoadData: Boolean = false
 
     override fun initView(savedInstanceState: Bundle?) {
-        logd(CLASS_TAG, "initView")
         mViewBind.apply {
             swipeRefresh.setOnRefreshListener { mViewModel.checkBookShelfUpdate() }
             swipeRefresh.isEnabled = false
@@ -39,7 +38,7 @@ class BookShelfFragment : BaseFragment<BookShelfFragmentViewModel, FragmentBooks
             bookShelfAdapter.setOnItemClickListener(object :
                 BookShelfListAdapter.OnItemClickListener {
                 override fun onClick(view: View, position: Int, data: TbBookShelf) {
-                    logd(CLASS_TAG, "onItemClick onCLick")
+                    logD(CLASS_TAG, "onItemClick onCLick")
                     toRead(
                         BookBaseInfo(data.bookId, data.title, data.author, data.coverImg, null),
                         0L
@@ -100,18 +99,18 @@ class BookShelfFragment : BaseFragment<BookShelfFragmentViewModel, FragmentBooks
     }
 
     override fun initData() {
-        logd(CLASS_TAG, "initData")
+        logD(CLASS_TAG, "initData")
     }
 
     override fun lazyLoadData() {
-        logd(CLASS_TAG, "lazyLoadData")
+        logD(CLASS_TAG, "lazyLoadData")
         isFirstLoadData = true
         mViewModel.getBookShelfList()
 //        openLastReadBook()
     }
 
     override fun createObserver() {
-        logd(CLASS_TAG, "createObserver")
+        logD(CLASS_TAG, "createObserver")
         mViewModel.run {
             getBookShelfListState.observe(viewLifecycleOwner) {
                 resetVisibility(it.listData.isEmpty(), mViewBind.includeEmpty.root)
@@ -133,12 +132,12 @@ class BookShelfFragment : BaseFragment<BookShelfFragmentViewModel, FragmentBooks
             checkUpdateDataState.observe(viewLifecycleOwner) {
                 showToast(if (it.isSuccess) R.string.checkupdate_success else R.string.checkupdate_fail)
                 if (!it.isSuccess)
-                    loge(CLASS_TAG, "checkUpdateDataState error message: ${it.errorMsg}")
+                    logE(CLASS_TAG, "checkUpdateDataState error message: ${it.errorMsg}")
                 mViewBind.swipeRefresh.isRefreshing = false
             }
         }
         appViewMode.appConfigInfo.observeInFragment(this) {
-            logd(CLASS_TAG, "AppConfigInfo observe")
+            logD(CLASS_TAG, "AppConfigInfo observe")
             DataStoreUtils.putJsonData(PreferenceConstants.KEY_CATEGORY_INFO, it)
         }
     }

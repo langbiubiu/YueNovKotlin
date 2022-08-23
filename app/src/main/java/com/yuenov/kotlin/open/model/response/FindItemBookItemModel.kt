@@ -10,7 +10,7 @@ import kotlinx.android.parcel.Parcelize
 @SuppressLint("ParcelCreator")
 @Parcelize
 @Suppress("unused")
-data class FindItemBookItemModel (
+data class FindItemBookItemModel(
     /** 书籍列表 **/
     var bookList: List<BookInfoItem>,
     /** 只有当type=CATEGORY时才有值表示书籍分类号 **/
@@ -25,4 +25,4 @@ data class FindItemBookItemModel (
      * 在表示完本分类时，该字段为空
      **/
     var type: String?
-): Parcelable
+) : Parcelable

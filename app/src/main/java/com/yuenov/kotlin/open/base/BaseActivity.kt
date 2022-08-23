@@ -6,7 +6,8 @@ import com.yuenov.kotlin.open.ext.dismissLoadingExt
 import com.yuenov.kotlin.open.ext.showLoadingExt
 import me.hgj.jetpackmvvm.base.activity.BaseVmVbActivity
 
-abstract class BaseActivity<VM : BaseFragmentViewModel, VB : ViewBinding> : BaseVmVbActivity<VM, VB>() {
+abstract class BaseActivity<VM : BaseFragmentViewModel, VB : ViewBinding> :
+    BaseVmVbActivity<VM, VB>() {
 
     //loading框
     var loadingDialog: MaterialDialog? = null

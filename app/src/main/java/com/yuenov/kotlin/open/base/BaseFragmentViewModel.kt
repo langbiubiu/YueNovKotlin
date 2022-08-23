@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.yuenov.kotlin.open.application.singleThreadPoolExecutor
 import com.yuenov.kotlin.open.database.appDb
 import com.yuenov.kotlin.open.ext.CLASS_TAG
-import com.yuenov.kotlin.open.ext.logd
+import com.yuenov.kotlin.open.ext.logD
 import com.yuenov.kotlin.open.model.request.DownloadChapterRequest
 import com.yuenov.kotlin.open.model.response.*
 import com.yuenov.kotlin.open.network.apiService
@@ -44,7 +44,7 @@ open class BaseFragmentViewModel : BaseViewModel() {
         // singleThreadPoolExecutor是一个全局的单线程池
         viewModelScope.launch(singleThreadPoolExecutor.asCoroutineDispatcher()) {
             runBlocking { request(block, success, error, isShowDialog, loadingMessage).join() }
-            logd(CLASS_TAG, "coroutineDelay")
+            logD(CLASS_TAG, "coroutineDelay")
             Thread.sleep(defaultApiDelayTime)
         }
     }
@@ -58,7 +58,7 @@ open class BaseFragmentViewModel : BaseViewModel() {
         // 因为接口限制，每次网络请求后都需要等待12秒，保证接口能请求成功
         viewModelScope.launch(singleThreadPoolExecutor.asCoroutineDispatcher()) {
             runBlocking { request(block, resultState, isShowDialog, loadingMessage).join() }
-            logd(CLASS_TAG, "coroutineDelay")
+            logD(CLASS_TAG, "coroutineDelay")
             Thread.sleep(defaultApiDelayTime)
         }
     }
@@ -70,14 +70,14 @@ open class BaseFragmentViewModel : BaseViewModel() {
         var chapterId = 0L
         requestDelay(
             {
-                logd(CLASS_TAG, "updateChapterList")
+                logD(CLASS_TAG, "updateChapterList")
                 val bookChapter = appDb.chapterDao.getLastChapter(bookId)
                 chapterId = bookChapter?.chapterId ?: 0L
                 val v = bookChapter?.v ?: 0
                 apiService.getChapterByBookId(bookId, chapterId, v)
             },
             { response ->
-                logd(CLASS_TAG, "updateChapterList onSuccess")
+                logD(CLASS_TAG, "updateChapterList onSuccess")
                 if (!response.chapters.isNullOrEmpty()) {
                     // 接口会返回请求参数中的章节 由于该章节本地已存在，所以从返回结果中删掉此章节
                     if (chapterId > 0) {
@@ -105,7 +105,7 @@ open class BaseFragmentViewModel : BaseViewModel() {
     fun downloadChapterContent(bookId: Int, chapterId: Long, v: Int?) {
         requestDelay(
             {
-                logd(CLASS_TAG, "downloadChapterContent")
+                logD(CLASS_TAG, "downloadChapterContent")
                 val request = DownloadChapterRequest(bookId, listOf(chapterId), v)
                 apiService.downloadChapter(request)
             },

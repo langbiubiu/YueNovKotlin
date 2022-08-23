@@ -7,7 +7,8 @@ import android.view.MotionEvent
 import android.view.VelocityTracker
 import com.yuenov.kotlin.open.widget.page.PageView
 
-class VerticalPageAnimation: PageAnimation() {
+//TODO 原理还没看，暂时先不管
+class VerticalPageAnimation : PageAnimation() {
     // 滑动追踪的时间
     private val velocityDuration = 1000
     private var velocity: VelocityTracker? = null
@@ -107,7 +108,7 @@ class VerticalPageAnimation: PageAnimation() {
 
             if (!isRefresh) {
                 // 如果不存在next,则进行还原
-                if (!pageView.hasNext(direction == Direction.PRE, true)) {
+                if (!pageView.hasNext(direction == Direction.PRE)) {
                     nextBitmap = cancelBitmap
                     for (activeView in activeViews) {
                         activeView.top = 0
@@ -183,7 +184,7 @@ class VerticalPageAnimation: PageAnimation() {
             nextBitmap = view.bitmap
             if (!isRefresh) {
                 // 如果不存在next，则进行还原
-                if (!pageView.hasNext(direction == Direction.DOWN, true)) {
+                if (!pageView.hasNext(direction == Direction.DOWN)) {
                     nextBitmap = cancelBitmap
                     for (activeView in activeViews) {
                         activeView.top = 0

@@ -1,19 +1,17 @@
 package com.yuenov.kotlin.open.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.yuenov.kotlin.open.base.BaseFragmentViewModel
 import com.yuenov.kotlin.open.database.appDb
 import com.yuenov.kotlin.open.database.tb.TbBookChapter
 import com.yuenov.kotlin.open.database.tb.TbBookShelf
 import com.yuenov.kotlin.open.database.tb.TbReadHistory
 import com.yuenov.kotlin.open.ext.CLASS_TAG
-import com.yuenov.kotlin.open.ext.logd
+import com.yuenov.kotlin.open.ext.logD
 import com.yuenov.kotlin.open.model.request.ChapterUpdateRequest
 import com.yuenov.kotlin.open.model.standard.BookBaseInfo
 import com.yuenov.kotlin.open.network.apiService
 import com.yuenov.kotlin.open.network.stateCallback.ListDataUiState
-import kotlinx.coroutines.*
 import me.hgj.jetpackmvvm.callback.livedata.BooleanLiveData
 import me.hgj.jetpackmvvm.ext.launch
 
@@ -26,17 +24,7 @@ class ReadFragmentViewModel : BaseFragmentViewModel() {
     val updateChapterContentState: BooleanLiveData = BooleanLiveData()
 
     fun getChapter(bookId: Int, chapterId: Long): TbBookChapter? {
-//        var chapter: TbBookChapter? = null
-//        viewModelScope.launch(Dispatchers.Main) {
-//            val deferred = async {
-//                appDb.chapterDao.getEntity(bookId, chapterId)
-//            }
-//            chapter = deferred.await()
-//        }
-//        return chapter
-        return runBlocking {
-            appDb.chapterDao.getEntity(bookId, chapterId)
-        }
+        return appDb.chapterDao.getEntity(bookId, chapterId)
     }
 
     fun hasBookShelf(bookId: Int, hasUpdate: Boolean) {
@@ -80,11 +68,11 @@ class ReadFragmentViewModel : BaseFragmentViewModel() {
     fun getChapterList(bookId: Int) {
         launch(
             {
-                logd(CLASS_TAG, "getChapterList start")
+                logD(CLASS_TAG, "getChapterList start")
                 appDb.chapterDao.getChapterList(bookId)?.let { ArrayList(it) }
             },
             {
-                logd(CLASS_TAG, "getChapterList end")
+                logD(CLASS_TAG, "getChapterList end")
                 getChapterListState.value = ListDataUiState(
                     isSuccess = true,
                     isEmpty = it?.isEmpty() ?: true,

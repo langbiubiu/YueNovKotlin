@@ -11,4 +11,4 @@ data class FontInfoItem(
     val fontName: String,
     /** 字体路径，并非URL地址，需要手动拼接上域名+端口 **/
     val path: String
-): Parcelable
+) : Parcelable

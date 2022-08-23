@@ -206,7 +206,8 @@ interface BookChapterDao {
             val listTbBookChapter: MutableList<TbBookChapter> = ArrayList()
             var tbBookChapter: TbBookChapter
             list.forEach { chapter ->
-                tbBookChapter = TbBookChapter(bookId, chapter.id, chapter.name, chapter.content, chapter.v)
+                tbBookChapter =
+                    TbBookChapter(bookId, chapter.id, chapter.name, chapter.content, chapter.v)
                 listTbBookChapter.add(tbBookChapter)
             }
             addChapter(listTbBookChapter)

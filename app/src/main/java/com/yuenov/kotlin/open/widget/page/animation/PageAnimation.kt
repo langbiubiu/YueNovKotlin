@@ -6,8 +6,6 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.view.animation.LinearInterpolator
 import androidx.annotation.CallSuper
-import com.yuenov.kotlin.open.ext.CLASS_TAG
-import com.yuenov.kotlin.open.ext.logd
 import com.yuenov.kotlin.open.widget.page.PageView
 
 /**
@@ -17,29 +15,37 @@ abstract class PageAnimation {
 
     //正在使用的View
     protected lateinit var pageView: PageView
+
     //屏幕的尺寸
     protected var screenWidth: Int = 0
     protected var screenHeight: Int = 0
+
     //屏幕的间距
     protected var marginWidth: Int = 0
     protected var marginHeight: Int = 0
+
     //视图的尺寸
     protected var viewWidth: Int = 0
     protected var viewHeight: Int = 0
 
     // 获取背景板
     abstract var bgBitmap: Bitmap
+
     // 获取当前页内容显示版面
     abstract var curBitmap: Bitmap
+
     // 获取下一页内容显示版面
     abstract var nextBitmap: Bitmap
+
     // 滑动装置
     protected var scroller: Scroller? = null
 
     //移动方向
     open var direction = Direction.NONE
+
     //是否正在执行动画
     var isRunning = false
+
     //是否正在执行自动阅读
     var autoPageIsRunning = false
     var isCancelTouch = false
@@ -116,12 +122,6 @@ abstract class PageAnimation {
 
     enum class Direction(val isHorizontal: Boolean) {
         NONE(true), NEXT(true), PRE(true), UP(false), DOWN(false);
-    }
-
-    interface PageAnimationListener {
-        fun onTurnPageStart()
-        fun onTurnPageCompleted()
-        fun onTurnPageCanceled()
     }
 
 }

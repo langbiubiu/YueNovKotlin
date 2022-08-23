@@ -9,7 +9,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @SuppressLint("ParcelCreator")
 @Parcelize
-data class BookChapterNewestInfo (
+data class BookChapterNewestInfo(
     /** 最新的章节号 **/
     var chapterId: Long,
     /** 最新的章节名称 **/
@@ -23,4 +23,4 @@ data class BookChapterNewestInfo (
      * SERIALIZE : 书籍连载中
      */
     var chapterStatus: String
-): Parcelable
+) : Parcelable

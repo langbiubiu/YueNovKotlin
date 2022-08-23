@@ -9,11 +9,11 @@ import kotlinx.android.parcel.Parcelize
  */
 @SuppressLint("ParcelCreator")
 @Parcelize
-data class SpecialInfoItem (
+data class SpecialInfoItem(
     /** 专题号 **/
     var id: Int,
     /** 每个专题的名称 **/
     var name: String?,
     /** 书籍列表 **/
     var bookList: List<BookInfoItem>?
-): Parcelable
+) : Parcelable

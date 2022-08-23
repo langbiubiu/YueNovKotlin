@@ -51,12 +51,11 @@ class PageOperationView @JvmOverloads constructor(
     private var curChapterId: Long = 0
     private var menuListOrderAsc: Boolean = true
 
-    // TODO:
-    // 使用TbBookChapter，当文本量过大时，是否会造成IO堵塞，以及内存占用过大，
-    // 实际用到的也只有chapterId和chapterName这两个字段
+    // content字段为空，防止内存占用过高
     private var menuList: List<TbBookChapter> = listOf()
     private var menuListAdapter: DetailBottomMenuListAdapter
     private var listener: PageOperationViewListener? = null
+
     // 背景颜色+字体颜色
     private var bgType: PageBackground = PageBackground.TYPE_1
 
@@ -67,7 +66,7 @@ class PageOperationView @JvmOverloads constructor(
     private var textSize: Float = 18f
 
     // 翻页动画类型
-    private var pageAnimType: PageAnimationType = PageAnimationType.SIMULATION
+    private var pageAnimType: PageAnimationType = PageAnimationType.NONE
 
     init {
         binding = ViewWidgetDetailoperationBinding.inflate(LayoutInflater.from(context))
@@ -203,10 +202,10 @@ class PageOperationView @JvmOverloads constructor(
         binding.apply {
             when (pageAnimType) {
                 PageAnimationType.SIMULATION -> selectAnimView(tvWgDpAnim1)
-                PageAnimationType.COVER -> selectAnimView(tvWgDpAnim2)
-                PageAnimationType.SCROLL -> selectAnimView(tvWgDpAnim3)
+                PageAnimationType.COVER -> selectAnimView(tvWgDpAnim3)
+                PageAnimationType.SCROLL -> {}
                 PageAnimationType.NONE -> selectAnimView(tvWgDpAnim4)
-                PageAnimationType.SLIDE -> {}
+                PageAnimationType.SLIDE -> selectAnimView(tvWgDpAnim2)
             }
         }
     }
@@ -266,14 +265,14 @@ class PageOperationView @JvmOverloads constructor(
     }
 
     private fun showMenu() {
-        logd(CLASS_TAG, "showMenu ${menuList.size}")
+        logD(CLASS_TAG, "showMenu ${menuList.size}")
         if (menuList.isEmpty()) return
         showContentView(binding.llWgDpMenuListData, R.anim.anim_widget_bookdetail_bottomshow)
         showAnimation(binding.rlWgDpMenuList, R.anim.anim_fade_in)
     }
 
     private fun hideMenu() {
-        logd(CLASS_TAG, "hideMenu")
+        logD(CLASS_TAG, "hideMenu")
         binding.apply {
             hideAnimation(rlWgDpMenuList, R.anim.anim_fade_out)
             hideContentView(
@@ -347,7 +346,7 @@ class PageOperationView @JvmOverloads constructor(
     override fun onClick(v: View) {
         if (isFastDoubleClick() || isLoadingShowing()) return
         binding.apply {
-            when(v) {
+            when (v) {
                 viewWgDpMenuListClose -> hideMenu()
                 llWgDpMenu -> if (rlWgDpMenuList.isVisible) hideMenu() else showMenu()
                 llWgDpProcess -> if (llWgDpProcessContent.isVisible) hideProcess() else showProcess()
@@ -358,10 +357,10 @@ class PageOperationView @JvmOverloads constructor(
                     sortMenuList()
                 }
                 tvWgDpAnim1, tvWgDpAnim2, tvWgDpAnim3, tvWgDpAnim4 -> {
-                    when(v) {
+                    when (v) {
                         tvWgDpAnim1 -> pageAnimType = PageAnimationType.SIMULATION
-                        tvWgDpAnim2 -> pageAnimType = PageAnimationType.COVER
-                        tvWgDpAnim3 -> pageAnimType = PageAnimationType.SCROLL
+                        tvWgDpAnim2 -> pageAnimType = PageAnimationType.SLIDE
+                        tvWgDpAnim3 -> pageAnimType = PageAnimationType.COVER
                         tvWgDpAnim4 -> pageAnimType = PageAnimationType.NONE
                     }
                     selectAnim()
@@ -374,7 +373,7 @@ class PageOperationView @JvmOverloads constructor(
     override fun onStateChange(view: View, select: Boolean) {
         binding.apply {
             if (select) {
-                when(view) {
+                when (view) {
                     lvWgDpLight1 -> bgType = PageBackground.TYPE_1
                     lvWgDpLight2 -> bgType = PageBackground.TYPE_2
                     lvWgDpLight3 -> bgType = PageBackground.TYPE_3
@@ -389,7 +388,7 @@ class PageOperationView @JvmOverloads constructor(
 
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
         binding.apply {
-            when(seekBar) {
+            when (seekBar) {
                 skWgDpProcess -> tvWgDpProcessTitle.text = menuList[progress].chapterName
                 skWgDpLight -> {
                     lightValue = progress
@@ -404,7 +403,7 @@ class PageOperationView @JvmOverloads constructor(
     override fun onStopTrackingTouch(seekBar: SeekBar) {
         val progress = seekBar.progress
         binding.apply {
-            when(seekBar) {
+            when (seekBar) {
                 skWgDpProcess -> {
                     val chapter = menuList[progress]
                     tvWgDpProcessTitle.text = chapter.chapterName
@@ -431,6 +430,7 @@ class PageOperationView @JvmOverloads constructor(
     interface PageOperationViewListener {
         // 数据发生变化
         fun <T> onDataChange(event: Int, newValue: T)
+
         // 选择了某一章
         fun onSelectChapter(chapterId: Long)
     }
@@ -460,21 +460,15 @@ class PageOperationView @JvmOverloads constructor(
             parent.setOnTouchListener { _, event ->
                 val rect = Rect()
                 sb.getHitRect(rect)
-                logd(PageOperationView.CLASS_TAG, "rect=$rect, event=${event.x}, ${event.y}")
-                if ((event.y >= (rect.top - 0)) && (event.y <= (rect.bottom + 0)) //){
-                    && ((event.x >= rect.left) && (event.x <= rect.right))) {
+                logD(PageOperationView.CLASS_TAG, "rect=$rect, event=${event.x}, ${event.y}")
+                if ((event.y >= (rect.top - 30)) && (event.y <= (rect.bottom + 30)) &&
+                    (event.x >= rect.left) && (event.x <= rect.right)
+                ) {
                     val y = rect.top + rect.height() / 2.0f
-//                    var x = event.x - rect.left
-//                    if (x < 0f) {
-//                        x = 0f
-//                    } else if (x > rect.width()) {
-//                        x = rect.width().toFloat()
-//                    }
                     val me = MotionEvent.obtain(
                         event.downTime,
                         event.eventTime,
                         event.action,
-//                        x,
                         event.x,
                         y,
                         event.metaState

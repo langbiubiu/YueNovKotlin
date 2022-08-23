@@ -5,7 +5,7 @@ import java.util.*
 
 object TimeUtils {
 
-    fun getDiffTimeText(firstTime: Long):String {
+    fun getDiffTimeText(firstTime: Long): String {
         var diffTime = ""
         val currentTimes = Calendar.getInstance() //当前系统时间转Calendar类型
         val firstTimes = Calendar.getInstance()   //查询的数据时间转Calendar类型

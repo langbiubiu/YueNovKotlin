@@ -5,12 +5,18 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.R
 
-class MyNavHostFragment: NavHostFragment() {
+class MyNavHostFragment : NavHostFragment() {
 
 
     override fun onCreateNavController(navController: NavController) {
         super.onCreateNavController(navController)
-        navController.navigatorProvider.addNavigator(MyFragmentNavigator(requireContext(), childFragmentManager, containerId))
+        navController.navigatorProvider.addNavigator(
+            MyFragmentNavigator(
+                requireContext(),
+                childFragmentManager,
+                containerId
+            )
+        )
     }
 
     private val containerId: Int

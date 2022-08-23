@@ -18,19 +18,19 @@ private enum class LEVEL {
     V, D, I, W, E
 }
 
-fun logv(tag: String = DEFAULT_TAG, message: String) =
+fun logV(tag: String = DEFAULT_TAG, message: String) =
     log(LEVEL.V, tag, message)
 
-fun logd(tag: String = DEFAULT_TAG, message: String) =
+fun logD(tag: String = DEFAULT_TAG, message: String) =
     log(LEVEL.D, tag, message)
 
-fun logi(tag: String = DEFAULT_TAG, message: String) =
+fun logI(tag: String = DEFAULT_TAG, message: String) =
     log(LEVEL.I, tag, message)
 
-fun logw(tag: String = DEFAULT_TAG, message: String) =
+fun logW(tag: String = DEFAULT_TAG, message: String) =
     log(LEVEL.W, tag, message)
 
-fun loge(tag: String = DEFAULT_TAG, message: String) =
+fun logE(tag: String = DEFAULT_TAG, message: String) =
     log(LEVEL.E, tag, message)
 
 /**

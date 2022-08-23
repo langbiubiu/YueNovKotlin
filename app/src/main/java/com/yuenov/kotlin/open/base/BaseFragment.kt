@@ -14,7 +14,8 @@ import com.yuenov.kotlin.open.ext.*
 import me.hgj.jetpackmvvm.base.fragment.BaseVmVbFragment
 import me.hgj.jetpackmvvm.ext.nav
 
-abstract class BaseFragment<VM : BaseFragmentViewModel, VB : ViewBinding> : BaseVmVbFragment<VM, VB>() {
+abstract class BaseFragment<VM : BaseFragmentViewModel, VB : ViewBinding> :
+    BaseVmVbFragment<VM, VB>() {
 
     var nav: NavController? = null
     private var callback: BackPressCallback? = null
@@ -27,7 +28,10 @@ abstract class BaseFragment<VM : BaseFragmentViewModel, VB : ViewBinding> : Base
         nav = nav()
         viewLifecycleOwner.lifecycle.addObserver(object : LifecycleEventObserver {
             override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-                logd(this@BaseFragment.CLASS_TAG, "${this@BaseFragment} lifecycle event: ${event.name}")
+                logD(
+                    this@BaseFragment.CLASS_TAG,
+                    "${this@BaseFragment} lifecycle event: ${event.name}"
+                )
             }
         })
         return super.onCreateView(inflater, container, savedInstanceState)

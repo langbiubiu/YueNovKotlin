@@ -16,4 +16,4 @@ data class DownloadBookContentItemInfo(
     var name: String?,
     /** 章节内容 **/
     var content: String?
-): Parcelable
+) : Parcelable

@@ -30,5 +30,7 @@ class MyListView @JvmOverloads constructor(
         super.onMeasure(widthMeasureSpec, heightSpec)
     }
 
-    fun setMaxHeight(max: Int) { maxHeight = max.toFloat()}
+    fun setMaxHeight(max: Int) {
+        maxHeight = max.toFloat()
+    }
 }

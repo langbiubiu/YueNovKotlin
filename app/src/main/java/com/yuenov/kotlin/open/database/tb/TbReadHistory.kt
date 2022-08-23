@@ -56,5 +56,5 @@ data class TbReadHistory(
         author: String?,
         addBookShelf: Boolean,
         lastReadTime: Long
-    ): this(0, bookId, title, chapterId, page, coverImg, author, addBookShelf, lastReadTime)
+    ) : this(0, bookId, title, chapterId, page, coverImg, author, addBookShelf, lastReadTime)
 }

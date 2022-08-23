@@ -90,7 +90,7 @@ class DetailFragment : BaseFragment<DetailFragmentViewModel, FragmentDetailBindi
                 }
             }
             wgvDpRecommend.setOnItemClickListener { _, _, position, _ ->
-                logd(CLASS_TAG, "onItemClick ${isLoadingShowing()}")
+                logD(CLASS_TAG, "onItemClick ${isLoadingShowing()}")
                 if (isLoadingShowing()) return@setOnItemClickListener
                 nav?.navigateAction(R.id.action_detail_to_detail, Bundle().apply {
                     putInt(EXTRA_INT_BOOK_ID, recommendAdapter.list!![position].bookId)
@@ -153,7 +153,11 @@ class DetailFragment : BaseFragment<DetailFragmentViewModel, FragmentDetailBindi
             }
             getRecommendListState.observe(viewLifecycleOwner) {
                 if (it.isSuccess) {
-                    logd(CLASS_TAG, "total = ${it.data!!.total}, pageNum = ${it.data!!.pageNum}, pageSize = ${it.data!!.pageSize}")
+                    logD(CLASS_TAG,
+                        "total = ${it.data!!.total}, " +
+                                "pageNum = ${it.data!!.pageNum}, " +
+                                "pageSize = ${it.data!!.pageSize}"
+                    )
                     recommendPageNum = it.data!!.pageNum ?: 0
                     recommendPageSize = it.data!!.pageSize ?: 0
                     recommendTotal = it.data!!.total ?: 0
@@ -161,7 +165,7 @@ class DetailFragment : BaseFragment<DetailFragmentViewModel, FragmentDetailBindi
 //                    mViewBind.wgvDpRecommend.adapter = recommendAdapter
                     recommendAdapter.notifyDataSetChanged()
                 } else {
-                    loge(CLASS_TAG, it.errorMsg!!)
+                    logE(CLASS_TAG, it.errorMsg!!)
                 }
             }
         }

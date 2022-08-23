@@ -56,9 +56,6 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
     //电池电量
     private var quantity: Int = 0
 
-    // 阅读进度
-    private var percentage: String = ""
-
     private lateinit var readSettingInfo: ReadSettingInfo
 
     private lateinit var pageLoader: ReadPageLoader
@@ -149,10 +146,14 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
                     openChapter(chapterId, 0)
                 }
             })
-            pvDiContent.touchListener = object: PageView.TouchListener {
-                override fun onTouchUp() { if (rlDiTop.isVisible) hideOperation() }
+            pvDiContent.touchListener = object : PageView.TouchListener {
+                override fun onTouchUp() {
+                    if (rlDiTop.isVisible) hideOperation()
+                }
 
-                override fun onCenter() { showOrHideOperation() }
+                override fun onCenter() {
+                    showOrHideOperation()
+                }
             }
             pvDiContent.listener = object : PageView.PageViewListener {
                 override fun onTurnPageStart() {}
@@ -165,7 +166,7 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
                 override fun onTurnPageCanceled() {}
 
                 override fun onTurnChapterCompleted() {
-                    logd(CLASS_TAG, "onTurnChapterCompleted")
+                    logD(CLASS_TAG, "onTurnChapterCompleted")
                     currentChapter = nextChapter
                     chapterId = currentChapter!!.chapterId
                     mViewBind.dovDiOperation.setChapterId(chapterId)
@@ -191,13 +192,13 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
             ReadSettingInfo::class.java,
             ReadSettingInfo()
         )
-        logd(CLASS_TAG, "initData $readSettingInfo")
+        logD(CLASS_TAG, "initData $readSettingInfo")
 
         if (bookBaseInfo == null || bookBaseInfo!!.bookId < 1) {
             showToast("未知数据")
             nav().navigateUp()
         }
-        logd(CLASS_TAG, "bookInfo:$bookBaseInfo, chapterId:$chapterId")
+        logD(CLASS_TAG, "bookInfo:$bookBaseInfo, chapterId:$chapterId")
 
         if (readSettingInfo.lightValue > 1) {
             BrightnessUtils.setAppScreenBrightness(
@@ -244,7 +245,7 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
             }
             getChapterListState.observe(viewLifecycleOwner) {
                 if (it.isSuccess && !it.isEmpty) {
-                    logd(CLASS_TAG, "getChapterListState ${it.listData.size}")
+                    logD(CLASS_TAG, "getChapterListState ${it.listData.size}")
                     menuList.clear()
                     menuList.addAll(it.listData)
                     mViewBind.dovDiOperation.setMenuList(menuList)
@@ -271,7 +272,7 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
 //                getStartChapterAndPage(bookBaseInfo!!.bookId, chapterId)
             }
             getStartChapterAndPageState.observe(viewLifecycleOwner) {
-                logd(CLASS_TAG, "getStartChapterAndPage Pair:$it")
+                logD(CLASS_TAG, "getStartChapterAndPage Pair:$it")
                 it?.apply {
                     chapterId = first
                     pageNum = second
@@ -328,7 +329,7 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
     }
 
     override fun onBackPressed() {
-        logd(CLASS_TAG, "onBackPressed")
+        logD(CLASS_TAG, "onBackPressed")
         if (mViewBind.rlDiTop.isVisible) {
             showOrHideOperation()
         } else {
@@ -345,7 +346,7 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
     //--------------------- 业务逻辑 ----------------------//
     // 打开指定章节
     private fun openChapter(chapterId: Long, pageNum: Int) {
-        logd(CLASS_TAG, "openChapter chapterId:$chapterId pageNum:$pageNum")
+        logD(CLASS_TAG, "openChapter chapterId:$chapterId pageNum:$pageNum")
         this.chapterId = chapterId
         this.pageNum = pageNum
         mViewBind.dovDiOperation.setChapterId(chapterId)
@@ -361,13 +362,13 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
     }
 
     private fun downloadChapter(chapterId: Long) {
-        logd(CLASS_TAG, "downloadChapter chapterId:$chapterId")
+        logD(CLASS_TAG, "downloadChapter chapterId:$chapterId")
         mViewModel.downloadChapterContent(bookBaseInfo!!.bookId, chapterId, menuList[0].v)
 
     }
 
     private fun initReadInfo() {
-        logd(CLASS_TAG, "initReadInfo")
+        logD(CLASS_TAG, "initReadInfo")
         currentChapter = mViewModel.getChapter(bookBaseInfo!!.bookId, chapterId)
         mViewModel.addReadHistory(bookBaseInfo!!, chapterId, pageNum)
         autoDownload()
@@ -398,9 +399,9 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
             chapter?.apply {
                 if (content.isNullOrEmpty()) {
                     downloadChapter(chapterId)
-                    logd(CLASS_TAG, "autoDownload chapter:$chapterId $chapterName")
+                    logD(CLASS_TAG, "autoDownload chapter:$chapterId $chapterName")
                 } else {
-                    logd(CLASS_TAG, "chapter[$chapterId $chapterName] has been downloaded!")
+                    logD(CLASS_TAG, "chapter[$chapterId $chapterName] has been downloaded!")
                 }
             }
         }
@@ -478,7 +479,7 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
         override fun getNextTitle(isNext: Boolean): String = nextChapter?.chapterName ?: ""
 
         override fun getProgress(pageNum: Int, pageCount: Int, isNextChapter: Boolean): String {
-            val id =  if (isNextChapter) nextChapter!!.chapterId else chapterId
+            val id = if (isNextChapter) nextChapter!!.chapterId else chapterId
             val position = menuList.indexOfFirst { it.chapterId == id }
             val format = DecimalFormat("0.00")
             format.roundingMode = RoundingMode.FLOOR
@@ -496,12 +497,12 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
 
         override fun getPageAnimation(): PageAnimation {
             if (curPageAnimType == readSettingInfo.pageAnimType) return curPageAnimation
-            curPageAnimation = when(readSettingInfo.pageAnimType) {
-               PageAnimationType.SIMULATION -> SimulationPageAnimation()
-               PageAnimationType.COVER -> CoverPageAnimation()
-               PageAnimationType.SLIDE -> SlidePageAnimation()
-               PageAnimationType.NONE -> NonePageAnimation()
-               PageAnimationType.SCROLL -> VerticalPageAnimation()
+            curPageAnimation = when (readSettingInfo.pageAnimType) {
+                PageAnimationType.SIMULATION -> SimulationPageAnimation()
+                PageAnimationType.COVER -> CoverPageAnimation()
+                PageAnimationType.SLIDE -> SlidePageAnimation()
+                PageAnimationType.NONE -> NonePageAnimation()
+                PageAnimationType.SCROLL -> VerticalPageAnimation()
             }
             curPageAnimType = readSettingInfo.pageAnimType
             return curPageAnimation
@@ -514,10 +515,11 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
         override fun hasNextChapter(isNext: Boolean): Boolean {
             val curIndex = menuList.indexOfFirst { it.chapterId == currentChapter!!.chapterId }
             if (curIndex < 0) return false
-            logd(CLASS_TAG, "hasNextChapter curIndex:$curIndex")
+            logD(CLASS_TAG, "hasNextChapter curIndex:$curIndex")
             val nextIndex = if (isNext) curIndex + 1 else curIndex - 1
             return if (nextIndex in menuList.indices) {
-                nextChapter = mViewModel.getChapter(bookBaseInfo!!.bookId, menuList[nextIndex].chapterId)
+                nextChapter =
+                    mViewModel.getChapter(bookBaseInfo!!.bookId, menuList[nextIndex].chapterId)
                 true
             } else {
                 nextChapter = null

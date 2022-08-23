@@ -10,7 +10,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @SuppressLint("ParcelCreator")
 @Parcelize
-data class DownloadChapterListResponse (
+data class DownloadChapterListResponse(
     /** 下载的章节内容 **/
     var list: List<ChapterInfoItem>? = null
-): Parcelable
+) : Parcelable

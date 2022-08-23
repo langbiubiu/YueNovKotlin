@@ -3,7 +3,7 @@ package com.yuenov.kotlin.open.model.request
 /**
  * 书籍章节下载请求body，需要转为json
  */
-data class DownloadChapterRequest (
+data class DownloadChapterRequest(
     /** 下载的书籍号 **/
     var bookId: Int,
     /** 下载的章节号列表 **/

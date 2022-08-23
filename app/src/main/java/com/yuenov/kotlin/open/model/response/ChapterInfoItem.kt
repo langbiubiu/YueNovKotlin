@@ -18,4 +18,4 @@ data class ChapterInfoItem(
     var name: String?,
     /** 书籍的版本号，非常重要，书籍下载接口[ApiService.downloadChapter()]需要传递这个参数 **/
     var v: Int
-): Parcelable
+) : Parcelable

@@ -12,21 +12,15 @@ import java.lang.Exception
  * Created by newbiechen on 17-5-1.
  */
 object ScreenUtils {
-    fun dpToPx(dp: Int): Int {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), displayMetrics).toInt()
-    }
+    fun dpToPx(dp: Int): Int =
+        TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), displayMetrics).toInt()
 
-    fun pxToDp(px: Int): Int {
-        return (px / displayMetrics.density).toInt()
-    }
+    fun pxToDp(px: Int): Int = (px / displayMetrics.density).toInt()
 
-    fun spToPx(sp: Int): Int {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp.toFloat(), displayMetrics).toInt()
-    }
+    fun spToPx(sp: Int): Int =
+        TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp.toFloat(), displayMetrics).toInt()
 
-    fun pxToSp(px: Int): Int {
-        return (px / displayMetrics.scaledDensity).toInt()
-    }
+    fun pxToSp(px: Int): Int = (px / displayMetrics.scaledDensity).toInt()
 
     /**
      * 获取手机显示App区域的大小（头部导航栏+ActionBar+根布局），不包括虚拟按钮

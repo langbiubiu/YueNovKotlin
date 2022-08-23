@@ -3,7 +3,7 @@ package com.yuenov.kotlin.open.widget.page
 /**
  * 一行字符串的显示Model
  */
-data class TextLine (
+data class TextLine(
     /**
      * 内容
      */

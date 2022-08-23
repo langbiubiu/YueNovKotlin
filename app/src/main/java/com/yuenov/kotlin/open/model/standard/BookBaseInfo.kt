@@ -16,4 +16,4 @@ data class BookBaseInfo(
     var author: String?,
     var coverImg: String?,
     var chapterStatus: String?
-): Parcelable
+) : Parcelable

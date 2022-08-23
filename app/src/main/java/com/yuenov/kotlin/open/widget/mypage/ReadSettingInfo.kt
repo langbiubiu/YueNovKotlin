@@ -5,7 +5,7 @@ import com.yuenov.kotlin.open.widget.page.PageUtil
 /**
  * PageOperationView相关的配置信息
  */
-data class ReadSettingInfo (
+data class ReadSettingInfo(
     /**
      * 背景颜色和字体颜色
      */

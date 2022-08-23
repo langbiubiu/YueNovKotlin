@@ -7,7 +7,7 @@ import androidx.lifecycle.*
 import com.google.gson.Gson
 import com.yuenov.kotlin.open.constant.InterFaceConstants
 import com.yuenov.kotlin.open.constant.PreferenceConstants
-import com.yuenov.kotlin.open.ext.logd
+import com.yuenov.kotlin.open.ext.logD
 import com.yuenov.kotlin.open.utils.DataStoreUtils
 import com.yuenov.kotlin.open.viewmodel.AppViewModel
 import com.yuenov.kotlin.open.viewmodel.EventViewModel
@@ -22,11 +22,13 @@ val appViewMode: AppViewModel by lazy { MyApplication.appViewModelInstance }
 //Application全局的ViewModel，用于发送全局通知操作
 val eventViewModel: EventViewModel by lazy { MyApplication.eventViewModelInstance }
 
-val singleThreadPoolExecutor: ExecutorService by lazy { Executors.newSingleThreadExecutor {
-    val thread = Thread(it)
-    logd("MyApplication", "singleThread:${thread.id}")
-    thread
-} }
+val singleThreadPoolExecutor: ExecutorService by lazy {
+    Executors.newSingleThreadExecutor {
+        val thread = Thread(it)
+        logD("MyApplication", "singleThread:${thread.id}")
+        thread
+    }
+}
 
 //一个全局的Gson实例
 val gson: Gson by lazy { Gson() }
@@ -53,7 +55,10 @@ class MyApplication : BaseApp() {
 
     //设置端口
     private fun initHttpInfo() {
-        val port = DataStoreUtils.getData(PreferenceConstants.KEY_INTERFACE_PORT, InterFaceConstants.domainPort)
+        val port = DataStoreUtils.getData(
+            PreferenceConstants.KEY_INTERFACE_PORT,
+            InterFaceConstants.domainPort
+        )
         InterFaceConstants.domainPort = port
     }
 
@@ -62,7 +67,7 @@ class MyApplication : BaseApp() {
      */
     private fun registerLifecycleCallbacks() {
         if (watchActivityLife)
-            registerActivityLifecycleCallbacks(object :ActivityLifecycleCallbacks {
+            registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
                 override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
                 }
 
@@ -88,7 +93,7 @@ class MyApplication : BaseApp() {
 
     private fun registerAppLifecycleObserver() {
         if (watchAppLife)
-            ProcessLifecycleOwner.get().lifecycle.addObserver(object: LifecycleEventObserver{
+            ProcessLifecycleOwner.get().lifecycle.addObserver(object : LifecycleEventObserver {
                 override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
                     when (event) {
                         Lifecycle.Event.ON_CREATE -> Unit

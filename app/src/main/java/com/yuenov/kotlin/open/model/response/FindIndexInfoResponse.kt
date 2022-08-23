@@ -9,7 +9,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @SuppressLint("ParcelCreator")
 @Parcelize
-data class FindIndexInfoResponse (
+data class FindIndexInfoResponse(
     /** 发现页书籍分类列表 **/
     var list: List<CategoryInfoItem>?,
-): Parcelable
+) : Parcelable

@@ -6,7 +6,7 @@ import com.yuenov.kotlin.open.base.BaseFragmentViewModel
 import com.yuenov.kotlin.open.database.appDb
 import com.yuenov.kotlin.open.database.tb.TbBookShelf
 import com.yuenov.kotlin.open.ext.CLASS_TAG
-import com.yuenov.kotlin.open.ext.logd
+import com.yuenov.kotlin.open.ext.logD
 import com.yuenov.kotlin.open.model.request.BookCheckUpdateRequest
 import com.yuenov.kotlin.open.model.response.CheckUpdateItem
 import com.yuenov.kotlin.open.model.response.CheckUpdateResponse
@@ -27,9 +27,8 @@ class BookShelfFragmentViewModel : BaseFragmentViewModel() {
      */
     val checkUpdateDataState: MutableLiveData<UpdateUiState<CheckUpdateResponse>> = MutableLiveData()
 
-//    /*
     init {
-        //TODO:先写一些假数据
+        //TODO:先写一些假数据，后续需要删除
         val books = ArrayList<TbBookShelf>()
         books.add(
             TbBookShelf(
@@ -83,7 +82,6 @@ class BookShelfFragmentViewModel : BaseFragmentViewModel() {
                 appDb.bookShelfDao.insert(it)
         }
     }
-//    */
 
     /**
      * 从数据库读取书架信息，如果读取失败也会将一个空的ArrayList写入listBookShelf，防止空异常
@@ -95,7 +93,7 @@ class BookShelfFragmentViewModel : BaseFragmentViewModel() {
                 getBookShelfListState.value = ListDataUiState(
                     isSuccess = true,
                     isEmpty = it?.isEmpty() ?: true,
-                    listData = it?: listOf()
+                    listData = it ?: listOf()
                 )
             },
             {
@@ -127,7 +125,7 @@ class BookShelfFragmentViewModel : BaseFragmentViewModel() {
     fun resetAddBookShelfStat(bookId: Int, stat: Boolean) {
         launch(
             { appDb.readHistoryDao.resetAddBookShelfStat(bookId, stat) },
-            { logd(CLASS_TAG, "resetAddBookShelfStat success") },
+            { logD(CLASS_TAG, "resetAddBookShelfStat success") },
             { it.printStackTrace() }
         )
     }
@@ -138,7 +136,7 @@ class BookShelfFragmentViewModel : BaseFragmentViewModel() {
     fun checkBookShelfUpdate() {
         requestDelay(
             { //先请求更新数据
-                logd(CLASS_TAG, "checkBookShelfUpdate")
+                logD(CLASS_TAG, "checkBookShelfUpdate")
                 val lisUpdateInfo = appDb.chapterDao.getShelfUpdateInfo()
                 val checkUpdateItems = arrayListOf<CheckUpdateItem>()
                 if (!lisUpdateInfo.isNullOrEmpty()) {
@@ -150,8 +148,9 @@ class BookShelfFragmentViewModel : BaseFragmentViewModel() {
                 // TODO: 万族之劫 测试数据，等阅读模块完成后删除
                 val request =
                     BookCheckUpdateRequest(
-                        arrayListOf(CheckUpdateItem(56124, 1257233517545373698)))
-                logd(CLASS_TAG, "request json: ${gson.toJson(request)}")
+                        arrayListOf(CheckUpdateItem(56124, 1257233517545373698))
+                    )
+                logD(CLASS_TAG, "request json: ${gson.toJson(request)}")
                 apiService.checkUpdate(request)
             },
             { response ->

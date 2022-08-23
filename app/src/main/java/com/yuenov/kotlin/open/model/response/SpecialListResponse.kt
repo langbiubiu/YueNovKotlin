@@ -9,7 +9,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @SuppressLint("ParcelCreator")
 @Parcelize
-data class SpecialListResponse (
+data class SpecialListResponse(
     /** 全部的专题列表 **/
     var specialList: List<SpecialInfoItem>?
-): Parcelable
+) : Parcelable

@@ -7,7 +7,11 @@ import android.provider.Settings
 object BrightnessUtils {
 
     fun getScreenBrightness(context: Context): Int {
-        return Settings.System.getInt(context.contentResolver, Settings.System.SCREEN_BRIGHTNESS, 50)
+        return Settings.System.getInt(
+            context.contentResolver,
+            Settings.System.SCREEN_BRIGHTNESS,
+            50
+        )
     }
 
     fun setAppScreenBrightness(activity: Activity, brightness: Int) {

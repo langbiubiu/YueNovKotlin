@@ -5,7 +5,7 @@ import android.graphics.Rect
 import com.yuenov.kotlin.open.widget.page.PageView
 import kotlin.math.abs
 
-class SlidePageAnimation: HorizontalPageAnimation() {
+class SlidePageAnimation : HorizontalPageAnimation() {
 
     private lateinit var srcRect: Rect
     private lateinit var destRect: Rect
@@ -13,16 +13,12 @@ class SlidePageAnimation: HorizontalPageAnimation() {
     private lateinit var nextDestRect: Rect
 
     override fun drawStatic(canvas: Canvas) {
-        if (isCancel) {
-            canvas.drawBitmap(curBitmap, 0f, 0f, null)
-        } else {
-            canvas.drawBitmap(nextBitmap, 0f, 0f, null)
-        }
+        canvas.drawBitmap(curBitmap, 0f, 0f, null)
     }
 
     override fun drawMove(canvas: Canvas) {
         var dis: Int
-        when(direction) {
+        when (direction) {
             Direction.NEXT -> {
                 dis = (screenWidth - startX + touchX).toInt()
                 if (dis > screenWidth) dis = screenWidth
@@ -53,8 +49,8 @@ class SlidePageAnimation: HorizontalPageAnimation() {
                 //计算下一页在canvas显示的区域
                 nextDestRect.left = dis
 
-                canvas.drawBitmap(nextBitmap, nextSrcRect, nextDestRect, null)
-                canvas.drawBitmap(curBitmap, srcRect, destRect, null)
+                canvas.drawBitmap(curBitmap, nextSrcRect, nextDestRect, null)
+                canvas.drawBitmap(nextBitmap, srcRect, destRect, null)
             }
         }
     }
@@ -70,7 +66,7 @@ class SlidePageAnimation: HorizontalPageAnimation() {
     override fun startAnim() {
         super.startAnim()
         val dx: Int
-        when(direction) {
+        when (direction) {
             Direction.NEXT -> {
                 if (isCancel) {
                     var dis = (screenWidth - startX + touchX).toInt()

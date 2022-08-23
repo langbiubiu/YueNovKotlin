@@ -10,7 +10,7 @@ import java.util.ArrayList
  */
 @SuppressLint("ParcelCreator")
 @Parcelize
-data class RankListResponse (
+data class RankListResponse(
     /** 获取所有的频道榜单，目前有男生频道和女生频道 **/
     var channels: ArrayList<RankListInfoItem>?
-): Parcelable
+) : Parcelable

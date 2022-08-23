@@ -34,7 +34,8 @@ class BookDetailRecommendAdapter : BaseAdapter() {
         val binding: ViewAdapterItemDetailRecommendBinding
         if (convertView == null) {
             binding = ViewAdapterItemDetailRecommendBinding.inflate(
-                appContext.layoutInflater!!, parent, false)
+                appContext.layoutInflater!!, parent, false
+            )
             binding.root.tag = binding
         } else {
             binding = convertView.tag as ViewAdapterItemDetailRecommendBinding

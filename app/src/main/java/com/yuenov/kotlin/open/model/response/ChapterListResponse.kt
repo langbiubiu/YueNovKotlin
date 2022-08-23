@@ -9,7 +9,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @SuppressLint("ParcelCreator")
 @Parcelize
-data class ChapterListResponse (
+data class ChapterListResponse(
     /** 作者 **/
     var author: String?,
     /** 书籍号 **/
@@ -24,4 +24,4 @@ data class ChapterListResponse (
     var word: String?,
     /** 书籍的目录列表 **/
     var chapters: ArrayList<ChapterInfoItem>?
-): Parcelable
+) : Parcelable

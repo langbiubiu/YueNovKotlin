@@ -8,8 +8,7 @@ import android.view.View
 import android.view.ViewConfiguration
 import androidx.annotation.ColorInt
 import com.yuenov.kotlin.open.ext.CLASS_TAG
-import com.yuenov.kotlin.open.ext.logd
-import com.yuenov.kotlin.open.widget.page.animation.HorizontalPageAnimation
+import com.yuenov.kotlin.open.ext.logD
 import com.yuenov.kotlin.open.widget.page.animation.PageAnimation
 import com.yuenov.kotlin.open.widget.page.animation.VerticalPageAnimation
 import me.hgj.jetpackmvvm.ext.util.dp2px
@@ -104,17 +103,26 @@ class PageView @JvmOverloads constructor(
     var listener: PageViewListener? = null
 
     fun setPageLoader(loader: IPagerLoader) {
-        logd(CLASS_TAG, "setPageLoader")
+        logD(CLASS_TAG, "setPageLoader")
         pageLoader = loader
         pageAnimation.setView(this)
         updateContent()
     }
 
     fun updateContent() {
-        curPageList = PageUtil.getPageList(pageLoader.getTitle(), pageLoader.getContent(), titleTextSize, textSize, this)
+        curPageList = PageUtil.getPageList(
+            pageLoader.getTitle(),
+            pageLoader.getContent(),
+            titleTextSize,
+            textSize,
+            this
+        )
         if (curPageNum < curPageList.size)
             curPage = curPageList[curPageNum]
-        logd(CLASS_TAG, "initData page list:${curPageList.size}, cur page = ${curPageNum}, cur page num = ${curPage.pageNum}")
+        logD(
+            CLASS_TAG,
+            "initData page list:${curPageList.size}, cur page = ${curPageNum}, cur page num = ${curPage.pageNum}"
+        )
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -171,6 +179,7 @@ class PageView @JvmOverloads constructor(
     }
 
     override fun computeScroll() {
+        logD(CLASS_TAG, "computeScroll")
         pageAnimation.scrollAnim()
         super.computeScroll()
     }
@@ -186,23 +195,15 @@ class PageView @JvmOverloads constructor(
      * 只有这个方法会主动触发重新绘制
      */
     fun drawCurPage(isUpdate: Boolean) {
-        logd(CLASS_TAG, "drawCurPage")
+        logD(CLASS_TAG, "drawCurPage isUpdate:$isUpdate")
         if (!isUpdate) {
             if (pageAnimation is VerticalPageAnimation) {
                 (pageAnimation as VerticalPageAnimation).resetBitmap()
             }
+        } else {
+            pageAnimation.setView(this)
         }
         drawPage(false)
-        invalidate()
-    }
-
-    fun drawNextPage() {
-        logd(CLASS_TAG, "drawNextPage")
-        if (pageAnimation is HorizontalPageAnimation) {
-            // TODO 是否需要互换bitmap
-            (pageAnimation as HorizontalPageAnimation).changePage()
-        }
-        drawPage(true)
         invalidate()
     }
 
@@ -235,6 +236,7 @@ class PageView @JvmOverloads constructor(
         for (i in page.textLines.indices) {
             val textLine = page.textLines[i]
             paint.textSize = dp2px(textLine.textSize.toInt()).toFloat()
+            paint.color = textColor
             paint.isFakeBoldText = textLine.fakeBoldText
             paint.isAntiAlias = true
             // 第一行：paddingTop + 文字高度
@@ -297,7 +299,7 @@ class PageView @JvmOverloads constructor(
             canvas.drawRect(outFrameRect, this)
             // 绘制内框
             val inWidth =
-                ((outFrameRect.width() - (innerSpace + outBorder) * 2) * (pageLoader.getBattery() / 100)).toInt()
+                (outFrameRect.width() - (innerSpace + outBorder) * 2) * pageLoader.getBattery() / 100
             inFrameRect.right = inFrameRect.left + inWidth
             style = Paint.Style.FILL
             canvas.drawRect(inFrameRect, this)
@@ -354,25 +356,36 @@ class PageView @JvmOverloads constructor(
     }
 
     // 先判断当前章节内是否可以翻页
-    fun hasNext(isNext: Boolean, execute: Boolean): Boolean {
+    fun hasNext(isNext: Boolean): Boolean {
         val nextPageNum = if (isNext) curPageNum + 1 else curPageNum - 1
         return if (nextPageNum in curPageList.indices) {
             isNextChapter = false
             nextPage = curPageList[nextPageNum]
             drawPage(true)
-            logd(CLASS_TAG, "hasNext true cur page:${curPageNum}, next page:${nextPage.pageNum}")
+            logD(CLASS_TAG, "hasNext true cur page:${curPageNum}, next page:${nextPage.pageNum}")
             true
         } else {
-            if (pageLoader.hasNextChapter(isNext) && pageLoader.getNextContent(isNext).isNotEmpty()) {
+            if (pageLoader.hasNextChapter(isNext) && pageLoader.getNextContent(isNext)
+                    .isNotEmpty()
+            ) {
                 isNextChapter = true
-                nextPageList = PageUtil.getPageList(pageLoader.getNextTitle(isNext), pageLoader.getNextContent(isNext), titleTextSize, textSize, this)
+                nextPageList = PageUtil.getPageList(
+                    pageLoader.getNextTitle(isNext),
+                    pageLoader.getNextContent(isNext),
+                    titleTextSize,
+                    textSize,
+                    this
+                )
                 nextPage = if (isNext) nextPageList.first() else nextPageList.last()
                 drawPage(true)
-                logd(CLASS_TAG, "hasNext true cur page:${curPageNum}, next page:${nextPage.pageNum}")
+                logD(
+                    CLASS_TAG,
+                    "hasNext true cur page:${curPageNum}, next page:${nextPage.pageNum}"
+                )
                 true
             } else {
                 isNextChapter = false
-                logd(CLASS_TAG, "hasNext false")
+                logD(CLASS_TAG, "hasNext false")
                 false
             }
         }
@@ -394,16 +407,19 @@ class PageView @JvmOverloads constructor(
     }
 
     internal fun turnPageStart() {
+        logD(CLASS_TAG, "turnPageStart")
         listener?.onTurnPageStart()
     }
 
     internal fun turnPageCompleted() {
+        logD(CLASS_TAG, "turnPageCompleted")
         listener?.onTurnPageCompleted()
         if (isNextChapter)
             listener?.onTurnChapterCompleted()
     }
 
     internal fun turnPageCanceled() {
+        logD(CLASS_TAG, "turnPageCanceled")
         listener?.onTurnPageCanceled()
     }
 

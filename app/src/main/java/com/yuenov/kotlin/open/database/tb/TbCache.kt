@@ -20,5 +20,5 @@ data class TbCache(
     constructor(
         cType: String?,
         cContent: String?
-    ): this(0, cType, cContent)
+    ) : this(0, cType, cContent)
 }

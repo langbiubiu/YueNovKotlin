@@ -39,7 +39,7 @@ class MainFragment : BaseFragment<BaseFragmentViewModel, FragmentMainBinding>() 
     }
 
     override fun onBackPressed() {
-        logd(CLASS_TAG, "onBackPressed")
+        logD(CLASS_TAG, "onBackPressed")
         if (System.currentTimeMillis() - exitTime > 2000) {
             showToast(R.string.news_exit_twice_string)
             exitTime = System.currentTimeMillis()
@@ -48,9 +48,15 @@ class MainFragment : BaseFragment<BaseFragmentViewModel, FragmentMainBinding>() 
         }
     }
 
-    fun toBookShelf() { mViewBind.mainBottom.selectedItemId = R.id.menu_bookstore }
+    fun toBookShelf() {
+        mViewBind.mainBottom.selectedItemId = R.id.menu_bookstore
+    }
 
-    fun toDiscover() { mViewBind.mainBottom.selectedItemId = R.id.menu_discover }
+    fun toDiscover() {
+        mViewBind.mainBottom.selectedItemId = R.id.menu_discover
+    }
 
-    fun toBookStore() { mViewBind.mainBottom.selectedItemId = R.id.menu_bookstore }
+    fun toBookStore() {
+        mViewBind.mainBottom.selectedItemId = R.id.menu_bookstore
+    }
 }

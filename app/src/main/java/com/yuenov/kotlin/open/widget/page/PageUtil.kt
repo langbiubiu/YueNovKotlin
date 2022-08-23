@@ -5,7 +5,7 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.view.View
 import com.yuenov.kotlin.open.ext.CLASS_TAG
-import com.yuenov.kotlin.open.ext.logd
+import com.yuenov.kotlin.open.ext.logD
 import kotlin.math.max
 
 object PageUtil {
@@ -206,7 +206,7 @@ object PageUtil {
         val sb = StringBuffer()
         if (pubLineShowWords == 0) {
             initPubShowLineWords(textSize, fakeBold, view)
-            logd(CLASS_TAG, "getShowLines pubLineShowWords:$pubLineShowWords")
+            logD(CLASS_TAG, "getShowLines pubLineShowWords:$pubLineShowWords")
         }
         if ((content.length - start) <= pubLineShowWords) {
             sb.append(content.substring(start))
@@ -233,7 +233,6 @@ object PageUtil {
             } else { // 如果sb宽度超出可显示宽度，去除最后一个字符
                 hasOutSize = true
                 sb.deleteCharAt(sb.length - 1)
-                break
             }
         }
         textLine.text = sb.toString()
@@ -251,7 +250,7 @@ object PageUtil {
      * @param dpValue The value of dp.
      * @return value of px
      */
-    fun dp2px(dpValue: Float): Float {
+    private fun dp2px(dpValue: Float): Float {
         val scale = Resources.getSystem().displayMetrics.density
         return dpValue * scale + 0.5f
     }

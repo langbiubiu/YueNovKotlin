@@ -38,7 +38,12 @@ class GridDividerItemDecoration(
     private val mPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
     var spanCount = 0
 
-    constructor(context: Context?, dividerWidth: Int, dividerHeight: Int, isNeedSpace: Boolean) : this(
+    constructor(
+        context: Context?,
+        dividerWidth: Int,
+        dividerHeight: Int,
+        isNeedSpace: Boolean
+    ) : this(
         context,
         dividerWidth,
         dividerHeight,
@@ -80,7 +85,7 @@ class GridDividerItemDecoration(
 //        bottom = dividerWidth
         bottom = dividerHeight
         if (firstRowTopMargin > 0 && isFirstRow(parent, itemPosition, spanCount, childCount))
-            //第一行顶部是否需要间隔
+        //第一行顶部是否需要间隔
             top = firstRowTopMargin
         if (!isLastRowNeedSpace && isLastRow(parent, itemPosition, spanCount, childCount)) {
             //最后一行是否需要间隔

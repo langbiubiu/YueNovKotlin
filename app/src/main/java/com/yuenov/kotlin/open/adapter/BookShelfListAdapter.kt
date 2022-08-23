@@ -11,7 +11,8 @@ import com.yuenov.kotlin.open.ext.loadImage
 import com.yuenov.kotlin.open.ext.resetVisibility
 import me.hgj.jetpackmvvm.ext.util.layoutInflater
 
-class BookShelfListAdapter(data: ArrayList<TbBookShelf>): RecyclerView.Adapter<BookShelfListAdapter.BookShelfListViewHolder>() {
+class BookShelfListAdapter(data: ArrayList<TbBookShelf>) :
+    RecyclerView.Adapter<BookShelfListAdapter.BookShelfListViewHolder>() {
     var listData = data
     private var onItemClickListener: OnItemClickListener? = null
 

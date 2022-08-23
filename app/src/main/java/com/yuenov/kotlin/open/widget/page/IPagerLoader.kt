@@ -7,11 +7,6 @@ import com.yuenov.kotlin.open.widget.page.animation.PageAnimation
  * 为PageView提供数据，类似Adapter
  */
 interface IPagerLoader {
-    // 可能需要添加一个listener来回调这些
-//    fun onPreChapter(newBookChapter: TbBookChapter)
-//    fun onNextChapter(newBookChapter: TbBookChapter)
-//    fun onTurnPage()
-//    fun showAd()
 
     /**
      * 获取电池电量，值范围0-100

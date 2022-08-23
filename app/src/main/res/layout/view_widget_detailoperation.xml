@@ -321,7 +321,7 @@
                 android:gravity="center"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="上下"
+                android:text="覆盖"
                 android:textColor="@color/_5e60"
                 android:textSize="14sp"
                 android:visibility="visible" />

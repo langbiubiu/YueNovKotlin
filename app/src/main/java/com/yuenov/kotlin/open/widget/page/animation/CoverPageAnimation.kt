@@ -1,23 +1,17 @@
 package com.yuenov.kotlin.open.widget.page.animation
 
 import android.graphics.drawable.GradientDrawable
-import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Rect
 import com.yuenov.kotlin.open.widget.page.PageView
 import kotlin.math.abs
 
-class CoverPageAnimation: HorizontalPageAnimation() {
+class CoverPageAnimation : HorizontalPageAnimation() {
     private lateinit var mSrcRect: Rect
     private lateinit var mDestRect: Rect
     private val mBackShadowDrawableLR: GradientDrawable
     override fun drawStatic(canvas: Canvas) {
-        if (isCancel) {
-            nextBitmap = curBitmap.copy(Bitmap.Config.RGB_565, true)
-            canvas.drawBitmap(curBitmap, 0f, 0f, null)
-        } else {
-            canvas.drawBitmap(nextBitmap, 0f, 0f, null)
-        }
+        canvas.drawBitmap(curBitmap, 0f, 0f, null)
     }
 
     override fun drawMove(canvas: Canvas) {

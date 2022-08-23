@@ -3,11 +3,13 @@ package com.yuenov.kotlin.open.widget.page.animation
 import android.graphics.*
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
+import com.yuenov.kotlin.open.ext.CLASS_TAG
+import com.yuenov.kotlin.open.ext.logD
 import com.yuenov.kotlin.open.widget.page.PageView
 import java.lang.Exception
 import kotlin.math.*
 
-class SimulationPageAnimation: HorizontalPageAnimation() {
+class SimulationPageAnimation : HorizontalPageAnimation() {
     private var cornerX = 1 // 拖拽点对应的页脚
     private var cornerY = 1
     private val path0: Path = Path()
@@ -62,15 +64,11 @@ class SimulationPageAnimation: HorizontalPageAnimation() {
     }
 
     override fun drawStatic(canvas: Canvas) {
-        if (isCancel) {
-            nextBitmap = curBitmap.copy(Bitmap.Config.RGB_565, true)
-            canvas.drawBitmap(curBitmap, 0f, 0f, null)
-        } else {
-            canvas.drawBitmap(nextBitmap, 0f, 0f, null)
-        }
+        canvas.drawBitmap(curBitmap, 0f, 0f, null)
     }
 
     override fun startAnim() {
+        logD(CLASS_TAG, "startAnim")
         super.startAnim()
         var dx: Int
         val dy: Int
@@ -111,7 +109,6 @@ class SimulationPageAnimation: HorizontalPageAnimation() {
     }
 
     override var direction: Direction = Direction.NONE
-        get() = super.direction
         set(value) {
             field = value
             when (value) {
@@ -583,8 +580,9 @@ class SimulationPageAnimation: HorizontalPageAnimation() {
         paint.style = Paint.Style.FILL
         createDrawable()
         val cm = ColorMatrix() //设置颜色数组
-        val array = floatArrayOf(1f, 0f, 0f, 0f, 0f, 0f, 1f, 0f, 0f,
-            0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 0f, 1f, 0f
+        val array = floatArrayOf(
+            1f, 0f, 0f, 0f, 0f, 0f, 1f, 0f, 0f, 0f,
+            0f, 0f, 1f, 0f, 0f, 0f, 0f, 0f, 1f, 0f
         )
         cm.set(array)
         colorMatrixFilter = ColorMatrixColorFilter(cm)
