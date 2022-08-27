@@ -168,7 +168,6 @@ abstract class HorizontalPageAnimation : PageAnimation() {
     }
 
     override fun draw(canvas: Canvas) {
-        logD(CLASS_TAG, "draw isRunning:$isRunning isCancel:$isCancel")
         if (isRunning) {
             drawMove(canvas)
         } else {
@@ -183,15 +182,12 @@ abstract class HorizontalPageAnimation : PageAnimation() {
     }
 
     override fun scrollAnim() {
-        logD(CLASS_TAG, "scrollAnim")
         scroller?.apply {
             if (computeScrollOffset()) {
-                logD(CLASS_TAG, "scrollAnim 1")
                 val x = currX
                 val y = currY
                 setTouchPoint(x.toFloat(), y.toFloat())
                 if (finalX == x && finalY == y) {
-                    logD(CLASS_TAG, "scrollAnim 2")
                     isRunning = false
                     if (!isCancel) {
                         changePage()
@@ -211,7 +207,6 @@ abstract class HorizontalPageAnimation : PageAnimation() {
     }
 
     override fun abortAnim() {
-        logD(CLASS_TAG, "abortAnim")
         scroller?.apply {
             if (!isFinished) {
                 abortAnimation()

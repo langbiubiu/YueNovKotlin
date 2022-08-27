@@ -117,8 +117,10 @@ class PageView @JvmOverloads constructor(
             textSize,
             this
         )
-        if (curPageNum < curPageList.size)
-            curPage = curPageList[curPageNum]
+        if (curPageNum >= curPageList.size) {
+            curPageNum = curPageList.size -1
+        }
+        curPage = curPageList[curPageNum]
         logD(
             CLASS_TAG,
             "initData page list:${curPageList.size}, cur page = ${curPageNum}, cur page num = ${curPage.pageNum}"
@@ -139,8 +141,6 @@ class PageView @JvmOverloads constructor(
      * 然后调用swapPage()来交换数据，再执行drawPage()
      */
     override fun onDraw(canvas: Canvas) {
-        // 绘制背景
-        canvas.drawColor(bgColor)
         if (isPrepare) {
             pageAnimation.draw(canvas)
         }
@@ -179,7 +179,6 @@ class PageView @JvmOverloads constructor(
     }
 
     override fun computeScroll() {
-        logD(CLASS_TAG, "computeScroll")
         pageAnimation.scrollAnim()
         super.computeScroll()
     }

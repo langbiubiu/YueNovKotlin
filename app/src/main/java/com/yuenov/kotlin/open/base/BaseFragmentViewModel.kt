@@ -44,7 +44,6 @@ open class BaseFragmentViewModel : BaseViewModel() {
         // singleThreadPoolExecutor是一个全局的单线程池
         viewModelScope.launch(singleThreadPoolExecutor.asCoroutineDispatcher()) {
             runBlocking { request(block, success, error, isShowDialog, loadingMessage).join() }
-            logD(CLASS_TAG, "coroutineDelay")
             Thread.sleep(defaultApiDelayTime)
         }
     }
@@ -58,7 +57,6 @@ open class BaseFragmentViewModel : BaseViewModel() {
         // 因为接口限制，每次网络请求后都需要等待12秒，保证接口能请求成功
         viewModelScope.launch(singleThreadPoolExecutor.asCoroutineDispatcher()) {
             runBlocking { request(block, resultState, isShowDialog, loadingMessage).join() }
-            logD(CLASS_TAG, "coroutineDelay")
             Thread.sleep(defaultApiDelayTime)
         }
     }
@@ -102,7 +100,7 @@ open class BaseFragmentViewModel : BaseViewModel() {
         )
     }
 
-    fun downloadChapterContent(bookId: Int, chapterId: Long, v: Int?) {
+    fun downloadChapterContent(bookId: Int, chapterId: Long, v: Int?, isShowLoading: Boolean) {
         requestDelay(
             {
                 logD(CLASS_TAG, "downloadChapterContent")
@@ -128,7 +126,7 @@ open class BaseFragmentViewModel : BaseViewModel() {
             {
                 // 书源失效，需要更新，重新请求 errorMsg返回的就是新的v值
                 if (it.errCode == ResponseResult.INVALID_SOURCE) {
-                    downloadChapterContent(bookId, chapterId, it.errorMsg.toInt())
+                    downloadChapterContent(bookId, chapterId, it.errorMsg.toInt(), isShowLoading)
                 } else {
                     downloadChapterContentState.value = ListDataUiState(
                         isSuccess = false,
@@ -136,7 +134,7 @@ open class BaseFragmentViewModel : BaseViewModel() {
                         errMessage = it.errorMsg
                     )
                 }
-            }
+            }, isShowLoading
         )
     }
 }

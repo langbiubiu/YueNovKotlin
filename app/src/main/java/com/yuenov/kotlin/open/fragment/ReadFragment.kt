@@ -123,6 +123,7 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
                             val textSize = newValue as Float
                             if (readSettingInfo.textSize != textSize) {
                                 readSettingInfo.textSize = textSize
+                                pvDiContent.updateContent()
                                 pvDiContent.drawCurPage(true)
                             }
                         }
@@ -141,6 +142,7 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
                 }
 
                 override fun onSelectChapter(chapterId: Long) {
+                    logD(CLASS_TAG, "onSelectChapter chapterId:$chapterId")
                     if (chapterId < 1) return
                     hideOperation()
                     openChapter(chapterId, 0)
@@ -269,7 +271,6 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
                     }
                     mViewBind.dovDiOperation.setMenuList(menuList)
                 }
-//                getStartChapterAndPage(bookBaseInfo!!.bookId, chapterId)
             }
             getStartChapterAndPageState.observe(viewLifecycleOwner) {
                 logD(CLASS_TAG, "getStartChapterAndPage Pair:$it")
@@ -353,18 +354,19 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
         currentChapter = mViewModel.getChapter(bookBaseInfo!!.bookId, chapterId)
         if (currentChapter == null || currentChapter!!.content.isNullOrEmpty()) {
 //            mViewBind.pvDiContent.drawCurPage(true)
-            downloadChapter(chapterId)
+            downloadChapter(chapterId, true)
         } else {
             initReadInfo()
+            mViewBind.pvDiContent.curPageNum = pageNum
             mViewBind.pvDiContent.setPageLoader(pageLoader)
             mViewBind.pvDiContent.drawCurPage(false)
         }
     }
 
-    private fun downloadChapter(chapterId: Long) {
+    private fun downloadChapter(chapterId: Long, isShowLoading: Boolean) {
         logD(CLASS_TAG, "downloadChapter chapterId:$chapterId")
-        mViewModel.downloadChapterContent(bookBaseInfo!!.bookId, chapterId, menuList[0].v)
-
+        mViewModel.downloadChapterContent(bookBaseInfo!!.bookId, chapterId, menuList[0].v, isShowLoading)
+        if (isShowLoading) showLoading()
     }
 
     private fun initReadInfo() {
@@ -398,7 +400,7 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
             val chapter = mViewModel.getChapter(bookBaseInfo!!.bookId, menuList[pos].chapterId)
             chapter?.apply {
                 if (content.isNullOrEmpty()) {
-                    downloadChapter(chapterId)
+                    downloadChapter(chapterId, false)
                     logD(CLASS_TAG, "autoDownload chapter:$chapterId $chapterName")
                 } else {
                     logD(CLASS_TAG, "chapter[$chapterId $chapterName] has been downloaded!")

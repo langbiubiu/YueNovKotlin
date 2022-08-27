@@ -2,6 +2,7 @@ package com.yuenov.kotlin.open.ext
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.StringRes
