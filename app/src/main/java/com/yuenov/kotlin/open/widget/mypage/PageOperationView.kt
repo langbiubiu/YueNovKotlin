@@ -51,7 +51,6 @@ class PageOperationView @JvmOverloads constructor(
     private var curChapterId: Long = 0
     private var menuListOrderAsc: Boolean = true
 
-    // content字段为空，防止内存占用过高
     private var menuList: List<TbBookChapter> = listOf()
     private var menuListAdapter: DetailBottomMenuListAdapter
     private var listener: PageOperationViewListener? = null
@@ -153,8 +152,10 @@ class PageOperationView @JvmOverloads constructor(
 
     fun setChapterId(chapterId: Long) {
         curChapterId = chapterId
-        val position = getMenuListPosition(getPositionByChapterId(chapterId))
-        binding.lvWgDpMenuList.setSelection(position)
+        menuListAdapter.currentChapterId = chapterId
+        menuListAdapter.notifyDataSetChanged()
+//        val position = getMenuListPosition(getPositionByChapterId(chapterId))
+//        binding.lvWgDpMenuList.setSelection(position)
     }
 
     fun setBgType(type: PageBackground) {
@@ -267,6 +268,8 @@ class PageOperationView @JvmOverloads constructor(
     private fun showMenu() {
         logD(CLASS_TAG, "showMenu ${menuList.size}")
         if (menuList.isEmpty()) return
+        val position = getMenuListPosition(getPositionByChapterId(curChapterId))
+        binding.lvWgDpMenuList.setSelection(position)
         showContentView(binding.llWgDpMenuListData, R.anim.anim_widget_bookdetail_bottomshow)
         showAnimation(binding.rlWgDpMenuList, R.anim.anim_fade_in)
     }
@@ -352,7 +355,7 @@ class PageOperationView @JvmOverloads constructor(
                 llWgDpProcess -> if (llWgDpProcessContent.isVisible) hideProcess() else showProcess()
                 llWgDpLight -> if (llWgDpLightContent.isVisible) hideLight() else showLight()
                 llWgDpFont -> if (llWgDpFontContent.isVisible) hideFont() else showFont()
-                rlWgDpMenuListOrder -> {
+                rlWgDpMenuListOrder, ivWgDpMenuListOrder -> {
                     menuListOrderAsc = !menuListOrderAsc
                     sortMenuList()
                 }
@@ -493,6 +496,8 @@ class PageOperationView @JvmOverloads constructor(
                 views.second.setImageResource(selectedImages[i])
             } else {
                 resetVisibility(false, views.first)
+                if (views.first == binding.llWgDpMenuListData)
+                    resetVisibility(false, binding.rlWgDpMenuList)
                 views.second.setImageResource(unselectedImages[i])
             }
         }

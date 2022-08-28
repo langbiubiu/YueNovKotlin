@@ -11,7 +11,8 @@ import me.hgj.jetpackmvvm.ext.util.layoutInflater
 
 class DetailBottomMenuListAdapter(
     var data: List<TbBookChapter>,
-    var orderByAes: Boolean = true
+    var orderByAes: Boolean = true,
+    var currentChapterId: Long = 0L
 ) : BaseAdapter() {
 
     override fun getCount(): Int {
@@ -39,7 +40,12 @@ class DetailBottomMenuListAdapter(
         val pos = if (orderByAes) position else (data.size - 1 - position)
         binding.tvAidobName.text = data[pos].chapterName
         val textColor =
-            if (data[pos].content.isNullOrEmpty()) R.color.gray_9999 else R.color.gray_3333
+            if (data[pos].chapterId == currentChapterId)
+                R.color._aae4
+            else if (data[pos].content.isNullOrEmpty())
+                R.color.gray_9999
+            else
+                R.color.gray_3333
         binding.tvAidobName.setTextColor(appContext.resources.getColor(textColor, null))
         return binding.root
     }

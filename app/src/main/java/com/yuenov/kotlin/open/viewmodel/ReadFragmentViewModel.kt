@@ -69,7 +69,7 @@ class ReadFragmentViewModel : BaseFragmentViewModel() {
         launch(
             {
                 logD(CLASS_TAG, "getChapterList start")
-                appDb.chapterDao.getChapterList(bookId)?.let { ArrayList(it) }
+                appDb.chapterDao.getChapterListByBookIdOrderByAsc(bookId)?.let { ArrayList(it) }
             },
             {
                 logD(CLASS_TAG, "getChapterList end")

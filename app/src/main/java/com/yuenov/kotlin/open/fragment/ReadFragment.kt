@@ -284,6 +284,7 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
                     bookBaseInfo
                 )
                 openChapter(chapterId, pageNum)
+                mViewBind.dovDiOperation.setChapterId(chapterId)
             }
             addBookShelfState.observe(viewLifecycleOwner) {
                 if (it) {
@@ -301,12 +302,13 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
             }
             downloadChapterContentState.observe(viewLifecycleOwner) {
                 if (it.isSuccess && !it.isEmpty) {
-                    if (chapterId == it.listData[0].id) {
+                    val downloadChapter = it.listData[0]
+                    if (chapterId == downloadChapter.id) {
                         //更新的是当前章节，则重新绘制
-                        openChapter(it.listData[0].id, pageNum)
+                        openChapter(downloadChapter.id, pageNum)
                     }
+                    menuList.find { it.chapterId == downloadChapter.id }?.content = "0"
                 } else {
-                    showToast("下载失败")
                     if (!it.isSuccess) {
                         // TODO 更新v值
                     }

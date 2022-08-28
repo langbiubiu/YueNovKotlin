@@ -104,6 +104,11 @@ open class BaseFragmentViewModel : BaseViewModel() {
         requestDelay(
             {
                 logD(CLASS_TAG, "downloadChapterContent")
+                // 如果已下载过，就不需要重新下载
+                val chapter = appDb.chapterDao.getEntity(bookId, chapterId)
+                if (chapter?.content.isNullOrEmpty()) {
+                    return@requestDelay ApiResponse(ResponseResult(), DownloadChapterListResponse())
+                }
                 val request = DownloadChapterRequest(bookId, listOf(chapterId), v)
                 apiService.downloadChapter(request)
             },
@@ -127,13 +132,12 @@ open class BaseFragmentViewModel : BaseViewModel() {
                 // 书源失效，需要更新，重新请求 errorMsg返回的就是新的v值
                 if (it.errCode == ResponseResult.INVALID_SOURCE) {
                     downloadChapterContent(bookId, chapterId, it.errorMsg.toInt(), isShowLoading)
-                } else {
-                    downloadChapterContentState.value = ListDataUiState(
-                        isSuccess = false,
-                        isEmpty = true,
-                        errMessage = it.errorMsg
-                    )
                 }
+                downloadChapterContentState.value = ListDataUiState(
+                    isSuccess = false,
+                    isEmpty = true,
+                    errMessage = it.errorMsg
+                )
             }, isShowLoading
         )
     }
