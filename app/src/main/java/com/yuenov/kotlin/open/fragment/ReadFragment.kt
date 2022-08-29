@@ -41,6 +41,9 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
     // 当前章节ID
     private var chapterId: Long = 0
 
+    // 准备打开的章节ID
+    private var openChapterId: Long = 0
+
     // 章节列表，不包含章节内容
     private var menuList: ArrayList<TbBookChapter> = arrayListOf()
 
@@ -50,7 +53,11 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
     // 下一章节，包含章节内容
     private var nextChapter: TbBookChapter? = null
 
-    // 章节内页数
+    // 章节下载完后是否需要翻页
+    // true表示向后翻页，false表示向前翻页
+    private var isAutoTurnNext: Boolean = true
+
+    // 章节内的页数
     private var pageNum: Int = 0
 
     //电池电量
@@ -65,9 +72,9 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
             if (intent?.action == Intent.ACTION_BATTERY_CHANGED) {
                 val level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0)
                 quantity = level
-                // TODO 更新电量
+                mViewBind.pvDiContent.drawCurPage(true)
             } else if (intent?.action == Intent.ACTION_TIME_TICK) {
-                // TODO 更新Time
+                mViewBind.pvDiContent.drawCurPage(true)
             }
         }
     }
@@ -257,6 +264,7 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
             }
             updateChapterListState.observe(viewLifecycleOwner) {
                 if (it.isSuccess && it.data != null && !it.data!!.chapters.isNullOrEmpty()) {
+                    val needStart = menuList.isEmpty()
                     for (chapter in it.data!!.chapters!!) {
                         // 把更新的章节添加到list
                         menuList.add(
@@ -269,6 +277,7 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
                             )
                         )
                     }
+                    if (needStart) getStartChapterAndPage(bookBaseInfo!!.bookId, chapterId)
                     mViewBind.dovDiOperation.setMenuList(menuList)
                 }
             }
@@ -303,12 +312,16 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
             downloadChapterContentState.observe(viewLifecycleOwner) {
                 if (it.isSuccess && !it.isEmpty) {
                     val downloadChapter = it.listData[0]
-                    if (chapterId == downloadChapter.id) {
+                    if (openChapterId == downloadChapter.id) {
                         //更新的是当前章节，则重新绘制
-                        openChapter(downloadChapter.id, pageNum)
+                        openChapter(downloadChapter.id, 0)
+                        openChapterId = 0L
+                    } else if (downloadChapter.id == nextChapter?.chapterId) {
+                        mViewBind.pvDiContent.autoTurnPage(isAutoTurnNext)
                     }
-                    menuList.find { it.chapterId == downloadChapter.id }?.content = "0"
+                    menuList.find { chapter -> chapter.chapterId == downloadChapter.id }?.content = "0"
                 } else {
+                    showToast("章节下载失败")
                     if (!it.isSuccess) {
                         // TODO 更新v值
                     }
@@ -350,32 +363,30 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
     // 打开指定章节
     private fun openChapter(chapterId: Long, pageNum: Int) {
         logD(CLASS_TAG, "openChapter chapterId:$chapterId pageNum:$pageNum")
-        this.chapterId = chapterId
-        this.pageNum = pageNum
-        mViewBind.dovDiOperation.setChapterId(chapterId)
-        currentChapter = mViewModel.getChapter(bookBaseInfo!!.bookId, chapterId)
-        if (currentChapter == null || currentChapter!!.content.isNullOrEmpty()) {
-//            mViewBind.pvDiContent.drawCurPage(true)
+        openChapterId = chapterId
+        val chapter = mViewModel.getChapter(bookBaseInfo!!.bookId, chapterId)
+        if (chapter == null || chapter.content.isNullOrEmpty()) {
             downloadChapter(chapterId, true)
         } else {
-            initReadInfo()
-            mViewBind.pvDiContent.curPageNum = pageNum
-            mViewBind.pvDiContent.setPageLoader(pageLoader)
-            mViewBind.pvDiContent.drawCurPage(false)
+            this.chapterId = chapterId
+            this.pageNum = pageNum
+            currentChapter = chapter
+            mViewModel.addReadHistory(bookBaseInfo!!, chapterId, pageNum)
+            mViewBind.apply {
+                dovDiOperation.setChapterId(chapterId)
+                pvDiContent.curPageNum = pageNum
+                pvDiContent.setPageLoader(pageLoader)
+                pvDiContent.drawCurPage(false)
+            }
+            autoDownload()
         }
     }
 
     private fun downloadChapter(chapterId: Long, isShowLoading: Boolean) {
         logD(CLASS_TAG, "downloadChapter chapterId:$chapterId")
         mViewModel.downloadChapterContent(bookBaseInfo!!.bookId, chapterId, menuList[0].v, isShowLoading)
+        // 网络请求存在12秒间隔，因此可能不会立刻显示loading框，手动调用一次，在请求完成后会调用dismiss
         if (isShowLoading) showLoading()
-    }
-
-    private fun initReadInfo() {
-        logD(CLASS_TAG, "initReadInfo")
-        currentChapter = mViewModel.getChapter(bookBaseInfo!!.bookId, chapterId)
-        mViewModel.addReadHistory(bookBaseInfo!!, chapterId, pageNum)
-        autoDownload()
     }
 
     /**
@@ -524,6 +535,12 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
             return if (nextIndex in menuList.indices) {
                 nextChapter =
                     mViewModel.getChapter(bookBaseInfo!!.bookId, menuList[nextIndex].chapterId)
+                nextChapter?.apply {
+                    if (content.isNullOrEmpty()) {
+                        downloadChapter(chapterId, true)
+                        isAutoTurnNext = isNext
+                    }
+                }
                 true
             } else {
                 nextChapter = null

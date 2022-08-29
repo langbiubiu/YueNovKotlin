@@ -109,16 +109,23 @@ class ReadFragmentViewModel : BaseFragmentViewModel() {
     fun getStartChapterAndPage(bookId: Int, chapterId: Long) {
         launch(
             {
+                val readHistory = appDb.readHistoryDao.getEntity(bookId)
+                // chapterId不为0，则打开对应章节
                 if (chapterId > 0) {
-                    val readHistory = appDb.readHistoryDao.getEntity(bookId)
+                    // 如果chapterId和阅读历史相匹配，打开对应记录即可，否则打开chapterId对应章节
                     if (readHistory != null && readHistory.chapterId == chapterId) {
                         Pair(chapterId, readHistory.page)
                     } else {
                         Pair(chapterId, 0)
                     }
                 } else {
-                    val firstChapter = appDb.chapterDao.getFirstChapter(bookId)
-                    firstChapter?.let { Pair(firstChapter.chapterId, 0) }
+                    // 打开历史记录，如果没有，则打开第一章
+                    if (readHistory != null) {
+                        Pair(readHistory.chapterId, readHistory.page)
+                    } else {
+                        val firstChapter = appDb.chapterDao.getFirstChapter(bookId)
+                        firstChapter?.let { Pair(firstChapter.chapterId, 0) }
+                    }
                 }
             },
             { getStartChapterAndPageState.value = it },

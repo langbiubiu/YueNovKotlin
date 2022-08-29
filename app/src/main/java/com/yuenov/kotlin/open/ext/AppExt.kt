@@ -2,6 +2,7 @@ package com.yuenov.kotlin.open.ext
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.WindowManager
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
@@ -17,6 +18,7 @@ import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_INT_BOOK_ID
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_LONG_CHAPTER_ID
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_MODEL_BOOK_BASE_INFO
 import com.yuenov.kotlin.open.model.standard.BookBaseInfo
+import com.yuenov.kotlin.open.utils.SystemBarUtils
 import me.hgj.jetpackmvvm.ext.nav
 import me.hgj.jetpackmvvm.ext.navigateAction
 
@@ -75,9 +77,14 @@ fun Fragment.showLoadingExt(message: String = "请求网络中") {
                     .lifecycleOwner(this)
                 loadingDialog?.getCustomView()?.run {
                     this.findViewById<TextView>(R.id.loading_tips).text = message
+                    //这一句是为全局Style(夜间模式)准备的
 //                    this.findViewById<ProgressBar>(R.id.progressBar).indeterminateTintList = SettingUtil.getOneColorStateList(it)
                 }
             }
+            loadingDialog?.window?.setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
+            )
             loadingDialog?.show()
         }
     }

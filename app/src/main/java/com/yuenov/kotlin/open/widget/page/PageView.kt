@@ -75,6 +75,7 @@ class PageView @JvmOverloads constructor(
     private val paint: Paint = Paint()
     private var batteryPaint: Paint? = null
     private var timePaint: Paint? = null
+    private var pageNumPaint: Paint? = null
     private var processPaint: Paint? = null
 
     // 电极范围
@@ -90,7 +91,7 @@ class PageView @JvmOverloads constructor(
     private val outBorder = dp2px(1)
 
     // 外框和电极的间距
-    private val polarSpace = dp2px(1)
+    private val polarSpace = dp2px(2)
 
     // 外框与内框的间距
     private val innerSpace = dp2px(1)
@@ -151,6 +152,9 @@ class PageView @JvmOverloads constructor(
         super.onTouchEvent(event)
         val x = event.x
         val y = event.y
+        // touchListener的回调可能会变更allowPageAnimation的值，
+        // 导致我们希望在PageView内拦截的触摸事件仍然传递到PageAnimation内，
+        // 因此使用一个局部变量来保存allowPageAnimation
         val allowPageAnimation = pageLoader.allowPageAnimation()
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
@@ -194,7 +198,6 @@ class PageView @JvmOverloads constructor(
      * 只有这个方法会主动触发重新绘制
      */
     fun drawCurPage(isUpdate: Boolean) {
-        logD(CLASS_TAG, "drawCurPage isUpdate:$isUpdate")
         if (!isUpdate) {
             if (pageAnimation is VerticalPageAnimation) {
                 (pageAnimation as VerticalPageAnimation).resetBitmap()
@@ -212,6 +215,7 @@ class PageView @JvmOverloads constructor(
         drawContent(isNext)
         drawBattery(isNext)
         drawTime(isNext)
+        drawPageNum(isNext)
         drawProcess(isNext)
     }
 
@@ -320,8 +324,37 @@ class PageView @JvmOverloads constructor(
         canvas.drawText(
             pageLoader.getTime(),
             (polarRect.right + dp2px(6)).toFloat(),
-            (polarRect.top + dp2px(5)).toFloat(),
+            (polarRect.top + dp2px(7)).toFloat(),
             timePaint!!
+        )
+    }
+
+    private fun drawPageNum(isNext: Boolean) {
+        // 绘制页码
+        val bitmap = if (isNext) pageAnimation.nextBitmap else pageAnimation.curBitmap
+        val canvas = Canvas(bitmap)
+        if (pageNumPaint == null) {
+            pageNumPaint = Paint()
+            pageNumPaint!!.apply {
+                textSize = dp2px(processTextSize.toInt()).toFloat()
+                isAntiAlias = true
+                isDither = true
+            }
+        }
+        val pageNum =
+            if (isNext) {
+                if (isNextChapter) {
+                    "${nextPage.pageNum + 1}/${nextPageList.size}"
+                } else {
+                    "${nextPage.pageNum + 1}/${curPageList.size}"
+                }
+            } else {
+                "${curPage.pageNum + 1}/${curPageList.size}"
+            }
+        canvas.drawText(
+            pageNum,
+            (width - paddingRight - dp2px(70)).toFloat(),
+            (polarRect.top + dp2px(7)).toFloat(), pageNumPaint!!
         )
     }
 
@@ -350,7 +383,7 @@ class PageView @JvmOverloads constructor(
         canvas.drawText(
             progress,
             (width - paddingRight - dp2px(27)).toFloat(),
-            (polarRect.top + dp2px(4)).toFloat(), processPaint!!
+            (polarRect.top + dp2px(7)).toFloat(), processPaint!!
         )
     }
 
@@ -390,6 +423,27 @@ class PageView @JvmOverloads constructor(
         }
     }
 
+    /**
+     * 自动翻页
+     */
+    fun autoTurnPage(isNext: Boolean) {
+        // 滚动翻页暂不支持自动翻页
+        if (pageAnimation is VerticalPageAnimation || touchListener == null) return
+        val direction = if (isNext) PageAnimation.Direction.NEXT else PageAnimation.Direction.PRE
+        if (hasNext(isNext)) {
+            pageAnimation.abortAnim()
+            pageAnimation.autoPageIsRunning = true
+            val x = if (isNext) width else 0
+            val y = height
+            pageAnimation.setStartPoint(x.toFloat(), y.toFloat())
+            pageAnimation.setTouchPoint(x.toFloat(), y.toFloat())
+            pageAnimation.direction = direction
+            turnPageStart()
+            pageAnimation.startAnim()
+            postInvalidate()
+        }
+    }
+
     // 确认翻页时才会调用这个函数，交换当前页和下一页
     internal fun swapPage() {
         curPageNum = nextPage.pageNum
@@ -406,19 +460,16 @@ class PageView @JvmOverloads constructor(
     }
 
     internal fun turnPageStart() {
-        logD(CLASS_TAG, "turnPageStart")
         listener?.onTurnPageStart()
     }
 
     internal fun turnPageCompleted() {
-        logD(CLASS_TAG, "turnPageCompleted")
         listener?.onTurnPageCompleted()
         if (isNextChapter)
             listener?.onTurnChapterCompleted()
     }
 
     internal fun turnPageCanceled() {
-        logD(CLASS_TAG, "turnPageCanceled")
         listener?.onTurnPageCanceled()
     }
 

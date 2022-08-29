@@ -106,7 +106,7 @@ open class BaseFragmentViewModel : BaseViewModel() {
                 logD(CLASS_TAG, "downloadChapterContent")
                 // 如果已下载过，就不需要重新下载
                 val chapter = appDb.chapterDao.getEntity(bookId, chapterId)
-                if (chapter?.content.isNullOrEmpty()) {
+                if (!chapter?.content.isNullOrEmpty()) {
                     return@requestDelay ApiResponse(ResponseResult(), DownloadChapterListResponse())
                 }
                 val request = DownloadChapterRequest(bookId, listOf(chapterId), v)

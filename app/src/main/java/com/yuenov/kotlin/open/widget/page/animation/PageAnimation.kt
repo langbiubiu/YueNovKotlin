@@ -91,7 +91,7 @@ abstract class PageAnimation {
      * 开启翻页动画
      */
     open fun startAnim() {
-        if (isRunning || autoPageIsRunning) {
+        if (isRunning) {
             return
         }
         isRunning = true

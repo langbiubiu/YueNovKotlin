@@ -16,6 +16,8 @@ class NonePageAnimation : HorizontalPageAnimation() {
     override fun startAnim() {
         super.startAnim()
         isRunning = false
+        // 一般情况下，changePage和turnPageCompleted会在动画结束后被调用，但是NonePageAnimation不执行动画，
+        // 因此在startAnim中主动调用，确保bitmap和数据完成交换，以及回调的正常调用
         if (!isCancel) {
             changePage()
             pageView.turnPageCompleted()
