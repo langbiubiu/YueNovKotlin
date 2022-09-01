@@ -24,8 +24,8 @@ interface ReadHistoryDao {
     /**
      * 获取所有阅读记录
      */
-    @get:Query("select * from TbReadHistory order by lastReadTime desc")
-    val allList: List<TbReadHistory>?
+    @Query("select * from TbReadHistory order by lastReadTime desc")
+    fun getAllList(): List<TbReadHistory>?
 
     @Query("delete from TbReadHistory")
     fun clear()

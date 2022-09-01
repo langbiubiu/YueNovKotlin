@@ -4,10 +4,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.yuenov.kotlin.open.R
+import com.yuenov.kotlin.open.application.MyApplication.Companion.appContext
 import com.yuenov.kotlin.open.databinding.ViewAdapterItemDetailRecommendBinding
 import com.yuenov.kotlin.open.ext.loadImage
 import com.yuenov.kotlin.open.model.response.BookInfoItem
-import me.hgj.jetpackmvvm.base.appContext
 import me.hgj.jetpackmvvm.ext.util.layoutInflater
 
 /**

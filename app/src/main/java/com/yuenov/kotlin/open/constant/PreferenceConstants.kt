@@ -27,4 +27,14 @@ object PreferenceConstants {
 
     //正在阅读的图书
     const val KEY_NOW_READING_BOOK_ID = "nowRead"
+
+    /**
+     * 发现页缓存
+     */
+    const val TYPE_FIND_INDEX = "findIndex"
+
+    /**
+     * 书城页缓存
+     */
+    const val TYPE_BOOKSTORE_START = "bookStore"
 }

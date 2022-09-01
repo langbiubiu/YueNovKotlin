@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
@@ -64,8 +63,7 @@ fun setClickListener(vararg views: View, listener: View.OnClickListener?) {
     }
 }
 
-//lambda需要写在可变参数前，否则编译器会把lambda表达式也看做一个可变参数
-fun Fragment.setClickListener(listener: (v: View) -> Unit, vararg views: View) {
+fun setClickListener(vararg views: View, listener: (v: View) -> Unit) {
     for (view in views) {
         view.setOnClickListener { listener(it) }
     }

@@ -24,7 +24,6 @@ import me.hgj.jetpackmvvm.ext.parseState
 class DetailFragment : BaseFragment<DetailFragmentViewModel, FragmentDetailBinding>() {
 
     private var bookId: Int = 0
-    private var response: BookDetailInfoResponse? = null
     private lateinit var bookInfo: BookBaseInfo
     private val recommendAdapter = BookDetailRecommendAdapter()
     private var hasBookShelf: Boolean = false
@@ -32,6 +31,7 @@ class DetailFragment : BaseFragment<DetailFragmentViewModel, FragmentDetailBindi
     private val _defaultRecommendPageSize = 6
     private var recommendPageSize: Int = _defaultRecommendPageSize
     private var recommendTotal: Int = 0
+    private var newestChapterId: Long = 0L
 
     override fun initView(savedInstanceState: Bundle?) {
         mViewBind.apply {
@@ -43,7 +43,8 @@ class DetailFragment : BaseFragment<DetailFragmentViewModel, FragmentDetailBindi
                 if (isFastDoubleClick() || isLoadingShowing()) return@setClickListener
                 when (view) {
                     llDpBack -> nav?.navigateUp()
-                    tvDpChapterName -> toRead(bookInfo, 0L)
+                    // 打开最新一章
+                    tvDpChapterName -> toRead(bookInfo, newestChapterId)
                     tvDpMenuTotal, llDpMenu -> {
                         toChapterMenuList()
                     }
@@ -61,8 +62,7 @@ class DetailFragment : BaseFragment<DetailFragmentViewModel, FragmentDetailBindi
                             _defaultRecommendPageSize
                         )
                     }
-                    // TODO 下载界面
-                    llDpDownload -> toRead(bookInfo, 0L)
+                    llDpDownload -> showToast("暂不支持下载")
                     tvDpRead -> toRead(bookInfo, 0L)
                     llDpAddBookShelf, ivDpAddBookShelf, tvDpAddBookShelf -> {
                         mViewModel.addOrRemoveBookShelf(hasBookShelf, bookInfo)
@@ -117,14 +117,13 @@ class DetailFragment : BaseFragment<DetailFragmentViewModel, FragmentDetailBindi
             bookDetailDataState.observe(viewLifecycleOwner) { resultState ->
                 parseState(resultState,
                     { response ->
-                        this@DetailFragment.response = response
                         response.apply {
                             bookInfo = BookBaseInfo(
                                 bookId, title, author, coverImg, update?.chapterStatus
                             )
                         }
                         setupView(response)
-
+                        newestChapterId = response.update?.chapterId ?: 0L
                         addReadHistory(response)
                     },
                     {
@@ -153,7 +152,8 @@ class DetailFragment : BaseFragment<DetailFragmentViewModel, FragmentDetailBindi
             }
             getRecommendListState.observe(viewLifecycleOwner) {
                 if (it.isSuccess) {
-                    logD(CLASS_TAG,
+                    logD(
+                        CLASS_TAG,
                         "total = ${it.data!!.total}, " +
                                 "pageNum = ${it.data!!.pageNum}, " +
                                 "pageSize = ${it.data!!.pageSize}"

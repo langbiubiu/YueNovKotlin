@@ -4,7 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.yuenov.kotlin.open.R
-import com.yuenov.kotlin.open.application.MyApplication
+import com.yuenov.kotlin.open.application.MyApplication.Companion.appContext
 import com.yuenov.kotlin.open.database.tb.TbBookShelf
 import com.yuenov.kotlin.open.databinding.ViewAdapterItemBookshelfBinding
 import com.yuenov.kotlin.open.ext.loadImage
@@ -18,7 +18,7 @@ class BookShelfListAdapter(data: ArrayList<TbBookShelf>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookShelfListViewHolder {
         val binding = ViewAdapterItemBookshelfBinding.inflate(
-            MyApplication.appContext.layoutInflater!!,
+            appContext.layoutInflater!!,
             parent,
             false
         )

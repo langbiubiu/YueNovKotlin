@@ -120,6 +120,7 @@ fun Fragment.showToast(str: String) {
 
 /**
  * 跳转至阅读界面
+ * @param chapterId 为0时表示打开历史记录
  */
 fun Fragment.toRead(bookInfo: BookBaseInfo, chapterId: Long) {
     nav().navigateAction(R.id.to_read_fragment, Bundle().apply {
@@ -141,12 +142,48 @@ fun Fragment.toDetail(bookId: Int) {
  * TODO: 跳转至搜索界面
  */
 fun Fragment.toSearch() {
+    nav().navigateAction(R.id.action_main_to_detail)
+}
+
+/**
+ * 跳转至下载界面
+ */
+@Deprecated("不做下载界面")
+fun Fragment.toDownload() {
 
 }
 
 /**
- * TODO: 跳转至下载界面
+ * TODO: 跳转至分类界面
  */
-fun Fragment.toDownload() {
+fun Fragment.toCategoryChannel() {
+    nav().navigateAction(R.id.action_main_to_detail)
+}
+
+/**
+ * TODO: 跳转至榜单界面
+ */
+fun Fragment.toRank() {
+    nav().navigateAction(R.id.action_main_to_detail)
+}
+
+/**
+ * TODO: 跳转至完本界面
+ */
+fun Fragment.toCategoryEnd() {
+    nav().navigateAction(R.id.action_main_to_detail)
+}
+
+/**
+ * TODO: 跳转至专题界面
+ */
+fun Fragment.toSpecial() {
+    nav().navigateAction(R.id.action_main_to_detail)
+}
+
+/**
+ * TODO: 跳转至分类下所有书籍界面
+ */
+fun Fragment.toDiscoverAll(categoryName: String?, type: String?, categoryId: Int?) {
 
 }

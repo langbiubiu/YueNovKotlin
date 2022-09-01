@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.yuenov.kotlin.open.application.singleThreadPoolExecutor
 import com.yuenov.kotlin.open.database.appDb
+import com.yuenov.kotlin.open.database.tb.TbCache
 import com.yuenov.kotlin.open.ext.CLASS_TAG
 import com.yuenov.kotlin.open.ext.logD
 import com.yuenov.kotlin.open.model.request.DownloadChapterRequest
@@ -20,8 +21,6 @@ import me.hgj.jetpackmvvm.state.ResultState
 
 /**
  * ViewModel的基类，用来实现公用的数据操作
- * TODO:
- * 1. 打开阅读界面前的数据准备 prepareToRead()
  */
 open class BaseFragmentViewModel : BaseViewModel() {
 
@@ -140,5 +139,15 @@ open class BaseFragmentViewModel : BaseViewModel() {
                 )
             }, isShowLoading
         )
+    }
+
+    fun getCacheContent(type: String): String {
+        val cache = appDb.cacheDao.getEntity(type)
+        return if (cache != null && !cache.cContent.isNullOrEmpty()) cache.cContent!! else ""
+    }
+
+    fun setCacheContent(type: String, content: String) {
+        if (type.isEmpty() || content.isEmpty()) return
+        appDb.cacheDao.addOrUpdate(TbCache(type, content))
     }
 }

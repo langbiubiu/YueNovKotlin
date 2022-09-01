@@ -1,5 +1,6 @@
 package com.yuenov.kotlin.open.fragment
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -106,9 +107,9 @@ class BookShelfFragment : BaseFragment<BookShelfFragmentViewModel, FragmentBooks
         logD(CLASS_TAG, "lazyLoadData")
         isFirstLoadData = true
         mViewModel.getBookShelfList()
-//        openLastReadBook()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun createObserver() {
         logD(CLASS_TAG, "createObserver")
         mViewModel.run {
@@ -140,13 +141,6 @@ class BookShelfFragment : BaseFragment<BookShelfFragmentViewModel, FragmentBooks
             logD(CLASS_TAG, "AppConfigInfo observe")
             DataStoreUtils.putJsonData(PreferenceConstants.KEY_CATEGORY_INFO, it)
         }
-    }
-
-    /**
-     * 打开非正常退出时，最后阅读的书
-     */
-    private fun openLastReadBook() {
-        TODO()
     }
 
 }

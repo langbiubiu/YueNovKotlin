@@ -189,7 +189,6 @@ class PageOperationView @JvmOverloads constructor(
                 if (menuListOrderAsc) R.mipmap.ic_book_down else R.mipmap.ic_book_up
             )
             menuListAdapter.orderByAes = menuListOrderAsc
-            // TODO: 先去除点击响应，等刷新完成后再添加，避免快速点击导致UI阻塞 ??
             setClickListener(ivWgDpMenuListOrder, listener = null)
             menuListAdapter.notifyDataSetChanged()
             lvWgDpMenuList.post {

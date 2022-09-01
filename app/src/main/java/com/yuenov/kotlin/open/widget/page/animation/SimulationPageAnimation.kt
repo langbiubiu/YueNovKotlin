@@ -320,7 +320,6 @@ class SimulationPageAnimation : HorizontalPageAnimation() {
             }
             canvas.clipPath(path1)
         } catch (e: Exception) {
-            // TODO: handle exception
         }
         var leftX: Int
         var rightX: Int
