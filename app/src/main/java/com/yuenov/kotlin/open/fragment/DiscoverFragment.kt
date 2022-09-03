@@ -19,7 +19,7 @@ import com.yuenov.kotlin.open.viewmodel.DiscoverFragmentViewModel
  * TODO:发现界面
  */
 class DiscoverFragment : BaseFragment<DiscoverFragmentViewModel, FragmentDiscoverBinding>(),
-    CategoryListAdapter.IBookBlItemAdapter, SwipeRefreshLayout.OnRefreshListener {
+    CategoryListAdapter.IBookBlItemAdapter {
 
     private lateinit var categoryBind: ViewDiscoverCategoryBinding
     private var categoryAdapter: CategoryListAdapter = CategoryListAdapter()
@@ -51,7 +51,7 @@ class DiscoverFragment : BaseFragment<DiscoverFragmentViewModel, FragmentDiscove
                     categoryBind.llBst4 -> toSpecial()
                 }
             }
-            srlBsList.setOnRefreshListener(this@DiscoverFragment)
+            srlBsList.setOnRefreshListener { mViewModel.getCategoryDiscovery() }
             categoryAdapter.addHeaderView(categoryBind.root)
             categoryAdapter.setListener(this@DiscoverFragment)
             rvBsList.adapter = categoryAdapter
@@ -130,9 +130,5 @@ class DiscoverFragment : BaseFragment<DiscoverFragmentViewModel, FragmentDiscove
                 type ?: ""
             )
         }
-    }
-
-    override fun onRefresh() {
-        mViewModel.getCategoryDiscovery()
     }
 }

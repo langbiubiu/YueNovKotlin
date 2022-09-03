@@ -18,6 +18,7 @@ import me.hgj.jetpackmvvm.ext.request
 import me.hgj.jetpackmvvm.network.AppException
 import me.hgj.jetpackmvvm.network.BaseResponse
 import me.hgj.jetpackmvvm.state.ResultState
+import retrofit2.http.Query
 
 /**
  * ViewModel的基类，用来实现公用的数据操作
@@ -27,6 +28,8 @@ open class BaseFragmentViewModel : BaseViewModel() {
     var updateChapterListState: MutableLiveData<UpdateUiState<ChapterListResponse>> =
         MutableLiveData()
     var downloadChapterContentState: MutableLiveData<ListDataUiState<ChapterInfoItem>> =
+        MutableLiveData()
+    var getBookListByCategoryIdState: MutableLiveData<UpdateUiState<BookListResponse>> =
         MutableLiveData()
 
     private val defaultApiDelayTime = 12 * 1000L
@@ -139,6 +142,23 @@ open class BaseFragmentViewModel : BaseViewModel() {
                 )
             }, isShowLoading
         )
+    }
+
+    fun getBookListByCategoryId(pageNum: Int, pageSize: Int, categoryId: Int, channelId: Int?, orderBy: String?) {
+        requestDelay(
+            { apiService.getCategoryId(pageNum, pageSize, categoryId, channelId, orderBy) },
+            {
+                getBookListByCategoryIdState.value = UpdateUiState(
+                    isSuccess = true,
+                    data = it
+                )
+            },
+            {
+                getBookListByCategoryIdState.value = UpdateUiState(
+                    isSuccess = false,
+                    errorMsg = it.errorMsg
+                )
+            })
     }
 
     fun getCacheContent(type: String): String {

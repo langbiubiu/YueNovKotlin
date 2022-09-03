@@ -1,8 +1,8 @@
 package com.yuenov.kotlin.open.constant
 
-import com.yuenov.kotlin.open.application.appViewMode
+import com.yuenov.kotlin.open.application.appViewModel
 
-object InterFaceConstants {
+object InterfaceConstants {
 
     /**
      * 默认分页条数
@@ -34,9 +34,9 @@ object InterFaceConstants {
     var domainPort: Int = domainDefaultPort
         get() {
             return if (field == domainDefaultPort
-                && !appViewMode.appConfigInfo.value?.ports.isNullOrEmpty()
+                && !appViewModel.appConfigInfo.value?.ports.isNullOrEmpty()
             ) {
-                appViewMode.appConfigInfo.value!!.ports!![0]
+                appViewModel.appConfigInfo.value!!.ports!![0]
             } else {
                 field
             }

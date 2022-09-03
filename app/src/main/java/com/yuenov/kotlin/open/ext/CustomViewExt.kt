@@ -16,7 +16,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomViewTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.yuenov.kotlin.open.constant.InterFaceConstants
+import com.yuenov.kotlin.open.constant.InterfaceConstants
 import jp.wasabeef.blurry.Blurry
 import java.io.File
 
@@ -73,7 +73,7 @@ fun setClickListener(vararg views: View, listener: (v: View) -> Unit) {
 //--------------------- ImageView ------------------
 private fun getImageUrl(url: String?): String? {
     return if (!url.isNullOrBlank() && url.startsWith("/"))
-        InterFaceConstants.getImageDomain() + url
+        InterfaceConstants.getImageDomain() + url
     else
         url
 }

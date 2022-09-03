@@ -1,6 +1,6 @@
 package com.yuenov.kotlin.open.network
 
-import com.yuenov.kotlin.open.constant.InterFaceConstants
+import com.yuenov.kotlin.open.constant.InterfaceConstants
 import com.yuenov.kotlin.open.model.request.*
 import com.yuenov.kotlin.open.model.response.*
 import retrofit2.http.*
@@ -8,7 +8,7 @@ import retrofit2.http.*
 interface ApiService {
 
     companion object {
-        val API_URL: String = InterFaceConstants.getInterfaceDomain() + "open/api/"
+        val API_URL: String = InterfaceConstants.getInterfaceDomain() + "open/api/"
     }
 
     /**
@@ -134,8 +134,8 @@ interface ApiService {
         @Query("pageNum") pageNum: Int,
         @Query("pageSize") pageSize: Int,
         @Query("categoryId") categoryId: Int,
-        @Query("channelId") channelId: Int,
-        @Query("orderBy") orderBy: String
+        @Query("channelId") channelId: Int?,
+        @Query("orderBy") orderBy: String?
     ): ApiResponse<BookListResponse>
 
     /**

@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.yuenov.kotlin.open.R
 import com.yuenov.kotlin.open.adapter.BookShelfListAdapter
-import com.yuenov.kotlin.open.application.appViewMode
+import com.yuenov.kotlin.open.application.appViewModel
 import com.yuenov.kotlin.open.base.BaseFragment
 import com.yuenov.kotlin.open.constant.PreferenceConstants
 import com.yuenov.kotlin.open.database.tb.TbBookShelf
@@ -123,7 +123,7 @@ class BookShelfFragment : BaseFragment<BookShelfFragmentViewModel, FragmentBooks
                     if (isFirstLoadData && it.listData.isNotEmpty()) {
                         checkBookShelfUpdate()
                         // 在更新完书架信息后再更新AppConfigInfo
-                        appViewMode.updateAppConfigInfo()
+                        appViewModel.updateAppConfigInfo()
                         isFirstLoadData = false
                     }
                 } else {
@@ -137,7 +137,7 @@ class BookShelfFragment : BaseFragment<BookShelfFragmentViewModel, FragmentBooks
                 mViewBind.swipeRefresh.isRefreshing = false
             }
         }
-        appViewMode.appConfigInfo.observeInFragment(this) {
+        appViewModel.appConfigInfo.observeInFragment(this) {
             logD(CLASS_TAG, "AppConfigInfo observe")
             DataStoreUtils.putJsonData(PreferenceConstants.KEY_CATEGORY_INFO, it)
         }

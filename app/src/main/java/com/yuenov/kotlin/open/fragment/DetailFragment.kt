@@ -5,7 +5,7 @@ import android.view.View
 import com.yuenov.kotlin.open.R
 import com.yuenov.kotlin.open.adapter.BookDetailRecommendAdapter
 import com.yuenov.kotlin.open.base.BaseFragment
-import com.yuenov.kotlin.open.constant.InterFaceConstants
+import com.yuenov.kotlin.open.constant.InterfaceConstants
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_INT_BOOK_ID
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_MODEL_BOOK_BASE_INFO
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_STRING_TITLE
@@ -185,7 +185,7 @@ class DetailFragment : BaseFragment<DetailFragmentViewModel, FragmentDetailBindi
             tvDpDesc.text = response.desc.deleteStartAndEndNewLine()
             response.update?.apply {
                 tvDpChapterName.text = chapterName
-                if (chapterStatus == InterFaceConstants.CHAPTER_STATUS_SERIALIZE) {
+                if (chapterStatus == InterfaceConstants.CHAPTER_STATUS_SERIALIZE) {
                     val lastTime = TimeUtils.getDiffTimeText(time)
                     tvDpIsEnd.text = lastTime
                     resetVisibility(lastTime.isNotEmpty(), tvDpIsEnd)
