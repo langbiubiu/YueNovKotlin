@@ -37,4 +37,9 @@ object PreferenceConstants {
      * 书城页缓存
      */
     const val TYPE_BOOKSTORE_START = "bookStore_"
+
+    /**
+     * 分类首页缓存
+     */
+    const val TYPE_CATEGORY_CHANNEL = "categoryChannel"
 }

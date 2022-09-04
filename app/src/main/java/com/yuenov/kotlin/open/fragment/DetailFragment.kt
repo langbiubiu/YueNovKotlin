@@ -15,6 +15,7 @@ import com.yuenov.kotlin.open.model.response.BookDetailInfoResponse
 import com.yuenov.kotlin.open.model.standard.BookBaseInfo
 import com.yuenov.kotlin.open.utils.TimeUtils
 import com.yuenov.kotlin.open.viewmodel.DetailFragmentViewModel
+import me.hgj.jetpackmvvm.ext.nav
 import me.hgj.jetpackmvvm.ext.navigateAction
 import me.hgj.jetpackmvvm.ext.parseState
 
@@ -42,14 +43,14 @@ class DetailFragment : BaseFragment<DetailFragmentViewModel, FragmentDetailBindi
             ) { view ->
                 if (isFastDoubleClick() || isLoadingShowing()) return@setClickListener
                 when (view) {
-                    llDpBack -> nav?.navigateUp()
+                    llDpBack -> nav().navigateUp()
                     // 打开最新一章
                     tvDpChapterName -> toRead(bookInfo, newestChapterId)
                     tvDpMenuTotal, llDpMenu -> {
                         toChapterMenuList()
                     }
                     tvDpRecommendMore -> {
-                        nav?.navigateAction(R.id.action_detail_to_detail, Bundle().apply {
+                        nav().navigateAction(R.id.action_detail_to_detail, Bundle().apply {
                             putString(EXTRA_STRING_TITLE, "热门推荐")
                             putInt(EXTRA_INT_BOOK_ID, bookId)
                         })
@@ -92,7 +93,7 @@ class DetailFragment : BaseFragment<DetailFragmentViewModel, FragmentDetailBindi
             wgvDpRecommend.setOnItemClickListener { _, _, position, _ ->
                 logD(CLASS_TAG, "onItemClick ${isLoadingShowing()}")
                 if (isLoadingShowing()) return@setOnItemClickListener
-                nav?.navigateAction(R.id.action_detail_to_detail, Bundle().apply {
+                nav().navigateAction(R.id.action_detail_to_detail, Bundle().apply {
                     putInt(EXTRA_INT_BOOK_ID, recommendAdapter.list!![position].bookId)
                 })
             }
@@ -100,7 +101,7 @@ class DetailFragment : BaseFragment<DetailFragmentViewModel, FragmentDetailBindi
     }
 
     override fun initData() {
-        bookId = arguments?.getInt(EXTRA_INT_BOOK_ID)!!
+        bookId = requireArguments().getInt(EXTRA_INT_BOOK_ID)
     }
 
     override fun lazyLoadData() {
@@ -128,7 +129,7 @@ class DetailFragment : BaseFragment<DetailFragmentViewModel, FragmentDetailBindi
                     },
                     {
                         showToast(it.errorMsg)
-                        nav?.navigateUp()
+                        nav().navigateUp()
                     })
             }
             hasReadRecordState.observe(viewLifecycleOwner) {
@@ -224,7 +225,7 @@ class DetailFragment : BaseFragment<DetailFragmentViewModel, FragmentDetailBindi
     private fun toChapterMenuList() {
         mViewModel.updateChapterListState.observe(viewLifecycleOwner) {
             if (it.isSuccess) {
-                nav?.navigateAction(R.id.action_detail_to_chapter_list, Bundle().apply {
+                nav().navigateAction(R.id.action_detail_to_chapter_list, Bundle().apply {
                     putParcelable(EXTRA_MODEL_BOOK_BASE_INFO, bookInfo)
                 })
             } else {

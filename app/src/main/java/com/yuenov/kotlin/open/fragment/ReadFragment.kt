@@ -193,8 +193,8 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
     }
 
     override fun initData() {
-        bookBaseInfo = arguments?.getParcelable(PreferenceConstants.EXTRA_MODEL_BOOK_BASE_INFO)
-        chapterId = arguments?.getLong(PreferenceConstants.EXTRA_LONG_CHAPTER_ID, 0)!!
+        bookBaseInfo = requireArguments().getParcelable(PreferenceConstants.EXTRA_MODEL_BOOK_BASE_INFO)
+        chapterId = requireArguments().getLong(PreferenceConstants.EXTRA_LONG_CHAPTER_ID, 0)
 
         readSettingInfo = DataStoreUtils.getJsonData(
             PreferenceConstants.KEY_READ_SETTING_INFO,

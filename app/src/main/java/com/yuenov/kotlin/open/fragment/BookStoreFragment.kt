@@ -1,5 +1,6 @@
 package com.yuenov.kotlin.open.fragment
 
+import android.graphics.Typeface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -9,20 +10,20 @@ import com.yuenov.kotlin.open.application.appViewModel
 import com.yuenov.kotlin.open.base.BaseFragment
 import com.yuenov.kotlin.open.base.BaseFragmentViewModel
 import com.yuenov.kotlin.open.databinding.FragmentBookstoreBinding
-import com.yuenov.kotlin.open.databinding.ViewMenuBookcityTablayoutTitleBinding
+import com.yuenov.kotlin.open.databinding.ViewMenuTablayoutTitleBinding
 import com.yuenov.kotlin.open.ext.*
 
 /**
  * 书城界面
  */
-class BookStoreFragment : BaseFragment<BaseFragmentViewModel, FragmentBookstoreBinding>(), TabLayout.OnTabSelectedListener {
+class BookStoreFragment : BaseFragment<BaseFragmentViewModel, FragmentBookstoreBinding>() {
 
-    private lateinit var customViewBind: ViewMenuBookcityTablayoutTitleBinding
+    private lateinit var customViewBind: ViewMenuTablayoutTitleBinding
     private val categoryNameList: MutableList<String> = mutableListOf()
     private val categoryIdList: MutableList<Int> = mutableListOf()
 
     override fun initView(savedInstanceState: Bundle?) {
-        customViewBind = ViewMenuBookcityTablayoutTitleBinding.inflate(layoutInflater)
+        customViewBind = ViewMenuTablayoutTitleBinding.inflate(layoutInflater)
         mViewBind.apply {
             setClickListener(rlBcBcSearch, rlBcBcSearch) {
                 when (it) {
@@ -30,21 +31,34 @@ class BookStoreFragment : BaseFragment<BaseFragmentViewModel, FragmentBookstoreB
                     rlBcCategoryChannel -> toCategoryChannel()
                 }
             }
-            tlBcMenu.addOnTabSelectedListener(this@BookStoreFragment)
+            tlBcMenu.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+                override fun onTabSelected(tab: TabLayout.Tab) {
+                    customViewBind.tvMttName.text = categoryNameList[tab.position]
+                    customViewBind.tvMttName.setTypeface(null, Typeface.BOLD)
+                    tab.customView = customViewBind.root
+                }
+
+                override fun onTabUnselected(tab: TabLayout.Tab) {
+                    tab.customView = null
+                }
+
+                override fun onTabReselected(tab: TabLayout.Tab) {}
+
+            })
         }
     }
 
     override fun initData() {
         if (appViewModel.appConfigInfo.value?.categories.isNullOrEmpty()) return
         val categories = appViewModel.appConfigInfo.value!!.categories
-        val fragmentList = mutableListOf<BookListFragment>()
+        val fragmentList = mutableListOf<BookStoreItemFragment>()
         if (categories != null) {
             categoryNameList.clear()
             categoryIdList.clear()
             categories.forEach {
                 categoryNameList.add(it.categoryName!!)
                 categoryIdList.add(it.categoryId!!)
-                fragmentList.add(BookListFragment.getFragment(it.categoryName, it.categoryId))
+                fragmentList.add(BookStoreItemFragment.getFragment(it.categoryName, it.categoryId))
             }
         }
         mViewBind.apply {
@@ -69,15 +83,4 @@ class BookStoreFragment : BaseFragment<BaseFragmentViewModel, FragmentBookstoreB
             initData()
         }
     }
-
-    override fun onTabSelected(tab: TabLayout.Tab) {
-        customViewBind.tvMbtName.text = categoryNameList[tab.position]
-        tab.customView = customViewBind.root
-    }
-
-    override fun onTabUnselected(tab: TabLayout.Tab) {
-        tab.customView = null
-    }
-
-    override fun onTabReselected(tab: TabLayout.Tab) {}
 }

@@ -17,7 +17,6 @@ import me.hgj.jetpackmvvm.ext.nav
 abstract class BaseFragment<VM : BaseFragmentViewModel, VB : ViewBinding> :
     BaseVmVbFragment<VM, VB>() {
 
-    var nav: NavController? = null
     private var callback: BackPressCallback? = null
 
     override fun onCreateView(
@@ -25,7 +24,6 @@ abstract class BaseFragment<VM : BaseFragmentViewModel, VB : ViewBinding> :
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        nav = nav()
         viewLifecycleOwner.lifecycle.addObserver(object : LifecycleEventObserver {
             override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
                 logD(
@@ -105,11 +103,11 @@ abstract class BaseFragment<VM : BaseFragmentViewModel, VB : ViewBinding> :
 
     /**
      * 只有在[needBackPressedCallback]为true才会回调
-     * 注意：重写时要考虑好是否需要调用super.onBackPressed()，注册callback时会拦截默认的返回键处理流程，
-     * 因此不会默认返回上一个Fragment。除非你不需要返回到上一个Fragment，或者想自己实现返回逻辑
+     * 注意：重写时要考虑好是否需要调用super.onBackPressed()，
+     * 注册callback时会拦截默认的返回键处理流程，因此不会默认返回上一个Fragment。
      */
     open fun onBackPressed() {
-        nav?.navigateUp()
+        nav().navigateUp()
     }
 
     inner class BackPressCallback(enabled: Boolean) : OnBackPressedCallback(enabled) {

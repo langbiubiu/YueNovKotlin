@@ -5,10 +5,12 @@
       <map>
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2845" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/drawable/bg_bookshelf_find.xml" value="0.3725" />
+        <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/drawable/bg_categorychannel_item_item.xml" value="0.231" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/drawable/bg_search_inputarea.xml" value="0.2845" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/drawable/bg_tab_bookcity_selector.xml" value="0.2845" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/drawable/bg_tab_bookshelf_selector.xml" value="0.2845" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/drawable/bg_tab_find_selector.xml" value="0.2845" />
+        <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/drawable/bg_title_back_selector.xml" value="0.231" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/drawable/bg_widget_bd_op_unselect.xml" value="0.3725" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/drawable/bottom_selector.xml" value="0.285" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/drawable/button_book_read.xml" value="0.284" />
@@ -20,11 +22,14 @@
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/fragment_bc.xml" value="0.48641304347826086" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/fragment_bookshelf.xml" value="0.5" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/fragment_bookstore.xml" value="0.4093420391762933" />
+        <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/fragment_categorychannel.xml" value="0.27749874434957306" />
+        <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/fragment_categorychannel_item.xml" value="0.23097826086956522" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/fragment_detail.xml" value="0.1" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/fragment_discover.xml" value="0.33" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/fragment_main.xml" value="0.4433876811594203" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/fragment_read.xml" value="0.33" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/layout_custom_progress_dialog_view.xml" value="0.379981884057971" />
+        <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/view_adapter_categorychannel_item.xml" value="0.23097826086956522" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/view_adapter_find_item.xml" value="0.4791666666666667" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/view_adapter_item_bookshelf.xml" value="0.442481884057971" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/view_adapter_item_bookshelf_1.xml" value="0.4148550724637681" />
@@ -33,7 +38,10 @@
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/view_adapter_item_detailoperation_bottom_menu.xml" value="0.2222501255650427" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/view_bookshelf_empty.xml" value="0.4093420391762933" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/view_findindex_type.xml" value="0.4791666666666667" />
+        <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/view_menu_bookcity_tablayout_title.xml" value="0.23097826086956522" />
+        <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/view_menu_tablayout_title.xml" value="0.27398292315419387" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/view_popwindow_deletebookshelf.xml" value="0.4090909090909091" />
+        <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/view_widget_categoryitem_image.xml" value="0.26845806127574084" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/view_widget_detailoperation.xml" value="0.5" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/view_widget_light.xml" value="0.2222501255650427" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/menu/menu_navigation.xml" value="0.521875" />

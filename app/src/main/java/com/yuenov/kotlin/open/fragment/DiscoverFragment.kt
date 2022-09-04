@@ -2,7 +2,6 @@ package com.yuenov.kotlin.open.fragment
 
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.gson.reflect.TypeToken
 import com.yuenov.kotlin.open.adapter.CategoryListAdapter
 import com.yuenov.kotlin.open.application.gson

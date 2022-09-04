@@ -157,7 +157,7 @@ fun Fragment.toDownload() {
  * TODO: 跳转至分类界面
  */
 fun Fragment.toCategoryChannel() {
-    nav().navigateAction(R.id.action_main_to_detail)
+    nav().navigateAction(R.id.to_category_channel_fragment)
 }
 
 /**
@@ -185,5 +185,12 @@ fun Fragment.toSpecial() {
  * TODO: 跳转至分类下所有书籍界面
  */
 fun Fragment.toDiscoverAll(categoryName: String?, type: String?, categoryId: Int?) {
+
+}
+
+/**
+ * TODO: 跳转至分类下书籍列表界面
+ */
+fun Fragment.toCategoryBookList(categoryName: String?, categoryId: Int?, channelId: Int?) {
 
 }
