@@ -1,8 +1,8 @@
 package com.yuenov.kotlin.open.widget.page.animation
 
-import android.graphics.drawable.GradientDrawable
 import android.graphics.Canvas
 import android.graphics.Rect
+import android.graphics.drawable.GradientDrawable
 import com.yuenov.kotlin.open.widget.page.PageView
 import kotlin.math.abs
 

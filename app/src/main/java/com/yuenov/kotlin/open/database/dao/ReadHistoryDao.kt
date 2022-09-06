@@ -2,7 +2,6 @@ package com.yuenov.kotlin.open.database.dao
 
 import androidx.room.*
 import com.yuenov.kotlin.open.database.tb.TbReadHistory
-import java.lang.Exception
 
 @Dao
 interface ReadHistoryDao {

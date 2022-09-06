@@ -1,10 +1,10 @@
 package com.yuenov.kotlin.open.widget.page.animation
 
-import android.widget.Scroller
-import android.view.MotionEvent
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.view.MotionEvent
 import android.view.animation.LinearInterpolator
+import android.widget.Scroller
 import androidx.annotation.CallSuper
 import com.yuenov.kotlin.open.widget.page.PageView
 

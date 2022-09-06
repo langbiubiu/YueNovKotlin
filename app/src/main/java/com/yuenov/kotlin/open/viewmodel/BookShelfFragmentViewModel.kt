@@ -25,7 +25,8 @@ class BookShelfFragmentViewModel : BaseFragmentViewModel() {
     /**
      * 请求书籍更新信息
      */
-    val checkUpdateDataState: MutableLiveData<UpdateUiState<CheckUpdateResponse>> = MutableLiveData()
+    val checkUpdateDataState: MutableLiveData<UpdateUiState<CheckUpdateResponse>> =
+        MutableLiveData()
 
     init {
         //TODO:先写一些假数据，后续需要删除

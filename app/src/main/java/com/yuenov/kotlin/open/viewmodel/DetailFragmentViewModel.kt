@@ -9,14 +9,15 @@ import com.yuenov.kotlin.open.model.response.BookDetailInfoResponse
 import com.yuenov.kotlin.open.model.response.BookListResponse
 import com.yuenov.kotlin.open.model.standard.BookBaseInfo
 import com.yuenov.kotlin.open.network.apiService
-import me.hgj.jetpackmvvm.callback.livedata.BooleanLiveData
 import com.yuenov.kotlin.open.network.stateCallback.UpdateUiState
+import me.hgj.jetpackmvvm.callback.livedata.BooleanLiveData
 import me.hgj.jetpackmvvm.ext.launch
 import me.hgj.jetpackmvvm.state.ResultState
 
 class DetailFragmentViewModel : BaseFragmentViewModel() {
 
-    val bookDetailDataState: MutableLiveData<ResultState<BookDetailInfoResponse>> = MutableLiveData()
+    val bookDetailDataState: MutableLiveData<ResultState<BookDetailInfoResponse>> =
+        MutableLiveData()
 
     val hasReadRecordState: BooleanLiveData = BooleanLiveData()
 

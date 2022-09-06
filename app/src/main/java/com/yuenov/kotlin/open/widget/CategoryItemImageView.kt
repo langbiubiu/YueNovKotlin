@@ -19,7 +19,7 @@ class CategoryItemImageView @JvmOverloads constructor(
     }
 
     private val binding: ViewWidgetCategoryitemImageBinding
-    private var listener : CategoryItemImageViewListener? = object : CategoryItemImageViewListener {
+    private var listener: CategoryItemImageViewListener? = object : CategoryItemImageViewListener {
         override fun categoryItemImageViewOnClick() {
             clickAction()
         }

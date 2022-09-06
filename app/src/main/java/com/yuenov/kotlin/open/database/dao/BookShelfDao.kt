@@ -1,9 +1,8 @@
 package com.yuenov.kotlin.open.database.dao
 
 import androidx.room.*
-import com.yuenov.kotlin.open.database.tb.TbBookShelf
 import com.yuenov.kotlin.open.database.appDb
-import java.lang.Exception
+import com.yuenov.kotlin.open.database.tb.TbBookShelf
 
 @Dao
 interface BookShelfDao {

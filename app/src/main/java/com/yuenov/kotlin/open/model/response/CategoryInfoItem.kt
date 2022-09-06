@@ -26,4 +26,4 @@ data class CategoryInfoItem(
      * 在表示完本分类时，该字段为空
      **/
     var type: String?
-): Parcelable
+) : Parcelable

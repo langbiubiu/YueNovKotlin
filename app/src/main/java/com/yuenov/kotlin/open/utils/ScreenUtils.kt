@@ -6,7 +6,6 @@ import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.View
 import me.hgj.jetpackmvvm.base.appContext
-import java.lang.Exception
 
 /**
  * Created by newbiechen on 17-5-1.

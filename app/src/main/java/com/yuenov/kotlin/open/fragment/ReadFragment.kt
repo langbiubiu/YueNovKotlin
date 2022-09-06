@@ -21,7 +21,10 @@ import com.yuenov.kotlin.open.ext.*
 import com.yuenov.kotlin.open.model.standard.BookBaseInfo
 import com.yuenov.kotlin.open.utils.*
 import com.yuenov.kotlin.open.viewmodel.ReadFragmentViewModel
-import com.yuenov.kotlin.open.widget.mypage.*
+import com.yuenov.kotlin.open.widget.mypage.PageAnimationType
+import com.yuenov.kotlin.open.widget.mypage.PageBackground
+import com.yuenov.kotlin.open.widget.mypage.PageOperationView
+import com.yuenov.kotlin.open.widget.mypage.ReadSettingInfo
 import com.yuenov.kotlin.open.widget.page.IPagerLoader
 import com.yuenov.kotlin.open.widget.page.PageView
 import com.yuenov.kotlin.open.widget.page.animation.*
@@ -193,7 +196,8 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
     }
 
     override fun initData() {
-        bookBaseInfo = requireArguments().getParcelable(PreferenceConstants.EXTRA_MODEL_BOOK_BASE_INFO)
+        bookBaseInfo =
+            requireArguments().getParcelable(PreferenceConstants.EXTRA_MODEL_BOOK_BASE_INFO)
         chapterId = requireArguments().getLong(PreferenceConstants.EXTRA_LONG_CHAPTER_ID, 0)
 
         readSettingInfo = DataStoreUtils.getJsonData(
@@ -319,7 +323,8 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
                     } else if (downloadChapter.id == nextChapter?.chapterId) {
                         mViewBind.pvDiContent.autoTurnPage(isAutoTurnNext)
                     }
-                    menuList.find { chapter -> chapter.chapterId == downloadChapter.id }?.content = "0"
+                    menuList.find { chapter -> chapter.chapterId == downloadChapter.id }?.content =
+                        "0"
                 } else {
                     showToast("章节下载失败")
                     if (!it.isSuccess) {
@@ -384,7 +389,12 @@ class ReadFragment : BaseFragment<ReadFragmentViewModel, FragmentReadBinding>() 
 
     private fun downloadChapter(chapterId: Long, isShowLoading: Boolean) {
         logD(CLASS_TAG, "downloadChapter chapterId:$chapterId")
-        mViewModel.downloadChapterContent(bookBaseInfo!!.bookId, chapterId, menuList[0].v, isShowLoading)
+        mViewModel.downloadChapterContent(
+            bookBaseInfo!!.bookId,
+            chapterId,
+            menuList[0].v,
+            isShowLoading
+        )
         // 网络请求存在12秒间隔，因此可能不会立刻显示loading框，手动调用一次，在请求完成后会调用dismiss
         if (isShowLoading) showLoading()
     }

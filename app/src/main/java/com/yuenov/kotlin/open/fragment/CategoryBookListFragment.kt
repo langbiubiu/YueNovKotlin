@@ -4,13 +4,14 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.yuenov.kotlin.open.R
 import com.yuenov.kotlin.open.adapter.CategoryBookListAdapter
-import com.yuenov.kotlin.open.application.gson
 import com.yuenov.kotlin.open.base.BaseFragment
 import com.yuenov.kotlin.open.base.BaseFragmentViewModel
 import com.yuenov.kotlin.open.constant.InterfaceConstants
 import com.yuenov.kotlin.open.constant.PreferenceConstants
 import com.yuenov.kotlin.open.databinding.FragmentCategorybooklistBinding
-import com.yuenov.kotlin.open.ext.*
+import com.yuenov.kotlin.open.ext.setClickListener
+import com.yuenov.kotlin.open.ext.showToast
+import com.yuenov.kotlin.open.ext.toDetail
 import com.yuenov.kotlin.open.model.response.BookInfoItem
 import me.hgj.jetpackmvvm.ext.nav
 

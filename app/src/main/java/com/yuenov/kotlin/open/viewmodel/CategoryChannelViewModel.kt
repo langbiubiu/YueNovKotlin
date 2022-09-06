@@ -6,9 +6,10 @@ import com.yuenov.kotlin.open.model.response.ChannelInfoItem
 import com.yuenov.kotlin.open.network.apiService
 import com.yuenov.kotlin.open.network.stateCallback.ListDataUiState
 
-class CategoryChannelViewModel: BaseFragmentViewModel() {
+class CategoryChannelViewModel : BaseFragmentViewModel() {
 
-    var getCategoryChannelListState: MutableLiveData<ListDataUiState<ChannelInfoItem>> = MutableLiveData()
+    var getCategoryChannelListState: MutableLiveData<ListDataUiState<ChannelInfoItem>> =
+        MutableLiveData()
 
     fun getCategoryChannelList() {
         requestDelay(
@@ -34,6 +35,7 @@ class CategoryChannelViewModel: BaseFragmentViewModel() {
                     isEmpty = true,
                     errMessage = it.errorMsg
                 )
-            }, true)
+            }, true
+        )
     }
 }

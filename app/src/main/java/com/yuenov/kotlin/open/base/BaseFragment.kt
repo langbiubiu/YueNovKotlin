@@ -8,7 +8,6 @@ import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
-import androidx.navigation.NavController
 import androidx.viewbinding.ViewBinding
 import com.yuenov.kotlin.open.ext.*
 import me.hgj.jetpackmvvm.base.fragment.BaseVmVbFragment

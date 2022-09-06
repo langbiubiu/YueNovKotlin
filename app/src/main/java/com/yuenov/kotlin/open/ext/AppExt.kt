@@ -3,7 +3,6 @@ package com.yuenov.kotlin.open.ext
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.WindowManager
-import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.StringRes
@@ -20,9 +19,7 @@ import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_INT_CHANNEL_ID
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_LONG_CHAPTER_ID
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_MODEL_BOOK_BASE_INFO
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_STRING_CATEGORY_NAME
-import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_STRING_TITLE
 import com.yuenov.kotlin.open.model.standard.BookBaseInfo
-import com.yuenov.kotlin.open.utils.SystemBarUtils
 import me.hgj.jetpackmvvm.ext.nav
 import me.hgj.jetpackmvvm.ext.navigateAction
 

@@ -2,7 +2,6 @@ package com.yuenov.kotlin.open.widget
 
 import android.content.Context
 import android.util.AttributeSet
-import kotlin.jvm.JvmOverloads
 import android.widget.GridView
 
 class WrapHeightGridView @JvmOverloads constructor(

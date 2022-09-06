@@ -10,7 +10,6 @@ import com.yuenov.kotlin.open.application.gson
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.runBlocking
 import java.io.IOException
-import java.lang.IllegalArgumentException
 
 /**
  * created by xinghe
@@ -86,7 +85,11 @@ object DataStoreUtils {
     /**
      * 同步获取Json数据
      */
-    fun <Value> getJsonSyncData(key: String, clazz: Class<Value>, defaultValue: Value): Flow<Value> {
+    fun <Value> getJsonSyncData(
+        key: String,
+        clazz: Class<Value>,
+        defaultValue: Value
+    ): Flow<Value> {
         return getSyncData(key, defaultValue.toString())
             .map {
                 try {

@@ -12,7 +12,7 @@ import androidx.navigation.Navigator
 import androidx.navigation.fragment.FragmentNavigator
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_INT_BOOK_ID
 import com.yuenov.kotlin.open.fragment.DetailFragment
-import java.util.ArrayDeque
+import java.util.*
 
 /**
  * 参考[me.hgj.jetpackmvvm.navigation.FragmentNavigatorHideShow]

@@ -12,12 +12,12 @@ import com.yuenov.kotlin.open.constant.PreferenceConstants
 import com.yuenov.kotlin.open.databinding.FragmentCategorychannelBinding
 import com.yuenov.kotlin.open.databinding.ViewMenuTablayoutTitleBinding
 import com.yuenov.kotlin.open.ext.setClickListener
-import com.yuenov.kotlin.open.model.response.CategoryInfoItem
 import com.yuenov.kotlin.open.model.response.ChannelInfoItem
 import com.yuenov.kotlin.open.viewmodel.CategoryChannelViewModel
 import me.hgj.jetpackmvvm.ext.nav
 
-class CategoryChannelFragment: BaseFragment<CategoryChannelViewModel, FragmentCategorychannelBinding>() {
+class CategoryChannelFragment :
+    BaseFragment<CategoryChannelViewModel, FragmentCategorychannelBinding>() {
 
     private lateinit var customView: ViewMenuTablayoutTitleBinding
     private var channelList: ArrayList<ChannelInfoItem> = arrayListOf()
@@ -62,7 +62,10 @@ class CategoryChannelFragment: BaseFragment<CategoryChannelViewModel, FragmentCa
             getCategoryChannelListState.observe(viewLifecycleOwner) {
                 if (it.isSuccess && !it.isEmpty) {
                     channelList = it.listData as ArrayList<ChannelInfoItem>
-                    setCacheContent(PreferenceConstants.TYPE_CATEGORY_CHANNEL, gson.toJson(channelList))
+                    setCacheContent(
+                        PreferenceConstants.TYPE_CATEGORY_CHANNEL,
+                        gson.toJson(channelList)
+                    )
                     setupData()
                 }
             }

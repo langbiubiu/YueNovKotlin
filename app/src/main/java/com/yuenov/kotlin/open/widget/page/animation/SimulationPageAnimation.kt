@@ -6,7 +6,6 @@ import android.os.Build
 import com.yuenov.kotlin.open.ext.CLASS_TAG
 import com.yuenov.kotlin.open.ext.logD
 import com.yuenov.kotlin.open.widget.page.PageView
-import java.lang.Exception
 import kotlin.math.*
 
 class SimulationPageAnimation : HorizontalPageAnimation() {

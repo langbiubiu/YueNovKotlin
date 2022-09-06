@@ -47,7 +47,7 @@ class CategoryChannelItemFragment :
         val inviteList = ArrayList<Pair<CategoryInfoItem, CategoryInfoItem?>>()
         for (i in 0..categoryList.size step 2) {
             val first = categoryList[i]
-            val second = if (i + 1 < categoryList.size) categoryList[i+1] else null
+            val second = if (i + 1 < categoryList.size) categoryList[i + 1] else null
             inviteList.add(Pair(first, second))
         }
         adapter.setNewInstance(inviteList)

@@ -11,7 +11,9 @@ import com.yuenov.kotlin.open.base.BaseFragment
 import com.yuenov.kotlin.open.base.BaseFragmentViewModel
 import com.yuenov.kotlin.open.databinding.FragmentBookstoreBinding
 import com.yuenov.kotlin.open.databinding.ViewMenuTablayoutTitleBinding
-import com.yuenov.kotlin.open.ext.*
+import com.yuenov.kotlin.open.ext.setClickListener
+import com.yuenov.kotlin.open.ext.toCategoryChannel
+import com.yuenov.kotlin.open.ext.toSearch
 
 /**
  * 书城界面

@@ -11,14 +11,15 @@ import com.yuenov.kotlin.open.model.request.DownloadChapterRequest
 import com.yuenov.kotlin.open.model.response.*
 import com.yuenov.kotlin.open.network.apiService
 import com.yuenov.kotlin.open.network.stateCallback.ListDataUiState
-import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
 import com.yuenov.kotlin.open.network.stateCallback.UpdateUiState
-import kotlinx.coroutines.*
+import kotlinx.coroutines.asCoroutineDispatcher
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
 import me.hgj.jetpackmvvm.ext.request
 import me.hgj.jetpackmvvm.network.AppException
 import me.hgj.jetpackmvvm.network.BaseResponse
 import me.hgj.jetpackmvvm.state.ResultState
-import retrofit2.http.Query
 
 /**
  * ViewModel的基类，用来实现公用的数据操作
@@ -144,7 +145,13 @@ open class BaseFragmentViewModel : BaseViewModel() {
         )
     }
 
-    fun getBookListByCategoryId(pageNum: Int, pageSize: Int, categoryId: Int, channelId: Int?, orderBy: String?) {
+    fun getBookListByCategoryId(
+        pageNum: Int,
+        pageSize: Int,
+        categoryId: Int,
+        channelId: Int?,
+        orderBy: String?
+    ) {
         requestDelay(
             { apiService.getCategoryId(pageNum, pageSize, categoryId, channelId, orderBy) },
             {

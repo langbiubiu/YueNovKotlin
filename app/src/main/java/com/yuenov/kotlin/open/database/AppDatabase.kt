@@ -1,6 +1,8 @@
 package com.yuenov.kotlin.open.database
 
-import androidx.room.*
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.yuenov.kotlin.open.application.MyApplication
 import com.yuenov.kotlin.open.database.dao.BookChapterDao
@@ -11,7 +13,7 @@ import com.yuenov.kotlin.open.database.tb.TbBookChapter
 import com.yuenov.kotlin.open.database.tb.TbBookShelf
 import com.yuenov.kotlin.open.database.tb.TbCache
 import com.yuenov.kotlin.open.database.tb.TbReadHistory
-import java.util.Locale
+import java.util.*
 
 val appDb by lazy { AppDatabase.createDatabase() }
 

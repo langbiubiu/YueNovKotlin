@@ -4,8 +4,6 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.view.MotionEvent
 import android.view.ViewConfiguration
-import com.yuenov.kotlin.open.ext.CLASS_TAG
-import com.yuenov.kotlin.open.ext.logD
 import com.yuenov.kotlin.open.widget.page.PageView
 import kotlin.math.abs
 

@@ -17,9 +17,9 @@ import com.yuenov.kotlin.open.ext.*
 import com.yuenov.kotlin.open.model.standard.BookBaseInfo
 import com.yuenov.kotlin.open.utils.ConvertUtils
 import com.yuenov.kotlin.open.utils.DataStoreUtils
+import com.yuenov.kotlin.open.viewmodel.BookShelfFragmentViewModel
 import com.yuenov.kotlin.open.widget.DeleteBookShelfDialog
 import com.yuenov.kotlin.open.widget.recyclerview.GridDividerItemDecoration
-import com.yuenov.kotlin.open.viewmodel.BookShelfFragmentViewModel
 
 /**
  * 书架界面

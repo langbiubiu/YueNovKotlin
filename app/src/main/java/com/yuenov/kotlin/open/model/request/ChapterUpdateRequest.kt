@@ -1,7 +1,5 @@
 package com.yuenov.kotlin.open.model.request
 
-import java.util.ArrayList
-
 /**
  * 更新章节详情请求body，需要转为json
  */
