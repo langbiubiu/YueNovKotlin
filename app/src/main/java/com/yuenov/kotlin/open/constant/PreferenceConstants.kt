@@ -8,6 +8,9 @@ object PreferenceConstants {
     const val EXTRA_STRING_TITLE = "Title"
     const val EXTRA_LONG_CHAPTER_ID = "ChapterId"
     const val EXTRA_BOOL_HAS_BOOKSHELF = "InBookshelf"
+    const val EXTRA_STRING_CATEGORY_NAME = "CategoryName"
+    const val EXTRA_INT_CATEGORY_ID = "CategoryId"
+    const val EXTRA_INT_CHANNEL_ID = "ChannelId"
 
     //设置信息
     const val KEY_READ_SETTING_INFO = "ReadSettingInfo"

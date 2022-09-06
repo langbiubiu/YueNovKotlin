@@ -16,13 +16,13 @@ import com.yuenov.kotlin.open.ext.toDetail
 import com.yuenov.kotlin.open.model.response.BookInfoItem
 import com.yuenov.kotlin.open.viewmodel.BookListFragmentViewModel
 
-class BookStoreItemFragment: BaseFragment<BookListFragmentViewModel, FragmentBcBinding>() {
+class BookStoreItemFragment : BaseFragment<BookListFragmentViewModel, FragmentBcBinding>() {
 
     companion object {
         private const val EXTRA_NAME = "categoryName"
         private const val EXTRA_ID = "categoryId"
 
-        fun getFragment(name: String, id: Int) : BookStoreItemFragment {
+        fun getFragment(name: String, id: Int): BookStoreItemFragment {
             val fragment = BookStoreItemFragment()
             fragment.arguments = Bundle().apply {
                 if (name.isNotBlank()) putString(EXTRA_NAME, name)
@@ -43,11 +43,6 @@ class BookStoreItemFragment: BaseFragment<BookListFragmentViewModel, FragmentBcB
             srlBcList.setOnRefreshListener {
                 loadData(true)
             }
-            bookItemAdapter.setOnItemChildClickListener { adapter, _, position ->
-                logD(CLASS_TAG, "onItemChildClick")
-                val bookItem = adapter.getItem(position) as BookInfoItem
-                toDetail(bookItem.bookId)
-            }
             bookItemAdapter.setOnItemClickListener { adapter, _, position ->
                 logD(CLASS_TAG, "onItemClick")
                 val bookItem = adapter.getItem(position) as BookInfoItem
@@ -55,7 +50,8 @@ class BookStoreItemFragment: BaseFragment<BookListFragmentViewModel, FragmentBcB
             }
             bookItemAdapter.loadMoreModule.setOnLoadMoreListener { loadData(false) }
             rvBcList.adapter = bookItemAdapter
-            rvBcList.layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
+            rvBcList.layoutManager =
+                LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
         }
     }
 
@@ -86,7 +82,10 @@ class BookStoreItemFragment: BaseFragment<BookListFragmentViewModel, FragmentBcB
                         val isLoadHeader = it.data!!.pageNum == 1
                         setupData(bookList, isLoadHeader)
                         if (isLoadHeader)
-                            setCacheContent(PreferenceConstants.TYPE_BOOKSTORE_START + categoryId, gson.toJson(bookList))
+                            setCacheContent(
+                                PreferenceConstants.TYPE_BOOKSTORE_START + categoryId,
+                                gson.toJson(bookList)
+                            )
                     }
                 } else {
                     showToast(it.errorMsg ?: "加载失败")
@@ -102,7 +101,13 @@ class BookStoreItemFragment: BaseFragment<BookListFragmentViewModel, FragmentBcB
             pageNum = 1
             mViewBind.srlBcList.isRefreshing = true
         }
-        mViewModel.getBookListByCategoryId(pageNum, InterfaceConstants.categoriesListPageSize, categoryId, null, null)
+        mViewModel.getBookListByCategoryId(
+            pageNum,
+            InterfaceConstants.categoriesListPageSize,
+            categoryId,
+            null,
+            null
+        )
     }
 
     private fun setupData(bookList: ArrayList<BookInfoItem>, isLoadHeader: Boolean) {

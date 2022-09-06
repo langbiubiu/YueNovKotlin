@@ -15,8 +15,12 @@ import com.afollestad.materialdialogs.customview.getCustomView
 import com.afollestad.materialdialogs.lifecycle.lifecycleOwner
 import com.yuenov.kotlin.open.R
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_INT_BOOK_ID
+import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_INT_CATEGORY_ID
+import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_INT_CHANNEL_ID
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_LONG_CHAPTER_ID
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_MODEL_BOOK_BASE_INFO
+import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_STRING_CATEGORY_NAME
+import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_STRING_TITLE
 import com.yuenov.kotlin.open.model.standard.BookBaseInfo
 import com.yuenov.kotlin.open.utils.SystemBarUtils
 import me.hgj.jetpackmvvm.ext.nav
@@ -191,6 +195,10 @@ fun Fragment.toDiscoverAll(categoryName: String?, type: String?, categoryId: Int
 /**
  * TODO: 跳转至分类下书籍列表界面
  */
-fun Fragment.toCategoryBookList(categoryName: String?, categoryId: Int?, channelId: Int?) {
-
+fun Fragment.toCategoryBookList(categoryName: String?, categoryId: Int?, channelId: Int) {
+    nav().navigateAction(R.id.to_category_book_list_fragment, Bundle().apply {
+        putString(EXTRA_STRING_CATEGORY_NAME, categoryName)
+        putInt(EXTRA_INT_CATEGORY_ID, categoryId ?: 0)
+        putInt(EXTRA_INT_CHANNEL_ID, channelId)
+    })
 }

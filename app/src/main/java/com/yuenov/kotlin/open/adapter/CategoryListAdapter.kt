@@ -89,7 +89,6 @@ class CategoryListAdapter :
             } else {
                 binding = convertView.tag as ViewAdapterFindItemItemBinding
             }
-            // TODO
             val book = bookList[position]
             binding.rivAbliCoverImg.loadImage(book.coverImg, R.mipmap.ic_book_list_default)
             binding.tvAbliTitle.text = book.title
