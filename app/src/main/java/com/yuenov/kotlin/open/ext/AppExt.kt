@@ -13,6 +13,7 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.afollestad.materialdialogs.lifecycle.lifecycleOwner
 import com.yuenov.kotlin.open.R
+import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_BOOL_SHOW_FILTER
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_INT_BOOK_ID
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_INT_CATEGORY_ID
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_INT_CHANNEL_ID
@@ -150,9 +151,7 @@ fun Fragment.toSearch() {
  * 跳转至下载界面
  */
 @Deprecated("不做下载界面")
-fun Fragment.toDownload() {
-
-}
+fun Fragment.toDownload() {}
 
 /**
  * TODO: 跳转至分类界面
@@ -165,7 +164,7 @@ fun Fragment.toCategoryChannel() {
  * TODO: 跳转至榜单界面
  */
 fun Fragment.toRank() {
-    nav().navigateAction(R.id.action_main_to_detail)
+    nav().navigateAction(R.id.to_rank_fragment)
 }
 
 /**
@@ -190,12 +189,24 @@ fun Fragment.toDiscoverAll(categoryName: String?, type: String?, categoryId: Int
 }
 
 /**
- * TODO: 跳转至分类下书籍列表界面
+ * 跳转至分类下书籍列表界面
  */
-fun Fragment.toCategoryBookList(categoryName: String?, categoryId: Int?, channelId: Int) {
+fun Fragment.toCategoryBookList(categoryName: String?, categoryId: Int?, channelId: Int, isShowFilter: Boolean) {
     nav().navigateAction(R.id.to_category_book_list_fragment, Bundle().apply {
         putString(EXTRA_STRING_CATEGORY_NAME, categoryName)
         putInt(EXTRA_INT_CATEGORY_ID, categoryId ?: 0)
+        putInt(EXTRA_INT_CHANNEL_ID, channelId)
+        putBoolean(EXTRA_BOOL_SHOW_FILTER, isShowFilter)
+    })
+}
+
+/**
+ * 跳转至榜单分类下书籍列表界面
+ */
+fun Fragment.toRankBookList(rankName: String, channelId: Int, rankId: Int) {
+    nav().navigateAction(R.id.to_rank_book_list_fragment, Bundle().apply {
+        putString(EXTRA_STRING_CATEGORY_NAME, rankName)
+        putInt(EXTRA_INT_CATEGORY_ID, rankId ?: 0)
         putInt(EXTRA_INT_CHANNEL_ID, channelId)
     })
 }

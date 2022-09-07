@@ -14,31 +14,23 @@ import com.yuenov.kotlin.open.ext.setClickListener
 import com.yuenov.kotlin.open.ext.showToast
 import com.yuenov.kotlin.open.ext.toDetail
 import com.yuenov.kotlin.open.model.response.BookInfoItem
+import com.yuenov.kotlin.open.viewmodel.RankBookListFragmentViewModel
 import me.hgj.jetpackmvvm.ext.nav
 
-class CategoryBookListFragment :
-    BaseFragment<BaseFragmentViewModel, FragmentCategorybooklistBinding>() {
+class RankBookListFragment :
+    BaseFragment<RankBookListFragmentViewModel, FragmentCategorybooklistBinding>() {
 
-    private var categoryName: String? = null
-    private var categoryId = 0
+    private var rankName: String? = null
+    private var rankId = 0
     private var channelId = 0
-    private var isShowFilter = false
-    private var filterPosition = -1
     private val adapter = BookListItemAdapter()
     private var pageNum = 0
-    private val filterArray = arrayOf("NEWEST", "HOT", "END")
 
     override fun initView(savedInstanceState: Bundle?) {
         mViewBind.apply {
-            setClickListener(tvCcfiName1, tvCcfiName2, tvCcfiName3) {
-                when (it) {
-                    tvCcfiName1 -> loadFilter(0)
-                    tvCcfiName2 -> loadFilter(1)
-                    tvCcfiName3 -> loadFilter(2)
-                }
-            }
-            myAppTitle.getLeftView().setOnClickListener { nav().navigateUp() }
+            resetVisibility(false, llCcfiFilter)
             srlCcnList.setOnRefreshListener { loadData(true) }
+            adapter.isShowOrder = true
             adapter.setOnItemClickListener { adapter, _, position ->
                 val bookItem = adapter.getItem(position) as BookInfoItem
                 toDetail(bookItem.bookId)
@@ -51,21 +43,16 @@ class CategoryBookListFragment :
     }
 
     override fun initData() {
-        categoryName = requireArguments().getString(PreferenceConstants.EXTRA_STRING_CATEGORY_NAME)
-        categoryId = requireArguments().getInt(PreferenceConstants.EXTRA_INT_CATEGORY_ID)
+        rankName = requireArguments().getString(PreferenceConstants.EXTRA_STRING_CATEGORY_NAME)
+        rankId = requireArguments().getInt(PreferenceConstants.EXTRA_INT_CATEGORY_ID)
         channelId = requireArguments().getInt(PreferenceConstants.EXTRA_INT_CHANNEL_ID)
-        isShowFilter = requireArguments().getBoolean(PreferenceConstants.EXTRA_BOOL_SHOW_FILTER, false)
-        mViewBind.myAppTitle.getCenterView().text = categoryName
-        if (isShowFilter) {
-            loadFilter(0)
-        } else {
-            resetVisibility(false, mViewBind.llCcfiFilter)
-            loadData(true)
-        }
+        mViewBind.myAppTitle.getCenterView().text = rankName
+        mViewBind.myAppTitle.getLeftView().setOnClickListener { nav().navigateUp() }
+        loadData(true)
     }
 
     override fun createObserver() {
-        mViewModel.getBookListByCategoryIdState.observe(viewLifecycleOwner) {
+        mViewModel.getRankPageState.observe(viewLifecycleOwner) {
             if (it.isSuccess) {
                 if (!it.data!!.list.isNullOrEmpty()) {
                     val bookList = ArrayList(it.data!!.list!!)
@@ -96,34 +83,16 @@ class CategoryBookListFragment :
         }
     }
 
-    private fun loadFilter(pos: Int) {
-        if (pos == filterPosition) return
-        filterPosition = pos
-        mViewBind.apply {
-            val orderViewArray = arrayOf(tvCcfiName1, tvCcfiName2, tvCcfiName3)
-            for (i in orderViewArray.indices) {
-                orderViewArray[i].setTextColor(
-                    resources.getColor(
-                        if (i == filterPosition) R.color._b383 else R.color.gray_6666,
-                        null
-                    )
-                )
-            }
-        }
-        loadData(true)
-    }
-
     private fun loadData(isLoadHeader: Boolean) {
         if (isLoadHeader) {
             pageNum = 1
             mViewBind.srlCcnList.isRefreshing = true
         }
-        mViewModel.getBookListByCategoryId(
-            pageNum,
-            InterfaceConstants.categoriesListPageSize,
-            categoryId,
+        mViewModel.getRankPage(
             channelId,
-            if (isShowFilter) filterArray[filterPosition] else null
+            rankId,
+            pageNum,
+            InterfaceConstants.categoriesListPageSize
         )
     }
 }

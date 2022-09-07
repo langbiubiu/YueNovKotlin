@@ -5,19 +5,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.yuenov.kotlin.open.adapter.CategoryChannelItemAdapter
 import com.yuenov.kotlin.open.base.BaseFragment
 import com.yuenov.kotlin.open.base.BaseFragmentViewModel
-import com.yuenov.kotlin.open.databinding.FragmentCategorychannelItemBinding
+import com.yuenov.kotlin.open.databinding.FragmentRecyclerViewBinding
 import com.yuenov.kotlin.open.ext.toCategoryBookList
 import com.yuenov.kotlin.open.model.response.CategoryInfoItem
 
-class CategoryChannelItemFragment :
-    BaseFragment<BaseFragmentViewModel, FragmentCategorychannelItemBinding>() {
+class CategoryChannelListFragment :
+    BaseFragment<BaseFragmentViewModel, FragmentRecyclerViewBinding>() {
 
     companion object {
         private const val EXTRA_LIST = "CategoryChannel"
         private const val EXTRA_ID = "channelId"
 
-        fun getFragment(list: ArrayList<CategoryInfoItem>, id: Int): CategoryChannelItemFragment {
-            val fragment = CategoryChannelItemFragment()
+        fun getFragment(list: ArrayList<CategoryInfoItem>, id: Int): CategoryChannelListFragment {
+            val fragment = CategoryChannelListFragment()
             fragment.arguments = Bundle().apply {
                 if (list.isNotEmpty()) putParcelableArrayList(EXTRA_LIST, list)
                 putInt(EXTRA_ID, id)
@@ -33,7 +33,7 @@ class CategoryChannelItemFragment :
     override fun initView(savedInstanceState: Bundle?) {
         adapter.listener = object : CategoryChannelItemAdapter.ICategoryChannelListAdapterListener {
             override fun onCategoryChannelListAdapterClick(item: CategoryInfoItem) {
-                toCategoryBookList(item.categoryName, item.categoryId, channelId)
+                toCategoryBookList(item.categoryName, item.categoryId, channelId, true)
             }
         }
         mViewBind.rvFccList.adapter = adapter

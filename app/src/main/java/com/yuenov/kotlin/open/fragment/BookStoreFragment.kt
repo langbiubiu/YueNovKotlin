@@ -53,14 +53,14 @@ class BookStoreFragment : BaseFragment<BaseFragmentViewModel, FragmentBookstoreB
     override fun initData() {
         if (appViewModel.appConfigInfo.value?.categories.isNullOrEmpty()) return
         val categories = appViewModel.appConfigInfo.value!!.categories
-        val fragmentList = mutableListOf<BookStoreItemFragment>()
+        val fragmentList = mutableListOf<BookStoreListFragment>()
         if (categories != null) {
             categoryNameList.clear()
             categoryIdList.clear()
             categories.forEach {
                 categoryNameList.add(it.categoryName!!)
                 categoryIdList.add(it.categoryId!!)
-                fragmentList.add(BookStoreItemFragment.getFragment(it.categoryName, it.categoryId))
+                fragmentList.add(BookStoreListFragment.getFragment(it.categoryName, it.categoryId))
             }
         }
         mViewBind.apply {

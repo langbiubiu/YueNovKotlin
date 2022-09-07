@@ -16,14 +16,14 @@ import com.yuenov.kotlin.open.ext.toDetail
 import com.yuenov.kotlin.open.model.response.BookInfoItem
 import com.yuenov.kotlin.open.viewmodel.BookListFragmentViewModel
 
-class BookStoreItemFragment : BaseFragment<BookListFragmentViewModel, FragmentBcBinding>() {
+class BookStoreListFragment : BaseFragment<BookListFragmentViewModel, FragmentBcBinding>() {
 
     companion object {
         private const val EXTRA_NAME = "categoryName"
         private const val EXTRA_ID = "categoryId"
 
-        fun getFragment(name: String, id: Int): BookStoreItemFragment {
-            val fragment = BookStoreItemFragment()
+        fun getFragment(name: String, id: Int): BookStoreListFragment {
+            val fragment = BookStoreListFragment()
             fragment.arguments = Bundle().apply {
                 if (name.isNotBlank()) putString(EXTRA_NAME, name)
                 putInt(EXTRA_ID, id)

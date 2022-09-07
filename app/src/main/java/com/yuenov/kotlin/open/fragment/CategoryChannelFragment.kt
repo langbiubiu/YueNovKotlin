@@ -61,7 +61,7 @@ class CategoryChannelFragment :
         mViewModel.apply {
             getCategoryChannelListState.observe(viewLifecycleOwner) {
                 if (it.isSuccess && !it.isEmpty) {
-                    channelList = it.listData as ArrayList<ChannelInfoItem>
+                    channelList = it.listData as ArrayList
                     setCacheContent(
                         PreferenceConstants.TYPE_CATEGORY_CHANNEL,
                         gson.toJson(channelList)
@@ -73,9 +73,9 @@ class CategoryChannelFragment :
     }
 
     private fun setupData() {
-        val fragments = mutableListOf<CategoryChannelItemFragment>()
+        val fragments = mutableListOf<CategoryChannelListFragment>()
         channelList.forEach {
-            fragments.add(CategoryChannelItemFragment.getFragment(it.categories, it.channelId))
+            fragments.add(CategoryChannelListFragment.getFragment(it.categories, it.channelId))
         }
         mViewBind.apply {
             vpCcContent.adapter = object : FragmentStateAdapter(requireActivity()) {

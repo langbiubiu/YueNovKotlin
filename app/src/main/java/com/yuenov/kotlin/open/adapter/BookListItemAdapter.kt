@@ -10,7 +10,7 @@ import com.yuenov.kotlin.open.ext.loadImage
 import com.yuenov.kotlin.open.ext.resetVisibility
 import com.yuenov.kotlin.open.model.response.BookInfoItem
 
-class CategoryBookListAdapter :
+class BookListItemAdapter :
     BaseQuickAdapter<BookInfoItem, BaseViewHolder>(R.layout.view_adapter_categorylist_item),
     LoadMoreModule {
 
