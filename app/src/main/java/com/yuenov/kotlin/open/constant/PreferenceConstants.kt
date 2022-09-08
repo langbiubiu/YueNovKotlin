@@ -11,6 +11,8 @@ object PreferenceConstants {
     const val EXTRA_INT_CATEGORY_ID = "CategoryId"
     const val EXTRA_INT_CHANNEL_ID = "ChannelId"
     const val EXTRA_STRING_TYPE = "type"
+    const val EXTRA_INT_SPECIAL_ID = "SpecialId"
+    const val EXTRA_STRING_SPECIAL_NAME = "SpecialName"
 
     //设置信息
     const val KEY_READ_SETTING_INFO = "ReadSettingInfo"

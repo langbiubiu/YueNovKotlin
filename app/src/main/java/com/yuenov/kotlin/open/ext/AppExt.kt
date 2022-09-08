@@ -16,9 +16,11 @@ import com.yuenov.kotlin.open.R
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_INT_BOOK_ID
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_INT_CATEGORY_ID
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_INT_CHANNEL_ID
+import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_INT_SPECIAL_ID
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_LONG_CHAPTER_ID
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_MODEL_BOOK_BASE_INFO
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_STRING_CATEGORY_NAME
+import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_STRING_SPECIAL_NAME
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_STRING_TYPE
 import com.yuenov.kotlin.open.model.standard.BookBaseInfo
 import me.hgj.jetpackmvvm.ext.nav
@@ -175,10 +177,10 @@ fun Fragment.toCategoryEnd() {
 }
 
 /**
- * TODO: 跳转至专题界面
+ * 跳转至专题界面
  */
 fun Fragment.toSpecial() {
-    nav().navigateAction(R.id.action_to_detail)
+    nav().navigateAction(R.id.action_to_special_list_fragment)
 }
 
 /**
@@ -218,5 +220,12 @@ fun Fragment.toEndBookList(categoryName: String?, categoryId: Int?) {
     nav().navigateAction(R.id.action_to_category_end_book_list_fragment, Bundle().apply {
         putString(EXTRA_STRING_CATEGORY_NAME, categoryName)
         putInt(EXTRA_INT_CATEGORY_ID, categoryId ?: 0)
+    })
+}
+
+fun Fragment.toSpecialBookList(name: String, id: Int) {
+    nav().navigateAction(R.id.action_to_special_book_list_fragment, Bundle().apply {
+        putString(EXTRA_STRING_SPECIAL_NAME, name)
+        putInt(EXTRA_INT_SPECIAL_ID, id)
     })
 }

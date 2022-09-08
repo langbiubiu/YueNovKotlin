@@ -47,17 +47,7 @@ class CategoryEndFragment: BaseFragment<CategoryEndFragmentViewModel, FragmentCa
     }
 
     override fun lazyLoadData() {
-//        loadData(true)
-        val categoryList = mutableListOf<CategoryInfoItem>()
-        val bookList = mutableListOf<BookInfoItem>()
-        for (i in 0..7) {
-            bookList.add(BookInfoItem("author", 0, "category", "END", null, "desc", "title$i", ""))
-        }
-        for (i in 0..9) {
-            val num = i + (pageNum - 1) * 10
-            categoryList.add(CategoryInfoItem(bookList, num, "categoryName$num", null, "CATEGORY"))
-        }
-        adapter.setNewInstance(categoryList)
+        loadData(true)
     }
 
     override fun createObserver() {

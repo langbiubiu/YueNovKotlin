@@ -2,10 +2,8 @@ package com.yuenov.kotlin.open.fragment
 
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.yuenov.kotlin.open.R
 import com.yuenov.kotlin.open.adapter.BookListItemAdapter
 import com.yuenov.kotlin.open.base.BaseFragment
-import com.yuenov.kotlin.open.base.BaseFragmentViewModel
 import com.yuenov.kotlin.open.constant.InterfaceConstants
 import com.yuenov.kotlin.open.constant.PreferenceConstants
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_STRING_TYPE
@@ -15,14 +13,14 @@ import com.yuenov.kotlin.open.ext.setClickListener
 import com.yuenov.kotlin.open.ext.showToast
 import com.yuenov.kotlin.open.ext.toDetail
 import com.yuenov.kotlin.open.model.response.BookInfoItem
-import com.yuenov.kotlin.open.viewmodel.DiscoverBookListFragmentViewModel
+import com.yuenov.kotlin.open.viewmodel.SpecialBookListFragmentViewModel
 import me.hgj.jetpackmvvm.ext.nav
 
-class CategoryEndBookListFragment :
-    BaseFragment<BaseFragmentViewModel, FragmentCategorybooklistBinding>() {
+class SpecialBookListFragment :
+    BaseFragment<SpecialBookListFragmentViewModel, FragmentCategorybooklistBinding>() {
 
     private var categoryName: String? = null
-    private var categoryId: Int = 0
+    private var specialId: Int = 0
     private var type = ""
     private val adapter = BookListItemAdapter()
     private var pageNum = 0
@@ -49,8 +47,8 @@ class CategoryEndBookListFragment :
 
     override fun initData() {
         requireArguments().apply {
-            categoryName = getString(PreferenceConstants.EXTRA_STRING_CATEGORY_NAME)
-            categoryId = getInt(PreferenceConstants.EXTRA_INT_CATEGORY_ID)
+            categoryName = getString(PreferenceConstants.EXTRA_STRING_SPECIAL_NAME)
+            specialId = getInt(PreferenceConstants.EXTRA_INT_SPECIAL_ID)
             type = getString(EXTRA_STRING_TYPE, "")
         }
         mViewBind.myAppTitle.getCenterView().text = categoryName
@@ -58,7 +56,7 @@ class CategoryEndBookListFragment :
     }
 
     override fun createObserver() {
-        mViewModel.getBookListByCategoryIdState.observe(viewLifecycleOwner) {
+        mViewModel.getSpecialPageState.observe(viewLifecycleOwner) {
             if (it.isSuccess) {
                 if (!it.data!!.list.isNullOrEmpty()) {
                     val bookList = ArrayList(it.data!!.list!!)
@@ -94,12 +92,10 @@ class CategoryEndBookListFragment :
             pageNum = 1
             mViewBind.srlCcnList.isRefreshing = true
         }
-        mViewModel.getBookListByCategoryId(
+        mViewModel.getSpecialPage(
             pageNum,
             InterfaceConstants.categoriesListPageSize,
-            categoryId,
-            null,
-            "END"
+            specialId
         )
     }
 }

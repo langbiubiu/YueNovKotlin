@@ -170,4 +170,30 @@
         app:popEnterAnim="@anim/slide_left_in"
         app:popExitAnim="@anim/slide_right_out" />
 
+    <fragment
+        android:id="@+id/special_list_fragment"
+        android:name="com.yuenov.kotlin.open.fragment.SpecialListFragment"
+        android:label="SpecialListFragment" />
+
+    <action
+        android:id="@+id/action_to_special_list_fragment"
+        app:destination="@id/special_list_fragment"
+        app:enterAnim="@anim/slide_right_in"
+        app:exitAnim="@anim/slide_left_out"
+        app:popEnterAnim="@anim/slide_left_in"
+        app:popExitAnim="@anim/slide_right_out" />
+
+    <fragment
+        android:id="@+id/special_book_list_fragment"
+        android:name="com.yuenov.kotlin.open.fragment.SpecialBookListFragment"
+        android:label="SpecialBookListFragment" />
+
+    <action
+        android:id="@+id/action_to_special_book_list_fragment"
+        app:destination="@id/special_book_list_fragment"
+        app:enterAnim="@anim/slide_right_in"
+        app:exitAnim="@anim/slide_left_out"
+        app:popEnterAnim="@anim/slide_left_in"
+        app:popExitAnim="@anim/slide_right_out" />
+
 </navigation>
