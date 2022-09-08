@@ -50,11 +50,7 @@ class DetailFragment : BaseFragment<DetailFragmentViewModel, FragmentDetailBindi
                         toChapterMenuList()
                     }
                     tvDpRecommendMore -> {
-                        // TODO 修改到AppExt中
-                        nav().navigateAction(R.id.action_detail_to_detail, Bundle().apply {
-                            putString(EXTRA_STRING_TITLE, "热门推荐")
-                            putInt(EXTRA_INT_BOOK_ID, bookId)
-                        })
+                        toRecommend(bookId)
                     }
                     llDpReplace, tvDpReplace, ilDpReplace -> {
                         // pageSize小于6，说明已经查询到列表尾部，则将pageNum设为1，从头获取
@@ -94,10 +90,7 @@ class DetailFragment : BaseFragment<DetailFragmentViewModel, FragmentDetailBindi
             wgvDpRecommend.setOnItemClickListener { _, _, position, _ ->
                 logD(CLASS_TAG, "onItemClick ${isLoadingShowing()}")
                 if (isLoadingShowing()) return@setOnItemClickListener
-                // TODO 修改到AppExt中
-                nav().navigateAction(R.id.action_detail_to_detail, Bundle().apply {
-                    putInt(EXTRA_INT_BOOK_ID, recommendAdapter.list!![position].bookId)
-                })
+                toDetail(recommendAdapter.list!![position].bookId)
             }
         }
     }

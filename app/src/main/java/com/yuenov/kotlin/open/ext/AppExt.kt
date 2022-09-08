@@ -229,3 +229,9 @@ fun Fragment.toSpecialBookList(name: String, id: Int) {
         putInt(EXTRA_INT_SPECIAL_ID, id)
     })
 }
+
+fun Fragment.toRecommend(bookId: Int) {
+    nav().navigateAction(R.id.action_to_special_book_list_fragment, Bundle().apply {
+        putInt(EXTRA_INT_BOOK_ID, bookId)
+    })
+}
