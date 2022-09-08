@@ -33,7 +33,7 @@ class CategoryChannelListFragment :
     override fun initView(savedInstanceState: Bundle?) {
         adapter.listener = object : CategoryChannelItemAdapter.ICategoryChannelListAdapterListener {
             override fun onCategoryChannelListAdapterClick(item: CategoryInfoItem) {
-                toCategoryBookList(item.categoryName, item.categoryId, channelId, true)
+                toCategoryBookList(item.categoryName, item.categoryId, channelId)
             }
         }
         mViewBind.rvFccList.adapter = adapter

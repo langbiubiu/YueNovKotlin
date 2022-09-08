@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.module.LoadMoreModule
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.yuenov.kotlin.open.R
 import com.yuenov.kotlin.open.databinding.ViewAdapterFindItemItemBinding
@@ -21,7 +22,7 @@ import me.hgj.jetpackmvvm.base.appContext
 import me.hgj.jetpackmvvm.ext.util.layoutInflater
 
 class CategoryListAdapter :
-    BaseQuickAdapter<CategoryInfoItem, BaseViewHolder>(R.layout.view_adapter_find_item) {
+    BaseQuickAdapter<CategoryInfoItem, BaseViewHolder>(R.layout.view_adapter_find_item), LoadMoreModule {
 
     private var listener: IBookBlItemAdapter? = null
 

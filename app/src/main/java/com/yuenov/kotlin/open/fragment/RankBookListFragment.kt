@@ -29,6 +29,11 @@ class RankBookListFragment :
     override fun initView(savedInstanceState: Bundle?) {
         mViewBind.apply {
             resetVisibility(false, llCcfiFilter)
+            setClickListener(myAppTitle.getLeftView()) {
+                when (it) {
+                    myAppTitle.getLeftView() -> nav().navigateUp()
+                }
+            }
             srlCcnList.setOnRefreshListener { loadData(true) }
             adapter.isShowOrder = true
             adapter.setOnItemClickListener { adapter, _, position ->
@@ -47,7 +52,6 @@ class RankBookListFragment :
         rankId = requireArguments().getInt(PreferenceConstants.EXTRA_INT_CATEGORY_ID)
         channelId = requireArguments().getInt(PreferenceConstants.EXTRA_INT_CHANNEL_ID)
         mViewBind.myAppTitle.getCenterView().text = rankName
-        mViewBind.myAppTitle.getLeftView().setOnClickListener { nav().navigateUp() }
         loadData(true)
     }
 

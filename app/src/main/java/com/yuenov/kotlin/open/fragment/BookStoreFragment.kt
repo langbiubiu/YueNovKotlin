@@ -27,7 +27,7 @@ class BookStoreFragment : BaseFragment<BaseFragmentViewModel, FragmentBookstoreB
     override fun initView(savedInstanceState: Bundle?) {
         customViewBind = ViewMenuTablayoutTitleBinding.inflate(layoutInflater)
         mViewBind.apply {
-            setClickListener(rlBcBcSearch, rlBcBcSearch) {
+            setClickListener(rlBcCategoryChannel, rlBcBcSearch) {
                 when (it) {
                     rlBcBcSearch -> toSearch()
                     rlBcCategoryChannel -> toCategoryChannel()

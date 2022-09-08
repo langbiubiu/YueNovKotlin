@@ -29,7 +29,7 @@ class BookShelfFragmentViewModel : BaseFragmentViewModel() {
         MutableLiveData()
 
     init {
-        //TODO:先写一些假数据，后续需要删除
+        // 写一些假数据
         val books = ArrayList<TbBookShelf>()
         books.add(
             TbBookShelf(
@@ -146,7 +146,7 @@ class BookShelfFragmentViewModel : BaseFragmentViewModel() {
                     }
                 }
 //                val request = BookCheckUpdateRequest(checkUpdateItems)
-                // TODO: 万族之劫 测试数据，等阅读模块完成后删除
+                // 万族之劫 测试数据
                 val request =
                     BookCheckUpdateRequest(
                         arrayListOf(CheckUpdateItem(56124, 1257233517545373698))

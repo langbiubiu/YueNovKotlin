@@ -15,7 +15,7 @@ import com.yuenov.kotlin.open.model.response.CategoryInfoItem
 import com.yuenov.kotlin.open.viewmodel.DiscoverFragmentViewModel
 
 /**
- * TODO:发现界面
+ * 发现界面
  */
 class DiscoverFragment : BaseFragment<DiscoverFragmentViewModel, FragmentDiscoverBinding>(),
     CategoryListAdapter.IBookBlItemAdapter {

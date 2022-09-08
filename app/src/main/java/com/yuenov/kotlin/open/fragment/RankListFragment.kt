@@ -38,5 +38,6 @@ class RankListFragment : BaseFragment<BaseFragmentViewModel, FragmentRecyclerVie
 
     override fun initData() {
         list = requireArguments().getParcelable(EXTRA_RANK_LIST)!!
+        adapter.setNewInstance(list.ranks?.toMutableList())
     }
 }

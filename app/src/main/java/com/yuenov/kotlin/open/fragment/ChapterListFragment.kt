@@ -6,7 +6,7 @@ import com.yuenov.kotlin.open.base.BaseFragmentViewModel
 import com.yuenov.kotlin.open.databinding.FragmentBookstoreBinding
 
 /**
- * 目录界面
+ * TODO 目录界面
  */
 class ChapterListFragment : BaseFragment<BaseFragmentViewModel, FragmentBookstoreBinding>() {
     override fun initView(savedInstanceState: Bundle?) {

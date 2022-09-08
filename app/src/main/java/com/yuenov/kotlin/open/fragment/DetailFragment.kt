@@ -50,6 +50,7 @@ class DetailFragment : BaseFragment<DetailFragmentViewModel, FragmentDetailBindi
                         toChapterMenuList()
                     }
                     tvDpRecommendMore -> {
+                        // TODO 修改到AppExt中
                         nav().navigateAction(R.id.action_detail_to_detail, Bundle().apply {
                             putString(EXTRA_STRING_TITLE, "热门推荐")
                             putInt(EXTRA_INT_BOOK_ID, bookId)
@@ -93,6 +94,7 @@ class DetailFragment : BaseFragment<DetailFragmentViewModel, FragmentDetailBindi
             wgvDpRecommend.setOnItemClickListener { _, _, position, _ ->
                 logD(CLASS_TAG, "onItemClick ${isLoadingShowing()}")
                 if (isLoadingShowing()) return@setOnItemClickListener
+                // TODO 修改到AppExt中
                 nav().navigateAction(R.id.action_detail_to_detail, Bundle().apply {
                     putInt(EXTRA_INT_BOOK_ID, recommendAdapter.list!![position].bookId)
                 })
@@ -225,6 +227,7 @@ class DetailFragment : BaseFragment<DetailFragmentViewModel, FragmentDetailBindi
     private fun toChapterMenuList() {
         mViewModel.updateChapterListState.observe(viewLifecycleOwner) {
             if (it.isSuccess) {
+                // TODO 修改到AppExt中
                 nav().navigateAction(R.id.action_detail_to_chapter_list, Bundle().apply {
                     putParcelable(EXTRA_MODEL_BOOK_BASE_INFO, bookInfo)
                 })

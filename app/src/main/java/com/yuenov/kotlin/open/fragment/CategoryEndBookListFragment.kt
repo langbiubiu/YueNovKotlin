@@ -8,32 +8,30 @@ import com.yuenov.kotlin.open.base.BaseFragment
 import com.yuenov.kotlin.open.base.BaseFragmentViewModel
 import com.yuenov.kotlin.open.constant.InterfaceConstants
 import com.yuenov.kotlin.open.constant.PreferenceConstants
+import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_STRING_TYPE
 import com.yuenov.kotlin.open.databinding.FragmentCategorybooklistBinding
 import com.yuenov.kotlin.open.ext.resetVisibility
 import com.yuenov.kotlin.open.ext.setClickListener
 import com.yuenov.kotlin.open.ext.showToast
 import com.yuenov.kotlin.open.ext.toDetail
 import com.yuenov.kotlin.open.model.response.BookInfoItem
+import com.yuenov.kotlin.open.viewmodel.DiscoverBookListFragmentViewModel
 import me.hgj.jetpackmvvm.ext.nav
 
-class CategoryBookListFragment :
-    BaseFragment<BaseFragmentViewModel, FragmentCategorybooklistBinding>() {
+class CategoryEndBookListFragment :
+    BaseFragment<DiscoverBookListFragmentViewModel, FragmentCategorybooklistBinding>() {
 
     private var categoryName: String? = null
-    private var categoryId = 0
-    private var channelId = 0
-    private var filterPosition = -1
+    private var categoryId: Int = 0
+    private var type = ""
     private val adapter = BookListItemAdapter()
     private var pageNum = 0
-    private val filterArray = arrayOf("NEWEST", "HOT", "END")
 
     override fun initView(savedInstanceState: Bundle?) {
         mViewBind.apply {
-            setClickListener(tvCcfiName1, tvCcfiName2, tvCcfiName3, myAppTitle.getLeftView()) {
+            resetVisibility(false, llCcfiFilter)
+            setClickListener(myAppTitle.getLeftView()) {
                 when (it) {
-                    tvCcfiName1 -> loadFilter(0)
-                    tvCcfiName2 -> loadFilter(1)
-                    tvCcfiName3 -> loadFilter(2)
                     myAppTitle.getLeftView() -> nav().navigateUp()
                 }
             }
@@ -50,11 +48,13 @@ class CategoryBookListFragment :
     }
 
     override fun initData() {
-        categoryName = requireArguments().getString(PreferenceConstants.EXTRA_STRING_CATEGORY_NAME)
-        categoryId = requireArguments().getInt(PreferenceConstants.EXTRA_INT_CATEGORY_ID)
-        channelId = requireArguments().getInt(PreferenceConstants.EXTRA_INT_CHANNEL_ID)
+        requireArguments().apply {
+            categoryName = getString(PreferenceConstants.EXTRA_STRING_CATEGORY_NAME)
+            categoryId = getInt(PreferenceConstants.EXTRA_INT_CATEGORY_ID)
+            type = getString(EXTRA_STRING_TYPE, "")
+        }
         mViewBind.myAppTitle.getCenterView().text = categoryName
-        loadFilter(0)
+        loadData(true)
     }
 
     override fun createObserver() {
@@ -89,23 +89,6 @@ class CategoryBookListFragment :
         }
     }
 
-    private fun loadFilter(pos: Int) {
-        if (pos == filterPosition) return
-        filterPosition = pos
-        mViewBind.apply {
-            val orderViewArray = arrayOf(tvCcfiName1, tvCcfiName2, tvCcfiName3)
-            for (i in orderViewArray.indices) {
-                orderViewArray[i].setTextColor(
-                    resources.getColor(
-                        if (i == filterPosition) R.color._b383 else R.color.gray_6666,
-                        null
-                    )
-                )
-            }
-        }
-        loadData(true)
-    }
-
     private fun loadData(isLoadHeader: Boolean) {
         if (isLoadHeader) {
             pageNum = 1
@@ -115,8 +98,8 @@ class CategoryBookListFragment :
             pageNum,
             InterfaceConstants.categoriesListPageSize,
             categoryId,
-            channelId,
-            filterArray[filterPosition]
+            null,
+            "END"
         )
     }
 }

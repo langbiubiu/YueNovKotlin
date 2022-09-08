@@ -13,13 +13,13 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.afollestad.materialdialogs.lifecycle.lifecycleOwner
 import com.yuenov.kotlin.open.R
-import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_BOOL_SHOW_FILTER
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_INT_BOOK_ID
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_INT_CATEGORY_ID
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_INT_CHANNEL_ID
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_LONG_CHAPTER_ID
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_MODEL_BOOK_BASE_INFO
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_STRING_CATEGORY_NAME
+import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_STRING_TYPE
 import com.yuenov.kotlin.open.model.standard.BookBaseInfo
 import me.hgj.jetpackmvvm.ext.nav
 import me.hgj.jetpackmvvm.ext.navigateAction
@@ -125,7 +125,7 @@ fun Fragment.showToast(str: String) {
  * @param chapterId 为0时表示打开历史记录
  */
 fun Fragment.toRead(bookInfo: BookBaseInfo, chapterId: Long) {
-    nav().navigateAction(R.id.to_read_fragment, Bundle().apply {
+    nav().navigateAction(R.id.action_to_read_fragment, Bundle().apply {
         putParcelable(EXTRA_MODEL_BOOK_BASE_INFO, bookInfo)
         putLong(EXTRA_LONG_CHAPTER_ID, chapterId)
     })
@@ -135,7 +135,7 @@ fun Fragment.toRead(bookInfo: BookBaseInfo, chapterId: Long) {
  * 跳转至详情界面
  */
 fun Fragment.toDetail(bookId: Int) {
-    nav().navigateAction(R.id.action_main_to_detail, Bundle().apply {
+    nav().navigateAction(R.id.action_to_detail, Bundle().apply {
         putInt(EXTRA_INT_BOOK_ID, bookId)
     })
 }
@@ -144,7 +144,7 @@ fun Fragment.toDetail(bookId: Int) {
  * TODO: 跳转至搜索界面
  */
 fun Fragment.toSearch() {
-    nav().navigateAction(R.id.action_main_to_detail)
+    nav().navigateAction(R.id.action_to_detail)
 }
 
 /**
@@ -154,49 +154,52 @@ fun Fragment.toSearch() {
 fun Fragment.toDownload() {}
 
 /**
- * TODO: 跳转至分类界面
+ * 跳转至分类界面
  */
 fun Fragment.toCategoryChannel() {
-    nav().navigateAction(R.id.to_category_channel_fragment)
+    nav().navigateAction(R.id.action_to_category_channel_fragment)
 }
 
 /**
- * TODO: 跳转至榜单界面
+ * 跳转至榜单界面
  */
 fun Fragment.toRank() {
-    nav().navigateAction(R.id.to_rank_fragment)
+    nav().navigateAction(R.id.action_to_rank_fragment)
 }
 
 /**
- * TODO: 跳转至完本界面
+ * 跳转至完本界面
  */
 fun Fragment.toCategoryEnd() {
-    nav().navigateAction(R.id.action_main_to_detail)
+    nav().navigateAction(R.id.action_to_category_end_fragment)
 }
 
 /**
  * TODO: 跳转至专题界面
  */
 fun Fragment.toSpecial() {
-    nav().navigateAction(R.id.action_main_to_detail)
+    nav().navigateAction(R.id.action_to_detail)
 }
 
 /**
- * TODO: 跳转至分类下所有书籍界面
+ * 跳转至发现下的查看所有书籍界面
  */
 fun Fragment.toDiscoverAll(categoryName: String?, type: String?, categoryId: Int?) {
-
+    nav().navigateAction(R.id.action_to_discover_book_list_fragment, Bundle().apply {
+        putString(EXTRA_STRING_CATEGORY_NAME, categoryName)
+        categoryId?.let { putInt(EXTRA_INT_CATEGORY_ID, categoryId) }
+        putString(EXTRA_STRING_TYPE, type)
+    })
 }
 
 /**
  * 跳转至分类下书籍列表界面
  */
-fun Fragment.toCategoryBookList(categoryName: String?, categoryId: Int?, channelId: Int, isShowFilter: Boolean) {
-    nav().navigateAction(R.id.to_category_book_list_fragment, Bundle().apply {
+fun Fragment.toCategoryBookList(categoryName: String?, categoryId: Int?, channelId: Int) {
+    nav().navigateAction(R.id.action_to_category_book_list_fragment, Bundle().apply {
         putString(EXTRA_STRING_CATEGORY_NAME, categoryName)
         putInt(EXTRA_INT_CATEGORY_ID, categoryId ?: 0)
         putInt(EXTRA_INT_CHANNEL_ID, channelId)
-        putBoolean(EXTRA_BOOL_SHOW_FILTER, isShowFilter)
     })
 }
 
@@ -204,9 +207,16 @@ fun Fragment.toCategoryBookList(categoryName: String?, categoryId: Int?, channel
  * 跳转至榜单分类下书籍列表界面
  */
 fun Fragment.toRankBookList(rankName: String, channelId: Int, rankId: Int) {
-    nav().navigateAction(R.id.to_rank_book_list_fragment, Bundle().apply {
+    nav().navigateAction(R.id.action_to_rank_book_list_fragment, Bundle().apply {
         putString(EXTRA_STRING_CATEGORY_NAME, rankName)
         putInt(EXTRA_INT_CATEGORY_ID, rankId ?: 0)
         putInt(EXTRA_INT_CHANNEL_ID, channelId)
+    })
+}
+
+fun Fragment.toEndBookList(categoryName: String?, categoryId: Int?) {
+    nav().navigateAction(R.id.action_to_category_end_book_list_fragment, Bundle().apply {
+        putString(EXTRA_STRING_CATEGORY_NAME, categoryName)
+        putInt(EXTRA_INT_CATEGORY_ID, categoryId ?: 0)
     })
 }

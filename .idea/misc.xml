@@ -26,13 +26,14 @@
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/fragment_bookshelf.xml" value="0.5" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/fragment_bookstore.xml" value="0.4093420391762933" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/fragment_categorybooklist.xml" value="0.23097826086956522" />
-        <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/fragment_categorychannel.xml" value="0.27749874434957306" />
+        <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/fragment_categorychannel.xml" value="0.1" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/fragment_categorychannel_item.xml" value="0.23097826086956522" />
-        <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/fragment_detail.xml" value="0.1" />
+        <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/fragment_detail.xml" value="0.25" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/fragment_discover.xml" value="0.33" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/fragment_main.xml" value="0.4433876811594203" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/fragment_rank.xml" value="0.2395781014565545" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/fragment_read.xml" value="0.33" />
+        <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/fragment_recycler_view.xml" value="0.2845303867403315" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/layout_custom_progress_dialog_view.xml" value="0.379981884057971" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/view_activity_titlebar.xml" value="0.1" />
         <entry key="..\:/MyProjects/YueNovKotlin/app/src/main/res/layout/view_adapter_categorychannel_item.xml" value="0.23097826086956522" />
