@@ -27,6 +27,21 @@
 
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/rlBcBcSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/ic_categories_search" />
+
+        </RelativeLayout>
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tlBcMenu"
             android:layout_width="0dp"
@@ -36,21 +51,6 @@
             app:tabIndicatorFullWidth="true"
             app:tabIndicatorHeight="0dp"
             app:tabMode="scrollable" />
-
-        <RelativeLayout
-            android:id="@+id/rlBcBcSearch"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp">
-
-            <ImageView
-                android:layout_centerInParent="true"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:src="@mipmap/ic_categories_search" />
-
-        </RelativeLayout>
     </LinearLayout>
 
     <androidx.viewpager2.widget.ViewPager2

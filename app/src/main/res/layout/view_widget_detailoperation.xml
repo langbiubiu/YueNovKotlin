@@ -6,80 +6,6 @@
     android:orientation="vertical">
 
     <!-- menu list content-->
-    <RelativeLayout
-        android:id="@+id/rlWgDpMenuList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/llWgDpOperation"
-        android:clickable="true"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <View
-            android:id="@+id/viewWgDpMenuListClose"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#33000000" />
-
-        <LinearLayout
-            android:id="@+id/llWgDpMenuListData"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:background="@color/_e2e2"
-                android:orientation="horizontal"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
-
-                <TextView
-                    android:id="@+id/tvWgDpMenuListTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="30dp"
-                    android:textColor="@color/gray_6666"
-                    android:textSize="16sp" />
-
-                <RelativeLayout
-                    android:id="@+id/rlWgDpMenuListOrder"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="5dp">
-
-                    <ImageView
-                        android:id="@+id/ivWgDpMenuListOrder"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerInParent="true"
-                        android:layout_centerVertical="true"
-                        android:scaleType="centerInside"
-                        android:src="@mipmap/ic_book_down" />
-                </RelativeLayout>
-
-            </RelativeLayout>
-
-            <com.yuenov.kotlin.open.widget.MyListView
-                android:id="@+id/lvWgDpMenuList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/_e2e2"
-                android:divider="@color/transparent"
-                android:dividerHeight="0dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp" />
-
-        </LinearLayout>
-
-    </RelativeLayout>
-
-    <!-- process content-->
     <LinearLayout
         android:id="@+id/llWgDpProcessContent"
         android:layout_width="match_parent"
@@ -91,19 +17,6 @@
         android:orientation="vertical"
         android:padding="10dp"
         android:visibility="gone">
-
-        <TextView
-            android:id="@+id/tvWgDpProcessTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="title"
-            android:textColor="@color/gray_6666"
-            android:textSize="15sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -117,6 +30,11 @@
                 android:layout_height="wrap_content"
                 android:src="@mipmap/ic_left_arrow" />
 
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_right_arrow" />
+
             <SeekBar
                 android:id="@+id/skWgDpProcess"
                 style="@style/CustomSeekbarStyle"
@@ -126,19 +44,27 @@
                 android:max="100"
                 android:maxHeight="2dp"
                 android:min="0"
-                android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:paddingTop="5dp"
                 android:progress="30" />
-
-            <ImageView
-                android:layout_width="8dp"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_right_arrow" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvWgDpProcessTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="15dp"
+            android:layout_marginStart="15dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="title"
+            android:textColor="@color/gray_6666"
+            android:textSize="15sp" />
 
     </LinearLayout>
 
-    <!-- light content-->
+    <!-- process content-->
     <LinearLayout
         android:id="@+id/llWgDpLightContent"
         android:layout_width="match_parent"
@@ -162,6 +88,11 @@
                 android:layout_height="20dp"
                 android:src="@mipmap/ic_book_light_left" />
 
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@mipmap/ic_book_light_right" />
+
             <SeekBar
                 android:id="@+id/skWgDpLight"
                 style="@style/CustomSeekbarStyle"
@@ -171,14 +102,9 @@
                 android:max="255"
                 android:maxHeight="2dp"
                 android:min="0"
-                android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:paddingTop="5dp"
                 android:progress="30" />
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@mipmap/ic_book_light_right" />
         </LinearLayout>
 
         <LinearLayout
@@ -233,7 +159,7 @@
 
     </LinearLayout>
 
-    <!-- font content-->
+    <!-- light content-->
     <LinearLayout
         android:id="@+id/llWgDpFontContent"
         android:layout_width="match_parent"
@@ -257,6 +183,11 @@
                 android:layout_height="20dp"
                 android:src="@mipmap/ic_book_set_left" />
 
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@mipmap/ic_book_set_right" />
+
             <SeekBar
                 android:id="@+id/skWgDpFont"
                 style="@style/CustomSeekbarStyle"
@@ -265,24 +196,19 @@
                 android:layout_weight="1"
                 android:max="8"
                 android:maxHeight="2dp"
-                android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:paddingTop="5dp"
                 android:progress="0" />
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@mipmap/ic_book_set_right" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:paddingBottom="15dp"
             android:paddingLeft="15dp"
-            android:paddingTop="5dp"
             android:paddingRight="15dp"
-            android:paddingBottom="15dp">
+            android:paddingTop="5dp">
 
             <TextView
                 android:id="@+id/tvWgDpAnim1"
@@ -291,8 +217,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/bg_widget_bd_op_unselect"
                 android:gravity="center"
-                android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:paddingTop="5dp"
                 android:text="仿真"
                 android:textColor="@color/_5e60"
                 android:textSize="14sp" />
@@ -305,8 +231,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/bg_widget_bd_op_unselect"
                 android:gravity="center"
-                android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:paddingTop="5dp"
                 android:text="滑动"
                 android:textColor="@color/_5e60"
                 android:textSize="14sp" />
@@ -319,8 +245,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/bg_widget_bd_op_unselect"
                 android:gravity="center"
-                android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:paddingTop="5dp"
                 android:text="覆盖"
                 android:textColor="@color/_5e60"
                 android:textSize="14sp"
@@ -334,8 +260,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/bg_widget_bd_op_unselect"
                 android:gravity="center"
-                android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:paddingTop="5dp"
                 android:text="无"
                 android:textColor="@color/_5e60"
                 android:textSize="14sp" />
@@ -344,7 +270,7 @@
 
     </LinearLayout>
 
-    <!-- operation-->
+    <!-- font content-->
     <LinearLayout
         android:id="@+id/llWgDpOperation"
         android:layout_width="match_parent"
@@ -361,8 +287,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp">
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
 
             <ImageView
                 android:id="@+id/ivWgDpMenu"
@@ -425,5 +351,79 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <!-- operation-->
+    <RelativeLayout
+        android:id="@+id/rlWgDpMenuList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/llWgDpOperation"
+        android:clickable="true"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/llWgDpMenuListData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@color/_e2e2"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <RelativeLayout
+                    android:id="@+id/rlWgDpMenuListOrder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="5dp">
+
+                    <ImageView
+                        android:id="@+id/ivWgDpMenuListOrder"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:layout_centerVertical="true"
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/ic_book_down" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tvWgDpMenuListTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="30dp"
+                    android:textColor="@color/gray_6666"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+            <com.yuenov.kotlin.open.widget.MyListView
+                android:id="@+id/lvWgDpMenuList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/_e2e2"
+                android:divider="@color/transparent"
+                android:dividerHeight="0dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/viewWgDpMenuListClose"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#33000000" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

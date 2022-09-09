@@ -6,7 +6,7 @@ import com.yuenov.kotlin.open.model.response.RankListInfoItem
 import com.yuenov.kotlin.open.network.apiService
 import com.yuenov.kotlin.open.network.stateCallback.ListDataUiState
 
-class RankFragmentViewModel: BaseFragmentViewModel() {
+class RankFragmentViewModel : BaseFragmentViewModel() {
 
     var getRankListState: MutableLiveData<ListDataUiState<RankListInfoItem>> = MutableLiveData()
 

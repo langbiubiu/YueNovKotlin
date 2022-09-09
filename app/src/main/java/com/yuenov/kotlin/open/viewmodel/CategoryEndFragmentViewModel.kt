@@ -2,15 +2,18 @@ package com.yuenov.kotlin.open.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import com.yuenov.kotlin.open.base.BaseFragmentViewModel
+import com.yuenov.kotlin.open.constant.InterfaceConstants
 import com.yuenov.kotlin.open.model.response.BookListResponse
 import com.yuenov.kotlin.open.model.response.CategoryEndListResponse
 import com.yuenov.kotlin.open.network.apiService
 import com.yuenov.kotlin.open.network.stateCallback.UpdateUiState
 
-class CategoryEndFragmentViewModel: BaseFragmentViewModel() {
+class CategoryEndFragmentViewModel : BaseFragmentViewModel() {
 
-    var getCategoryEndState: MutableLiveData<UpdateUiState<CategoryEndListResponse>> = MutableLiveData()
-    var getCategoryEndBookListState: MutableLiveData<Pair<String, BookListResponse>?> = MutableLiveData()
+    var getCategoryEndState: MutableLiveData<UpdateUiState<CategoryEndListResponse>> =
+        MutableLiveData()
+    var getCategoryEndBookListState: MutableLiveData<Pair<String, BookListResponse>?> =
+        MutableLiveData()
 
     fun getCategoryEnd(pageNum: Int, pageSize: Int) {
         requestDelay(
@@ -36,7 +39,15 @@ class CategoryEndFragmentViewModel: BaseFragmentViewModel() {
         categoryId: Int,
     ) {
         requestDelay(
-            { apiService.getCategoryId(pageNum, pageSize, categoryId, null, "END") },
+            {
+                apiService.getCategoryId(
+                    pageNum,
+                    pageSize,
+                    categoryId,
+                    null,
+                    InterfaceConstants.CHAPTER_STATUS_END
+                )
+            },
             { getCategoryEndBookListState.value = Pair(categoryName, it) },
             { getCategoryEndBookListState.value = null }
         )

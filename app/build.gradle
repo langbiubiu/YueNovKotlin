@@ -43,7 +43,7 @@ android {
 
     configurations {
         cleanedAnnotations
-        implementation.exclude group: 'com.intellij' , module:'annotations'
+        implementation.exclude group: 'com.intellij', module: 'annotations'
     }
 }
 

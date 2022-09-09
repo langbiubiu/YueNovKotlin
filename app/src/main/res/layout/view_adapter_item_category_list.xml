@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="10dp"
-    android:layout_marginTop="3dp"
-    android:layout_marginRight="10dp"
     android:layout_marginBottom="3dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="3dp"
     android:background="@drawable/categorieslist_item_bg"
     android:orientation="vertical"
     android:padding="10dp">
@@ -16,18 +16,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-
-        <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/rivBciCoverImg"
-            android:layout_width="45dp"
-            android:layout_height="55dp"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/ic_launcher"
-            app:riv_corner_radius_bottom_left="5dp"
-            app:riv_corner_radius_bottom_right="5dp"
-            app:riv_corner_radius_top_left="5dp"
-            app:riv_corner_radius_top_right="5dp"
-            app:riv_oval="false" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -56,19 +44,19 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/rivBciCoverImg"
+            android:layout_width="45dp"
+            android:layout_height="55dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_launcher"
+            app:riv_corner_radius_bottom_left="5dp"
+            app:riv_corner_radius_bottom_right="5dp"
+            app:riv_corner_radius_top_left="5dp"
+            app:riv_corner_radius_top_right="5dp"
+            app:riv_oval="false" />
 
-    <TextView
-        android:id="@+id/tvBciDesc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:ellipsize="end"
-        android:lineSpacingExtra="5dp"
-        android:maxLines="6"
-        android:text="desc"
-        android:textColor="@color/gray_3333"
-        android:textSize="16sp" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/llBciShowDetail"
@@ -84,9 +72,9 @@
             android:src="@mipmap/ic_libraby_jianbian" />
 
         <LinearLayout
-            android:layout_marginTop="-20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="-20dp"
             android:background="@android:color/white"
             android:gravity="center">
 
@@ -98,6 +86,14 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="2dp"
+                    android:clickable="false"
+                    android:src="@mipmap/ic_adapter_ba_item_showall" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -107,18 +103,22 @@
                     android:textColor="#23b383"
                     android:textSize="16sp" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="2dp"
-                    android:clickable="false"
-                    android:src="@mipmap/ic_adapter_ba_item_showall" />
-
             </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvBciDesc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:lineSpacingExtra="5dp"
+        android:maxLines="6"
+        android:text="desc"
+        android:textColor="@color/gray_3333"
+        android:textSize="16sp" />
 
 </LinearLayout>

@@ -6,21 +6,20 @@ import com.yuenov.kotlin.open.adapter.BookListItemAdapter
 import com.yuenov.kotlin.open.base.BaseFragment
 import com.yuenov.kotlin.open.constant.InterfaceConstants
 import com.yuenov.kotlin.open.constant.PreferenceConstants
-import com.yuenov.kotlin.open.databinding.FragmentBookstoreBinding
 import com.yuenov.kotlin.open.databinding.FragmentCategorybooklistBinding
 import com.yuenov.kotlin.open.ext.resetVisibility
 import com.yuenov.kotlin.open.ext.setClickListener
 import com.yuenov.kotlin.open.ext.showToast
 import com.yuenov.kotlin.open.ext.toDetail
 import com.yuenov.kotlin.open.model.response.BookInfoItem
-import com.yuenov.kotlin.open.viewmodel.BookShelfFragmentViewModel
 import com.yuenov.kotlin.open.viewmodel.RecommendFragmentViewModel
 import me.hgj.jetpackmvvm.ext.nav
 
 /**
  * 推荐界面
  */
-class RecommendFragment : BaseFragment<RecommendFragmentViewModel, FragmentCategorybooklistBinding>() {
+class RecommendFragment :
+    BaseFragment<RecommendFragmentViewModel, FragmentCategorybooklistBinding>() {
 
     private var bookId: Int = 0
     private val adapter = BookListItemAdapter()

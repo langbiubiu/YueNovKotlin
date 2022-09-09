@@ -7,8 +7,6 @@ import com.yuenov.kotlin.open.adapter.BookDetailRecommendAdapter
 import com.yuenov.kotlin.open.base.BaseFragment
 import com.yuenov.kotlin.open.constant.InterfaceConstants
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_INT_BOOK_ID
-import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_MODEL_BOOK_BASE_INFO
-import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_STRING_TITLE
 import com.yuenov.kotlin.open.databinding.FragmentDetailBinding
 import com.yuenov.kotlin.open.ext.*
 import com.yuenov.kotlin.open.model.response.BookDetailInfoResponse
@@ -16,7 +14,6 @@ import com.yuenov.kotlin.open.model.standard.BookBaseInfo
 import com.yuenov.kotlin.open.utils.TimeUtils
 import com.yuenov.kotlin.open.viewmodel.DetailFragmentViewModel
 import me.hgj.jetpackmvvm.ext.nav
-import me.hgj.jetpackmvvm.ext.navigateAction
 import me.hgj.jetpackmvvm.ext.parseState
 
 /**
@@ -76,13 +73,11 @@ class DetailFragment : BaseFragment<DetailFragmentViewModel, FragmentDetailBindi
                     //不能设置计算上限，因为onScrollChangeListener的scrollY是UI刷新后的滚动高度，
                     //如果快速滑动，可能会直接掉过参与计算的高度区间，例如scrollY从0立刻变成大于(measureHeight * 2.5)
                     //这样就会导致llDpTop不显示
-//                        if (scrollY < measuredHeight * 2.5) {
                     llDpTop.apply {
                         resetVisibility(true, llDpTop)
                         val alphaF = (scrollY - measuredHeight) * 1.0f / (measuredHeight * 2)
                         alpha = if (alphaF > 1.0f) 1.0f else alphaF
                     }
-//                        }
                 } else {
                     resetVisibility(View.INVISIBLE, llDpTop)
                 }
@@ -220,10 +215,7 @@ class DetailFragment : BaseFragment<DetailFragmentViewModel, FragmentDetailBindi
     private fun toChapterMenuList() {
         mViewModel.updateChapterListState.observe(viewLifecycleOwner) {
             if (it.isSuccess) {
-                // TODO 修改到AppExt中
-                nav().navigateAction(R.id.action_detail_to_chapter_list, Bundle().apply {
-                    putParcelable(EXTRA_MODEL_BOOK_BASE_INFO, bookInfo)
-                })
+                toChapterList(bookInfo)
             } else {
                 showToast(it.errorMsg!!)
             }

@@ -22,7 +22,8 @@ import me.hgj.jetpackmvvm.base.appContext
 import me.hgj.jetpackmvvm.ext.util.layoutInflater
 
 class CategoryListAdapter :
-    BaseQuickAdapter<CategoryInfoItem, BaseViewHolder>(R.layout.view_adapter_find_item), LoadMoreModule {
+    BaseQuickAdapter<CategoryInfoItem, BaseViewHolder>(R.layout.view_adapter_find_item),
+    LoadMoreModule {
 
     private var listener: IBookBlItemAdapter? = null
 

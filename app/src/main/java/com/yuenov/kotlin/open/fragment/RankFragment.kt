@@ -9,12 +9,11 @@ import com.yuenov.kotlin.open.base.BaseFragment
 import com.yuenov.kotlin.open.databinding.FragmentCategorychannelBinding
 import com.yuenov.kotlin.open.databinding.ViewMenuTablayoutTitleBinding
 import com.yuenov.kotlin.open.ext.setClickListener
-import com.yuenov.kotlin.open.model.response.RankInfoItem
 import com.yuenov.kotlin.open.model.response.RankListInfoItem
 import com.yuenov.kotlin.open.viewmodel.RankFragmentViewModel
 import me.hgj.jetpackmvvm.ext.nav
 
-class RankFragment: BaseFragment<RankFragmentViewModel, FragmentCategorychannelBinding>() {
+class RankFragment : BaseFragment<RankFragmentViewModel, FragmentCategorychannelBinding>() {
 
     private lateinit var customView: ViewMenuTablayoutTitleBinding
     private var channelList: ArrayList<RankListInfoItem> = arrayListOf()

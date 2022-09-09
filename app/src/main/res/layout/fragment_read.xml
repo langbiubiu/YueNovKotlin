@@ -1,40 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rlCiContent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical">
 
-    <View
-        android:id="@+id/viewCiTop"
-        android:layout_width="1dp"
-        android:visibility="gone"
-        android:layout_height="25dp" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white">
 
-        <com.yuenov.kotlin.open.widget.page.PageView
-            android:id="@+id/pvDiContent"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="40dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="3dp" />
-
-        <!--top-->
         <RelativeLayout
             android:id="@+id/rlDiTop"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/_f0f0"
             android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/tvDiDownLoad"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:src="@mipmap/ic_book_download_black"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/tvDiUpdateContent"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:src="@mipmap/ic_button_reload_thin" />
+
+            <ImageView
+                android:id="@+id/tvDiAddShelf"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:layout_toLeftOf="@+id/tvDiUpdateContent"
+                android:src="@mipmap/ic_book_add_black" />
 
             <TextView
                 android:id="@+id/tvDiLeft"
@@ -49,34 +59,6 @@
                 android:textColor="@color/gray_3333"
                 android:textSize="16sp" />
 
-            <ImageView
-                android:id="@+id/tvDiDownLoad"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="15dp"
-                android:layout_alignParentRight="true"
-                android:visibility="gone"
-                android:src="@mipmap/ic_book_download_black" />
-
-            <ImageView
-                android:id="@+id/tvDiUpdateContent"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="15dp"
-                android:layout_alignParentRight="true"
-                android:src="@mipmap/ic_button_reload_thin" />
-
-            <ImageView
-                android:id="@+id/tvDiAddShelf"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="15dp"
-                android:layout_toLeftOf="@+id/tvDiUpdateContent"
-                android:src="@mipmap/ic_book_add_black" />
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
@@ -85,7 +67,7 @@
 
         </RelativeLayout>
 
-        <!--bottom-->
+        <!--top-->
         <com.yuenov.kotlin.open.widget.mypage.PageOperationView
             android:id="@+id/dovDiOperation"
             android:layout_width="match_parent"
@@ -93,6 +75,22 @@
             android:layout_alignParentBottom="true"
             android:visibility="gone" />
 
+        <!--bottom-->
+        <com.yuenov.kotlin.open.widget.page.PageView
+            android:id="@+id/pvDiContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="40dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="3dp" />
+
     </RelativeLayout>
+
+    <View
+        android:id="@+id/viewCiTop"
+        android:layout_width="1dp"
+        android:layout_height="25dp"
+        android:visibility="gone" />
 
 </LinearLayout>

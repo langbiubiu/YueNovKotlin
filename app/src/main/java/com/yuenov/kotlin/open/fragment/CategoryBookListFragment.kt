@@ -9,7 +9,6 @@ import com.yuenov.kotlin.open.base.BaseFragmentViewModel
 import com.yuenov.kotlin.open.constant.InterfaceConstants
 import com.yuenov.kotlin.open.constant.PreferenceConstants
 import com.yuenov.kotlin.open.databinding.FragmentCategorybooklistBinding
-import com.yuenov.kotlin.open.ext.resetVisibility
 import com.yuenov.kotlin.open.ext.setClickListener
 import com.yuenov.kotlin.open.ext.showToast
 import com.yuenov.kotlin.open.ext.toDetail

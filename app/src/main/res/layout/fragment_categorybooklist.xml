@@ -5,11 +5,6 @@
     android:background="@android:color/white"
     android:orientation="vertical">
 
-    <com.yuenov.kotlin.open.widget.MyAppTitle
-        android:id="@+id/myAppTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <LinearLayout
         android:id="@+id/llCcfiFilter"
         android:layout_width="match_parent"
@@ -55,5 +50,10 @@
             android:layout_height="wrap_content" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <com.yuenov.kotlin.open.widget.MyAppTitle
+        android:id="@+id/myAppTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

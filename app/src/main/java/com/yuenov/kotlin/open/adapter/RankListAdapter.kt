@@ -7,7 +7,8 @@ import com.yuenov.kotlin.open.ext.resetVisibility
 import com.yuenov.kotlin.open.model.response.RankInfoItem
 import com.yuenov.kotlin.open.widget.RankItemImageView
 
-class RankListAdapter: BaseQuickAdapter<RankInfoItem, BaseViewHolder>(R.layout.view_adapter_ranklist_item) {
+class RankListAdapter :
+    BaseQuickAdapter<RankInfoItem, BaseViewHolder>(R.layout.view_adapter_ranklist_item) {
 
     override fun convert(holder: BaseViewHolder, item: RankInfoItem) {
         resetVisibility(holder.bindingAdapterPosition > 0, holder.getView(R.id.viewAiRkLine))

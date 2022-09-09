@@ -2,10 +2,8 @@ package com.yuenov.kotlin.open.fragment
 
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.yuenov.kotlin.open.R
 import com.yuenov.kotlin.open.adapter.BookListItemAdapter
 import com.yuenov.kotlin.open.base.BaseFragment
-import com.yuenov.kotlin.open.base.BaseFragmentViewModel
 import com.yuenov.kotlin.open.constant.InterfaceConstants
 import com.yuenov.kotlin.open.constant.PreferenceConstants
 import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_STRING_TYPE

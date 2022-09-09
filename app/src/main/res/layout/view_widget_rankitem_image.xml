@@ -8,8 +8,8 @@
         android:id="@+id/ivWgBii1"
         android:layout_width="30dp"
         android:layout_height="40dp"
-        android:layout_marginLeft="63dp"
         android:layout_alignParentBottom="true"
+        android:layout_marginLeft="63dp"
         android:scaleType="centerCrop"
         android:src="@mipmap/ic_book_list_default" />
 

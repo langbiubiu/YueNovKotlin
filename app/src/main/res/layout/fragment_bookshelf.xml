@@ -22,9 +22,9 @@
                 android:id="@+id/ll_Search"
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
+                android:layout_marginEnd="15dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="24dp"
-                android:layout_marginEnd="15dp"
                 android:background="@drawable/bg_search_inputarea"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -42,8 +42,8 @@
                     android:id="@+id/tv_Search"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
+                    android:layout_marginStart="10dp"
                     android:background="@color/transparent"
                     android:gravity="center_vertical"
                     android:inputType="text"
@@ -54,19 +54,19 @@
 
             </LinearLayout>
 
-            <include
-                android:id="@+id/include_empty"
-                android:visibility="gone"
-                layout="@layout/view_bookshelf_empty"/>
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_bookshelf"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="25dp"
                 android:paddingBottom="10dp"
+                android:paddingTop="25dp"
                 android:scrollbars="none"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+            <include
+                android:id="@+id/include_empty"
+                layout="@layout/view_bookshelf_empty"
+                android:visibility="gone" />
 
         </LinearLayout>
 

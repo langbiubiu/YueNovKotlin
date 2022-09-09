@@ -6,7 +6,7 @@ import com.yuenov.kotlin.open.model.response.BookListResponse
 import com.yuenov.kotlin.open.network.apiService
 import com.yuenov.kotlin.open.network.stateCallback.UpdateUiState
 
-class RankBookListFragmentViewModel: BaseFragmentViewModel() {
+class RankBookListFragmentViewModel : BaseFragmentViewModel() {
     var getRankPageState: MutableLiveData<UpdateUiState<BookListResponse>> = MutableLiveData()
 
     fun getRankPage(channelId: Int, rankId: Int, pageNum: Int, pageSize: Int) {

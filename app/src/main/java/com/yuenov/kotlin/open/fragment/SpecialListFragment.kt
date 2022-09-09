@@ -15,7 +15,8 @@ import com.yuenov.kotlin.open.utils.ConvertUtils
 import com.yuenov.kotlin.open.viewmodel.SpecialListFragmentViewModel
 import me.hgj.jetpackmvvm.ext.nav
 
-class SpecialListFragment: BaseFragment<SpecialListFragmentViewModel, FragmentCategorybooklistBinding>(),
+class SpecialListFragment :
+    BaseFragment<SpecialListFragmentViewModel, FragmentCategorybooklistBinding>(),
     SpecialListAdapter.IBookBlItemAdapter {
 
     private var adapter: SpecialListAdapter = SpecialListAdapter()
@@ -37,7 +38,12 @@ class SpecialListFragment: BaseFragment<SpecialListFragmentViewModel, FragmentCa
                     myAppTitle.getLeftView() -> nav().navigateUp()
                 }
             }
-            srlCcnList.setOnRefreshListener { mViewModel.getSpecialList(pageNum, InterfaceConstants.categoriesListPageSize) }
+            srlCcnList.setOnRefreshListener {
+                mViewModel.getSpecialList(
+                    pageNum,
+                    InterfaceConstants.categoriesListPageSize
+                )
+            }
             adapter.setListener(this@SpecialListFragment)
             val padding = ConvertUtils.dp2px(15f)
             rvCcnList.setPadding(padding, padding, padding, padding)
@@ -48,20 +54,10 @@ class SpecialListFragment: BaseFragment<SpecialListFragmentViewModel, FragmentCa
     }
 
     override fun lazyLoadData() {
-//        mViewModel.getSpecialList(
-//            pageNum,
-//            InterfaceConstants.categoriesListPageSize
-//        )
-        val specialList = mutableListOf<SpecialInfoItem>()
-        val bookList = mutableListOf<BookInfoItem>()
-        for (i in 0..7) {
-            bookList.add(BookInfoItem("author", 0, "special", "END", null, "desc", "title$i", ""))
-        }
-        for (i in 0..9) {
-            val num = i + (pageNum - 1) * 10
-            specialList.add(SpecialInfoItem(num, "special$num", bookList))
-        }
-        adapter.setNewInstance(specialList)
+        mViewModel.getSpecialList(
+            pageNum,
+            InterfaceConstants.categoriesListPageSize
+        )
     }
 
     override fun createObserver() {

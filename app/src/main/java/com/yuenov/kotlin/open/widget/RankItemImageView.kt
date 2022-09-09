@@ -18,7 +18,7 @@ class RankItemImageView @JvmOverloads constructor(
     }
 
     var listener: BdItemImageViewListener? = null
-    private val binding : ViewWidgetRankitemImageBinding
+    private val binding: ViewWidgetRankitemImageBinding
 
     init {
         binding = ViewWidgetRankitemImageBinding.inflate(LayoutInflater.from(context))

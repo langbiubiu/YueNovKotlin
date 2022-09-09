@@ -6,7 +6,7 @@ import com.yuenov.kotlin.open.model.response.BookListResponse
 import com.yuenov.kotlin.open.network.apiService
 import com.yuenov.kotlin.open.network.stateCallback.UpdateUiState
 
-class DiscoverBookListFragmentViewModel: BaseFragmentViewModel() {
+class DiscoverBookListFragmentViewModel : BaseFragmentViewModel() {
     var getDiscoverAllState: MutableLiveData<UpdateUiState<BookListResponse>> = MutableLiveData()
 
     fun getDiscoverAll(pageNum: Int, pageSize: Int, type: String, categoryId: Int?) {

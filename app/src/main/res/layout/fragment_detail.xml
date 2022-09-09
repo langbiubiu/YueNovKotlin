@@ -40,11 +40,6 @@
 
         </LinearLayout>
 
-        <View
-            android:layout_width="140dp"
-            android:layout_height="1dp" />
-
-        <!--  加入书架-->
         <LinearLayout
             android:id="@+id/llDpAddBookShelf"
             android:layout_width="0dp"
@@ -69,9 +64,40 @@
                 android:textSize="15sp" />
         </LinearLayout>
 
+        <!--  加入书架-->
+        <View
+            android:layout_width="140dp"
+            android:layout_height="1dp" />
+
     </LinearLayout>
 
     <!-- 内容-->
+    <LinearLayout
+        android:id="@+id/llDpTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="horizontal"
+        android:visibility="invisible">
+
+        <LinearLayout
+            android:id="@+id/llDpBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="20dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/ic_button_back" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- 顶部返回栏-->
     <ScrollView
         android:id="@+id/svDpContent"
         android:layout_width="match_parent"
@@ -88,52 +114,219 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="50dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-                <RelativeLayout
-                    android:visibility="visible"
-                    android:layout_width="match_parent"
-                    android:layout_height="180dp"
-                    android:orientation="vertical">
+                <ImageView
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:src="@mipmap/ic_book_detail_update" />
 
-                    <!-- 生成一层与封面颜色相关的模糊背景 -->
-                    <ImageView
-                        android:id="@+id/ivDpBgBlur"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:alpha="0.3"
-                        android:scaleType="centerCrop" />
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="15dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@mipmap/ic_right_arrow" />
 
-                    <!-- 渐变图片 作为上方模糊背景与下方主内容的白色背景的过渡 -->
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="120dp"
-                        android:layout_alignParentBottom="true"
-                        android:scaleType="fitXY"
-                        android:src="@mipmap/ic_libraby_jianbian" />
+                <TextView
+                    android:id="@+id/tvDpChapterName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="name"
+                    android:textColor="@color/gray_9999"
+                    android:textSize="12sp" />
 
-                </RelativeLayout>
+                <TextView
+                    android:id="@+id/tvDpIsEnd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="已完结"
+                    android:textColor="@color/_b383"
+                    android:textSize="15dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="最新"
+                    android:textColor="@color/gray_3333"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llDpMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="13dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="13dp">
+
+                <ImageView
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:duplicateParentState="false"
+                    android:src="@mipmap/ic_book_detail_menu" />
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="15dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@mipmap/ic_right_arrow" />
+
+                <TextView
+                    android:id="@+id/tvDpMenuTotal"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="1"
+                    android:duplicateParentState="false"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:text="共*章"
+                    android:textColor="@color/gray_9999"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:duplicateParentState="false"
+                    android:text="目录"
+                    android:textColor="@color/gray_3333"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llDpRecommend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="13dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="5dp"
+                        android:layout_height="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@mipmap/ic_right_arrow" />
+
+                    <TextView
+                        android:id="@+id/tvDpRecommendMore"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:gravity="right"
+                        android:maxLines="1"
+                        android:text="查看更多"
+                        android:textColor="@color/gray_6666"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="热门推荐"
+                        android:textColor="@color/gray_3333"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llDpReplace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
                     android:padding="15dp">
 
-                    <com.makeramen.roundedimageview.RoundedImageView
-                        android:id="@+id/rivDpCoverImg"
-                        android:layout_width="95dp"
-                        android:layout_height="130dp"
-                        android:scaleType="centerCrop"
-                        android:src="@mipmap/ic_book_list_default"
-                        app:riv_corner_radius_bottom_left="5dp"
-                        app:riv_corner_radius_bottom_right="5dp"
-                        app:riv_corner_radius_top_left="5dp"
-                        app:riv_corner_radius_top_right="5dp"
-                        app:riv_oval="false" />
+                    <ImageView
+                        android:id="@+id/ilDpReplace"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@mipmap/ic_book_rolate" />
+
+                    <TextView
+                        android:id="@+id/tvDpReplace"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="换一批"
+                        android:textColor="#2bc08f"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="13dp"
+                    android:background="#ECECEC" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#ECECEC" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="7dp"
+                    android:background="#F2F2F2" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="7dp"
+                    android:background="#F2F2F2" />
+
+                <com.yuenov.kotlin.open.widget.WrapHeightGridView
+                    android:id="@+id/wgvDpRecommend"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="20dp"
+                    android:horizontalSpacing="15dp"
+                    android:listSelector="@color/transparent"
+                    android:numColumns="3"
+                    android:verticalSpacing="15dp" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:orientation="horizontal"
+                    android:padding="15dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -169,7 +362,43 @@
                             android:textSize="14sp" />
                     </LinearLayout>
 
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/rivDpCoverImg"
+                        android:layout_width="95dp"
+                        android:layout_height="130dp"
+                        android:scaleType="centerCrop"
+                        android:src="@mipmap/ic_book_list_default"
+                        app:riv_corner_radius_bottom_left="5dp"
+                        app:riv_corner_radius_bottom_right="5dp"
+                        app:riv_corner_radius_top_left="5dp"
+                        app:riv_corner_radius_top_right="5dp"
+                        app:riv_oval="false" />
+
                 </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <!-- 生成一层与封面颜色相关的模糊背景 -->
+                    <ImageView
+                        android:id="@+id/ivDpBgBlur"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:alpha="0.3"
+                        android:scaleType="centerCrop" />
+
+                    <!-- 渐变图片 作为上方模糊背景与下方主内容的白色背景的过渡 -->
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:layout_alignParentBottom="true"
+                        android:scaleType="fitXY"
+                        android:src="@mipmap/ic_libraby_jianbian" />
+
+                </RelativeLayout>
 
             </RelativeLayout>
 
@@ -178,63 +407,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="24dp"
                 android:layout_marginRight="15dp"
+                android:layout_marginTop="24dp"
                 android:lineSpacingExtra="3dp"
                 android:text="desc"
                 android:textColor="@color/gray_3333"
                 android:textSize="14sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="50dp"
-                android:layout_marginRight="15dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="13dp"
-                    android:layout_height="13dp"
-                    android:src="@mipmap/ic_book_detail_update" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="最新"
-                    android:textColor="@color/gray_3333"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/tvDpChapterName"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="name"
-                    android:textColor="@color/gray_9999"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/tvDpIsEnd"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="已完结"
-                    android:textColor="@color/_b383"
-                    android:textSize="15dp"
-                    android:visibility="gone" />
-
-                <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="15dp"
-                    android:layout_marginLeft="10dp"
-                    android:src="@mipmap/ic_right_arrow" />
-
-            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -242,187 +420,9 @@
                 android:layout_marginTop="13dp"
                 android:background="#F2F2F2" />
 
-            <LinearLayout
-                android:id="@+id/llDpMenu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingLeft="15dp"
-                android:paddingTop="13dp"
-                android:paddingRight="15dp"
-                android:paddingBottom="13dp">
-
-                <ImageView
-                    android:layout_width="13dp"
-                    android:layout_height="13dp"
-                    android:duplicateParentState="false"
-                    android:src="@mipmap/ic_book_detail_menu" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:duplicateParentState="false"
-                    android:text="目录"
-                    android:textColor="@color/gray_3333"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/tvDpMenuTotal"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="15dp"
-                    android:layout_weight="1"
-                    android:duplicateParentState="false"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:text="共*章"
-                    android:textColor="@color/gray_9999"
-                    android:textSize="12sp" />
-
-                <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="15dp"
-                    android:layout_marginLeft="10dp"
-                    android:src="@mipmap/ic_right_arrow" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/llDpRecommend"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="7dp"
-                    android:background="#F2F2F2" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="13dp"
-                    android:layout_marginRight="15dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="热门推荐"
-                        android:textColor="@color/gray_3333"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/tvDpRecommendMore"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:gravity="right"
-                        android:maxLines="1"
-                        android:text="查看更多"
-                        android:textColor="@color/gray_6666"
-                        android:textSize="12sp" />
-
-                    <ImageView
-                        android:layout_width="5dp"
-                        android:layout_height="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:src="@mipmap/ic_right_arrow" />
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="13dp"
-                    android:background="#ECECEC" />
-
-                <com.yuenov.kotlin.open.widget.WrapHeightGridView
-                    android:id="@+id/wgvDpRecommend"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginBottom="10dp"
-                    android:horizontalSpacing="15dp"
-                    android:listSelector="@color/transparent"
-                    android:numColumns="3"
-                    android:verticalSpacing="15dp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#ECECEC" />
-
-                <LinearLayout
-                    android:id="@+id/llDpReplace"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center"
-                    android:padding="15dp">
-
-                    <TextView
-                        android:id="@+id/tvDpReplace"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="换一批"
-                        android:textColor="#2bc08f"
-                        android:textSize="15sp" />
-
-                    <ImageView
-                        android:id="@+id/ilDpReplace"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_marginLeft="10dp"
-                        android:src="@mipmap/ic_book_rolate" />
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="7dp"
-                    android:background="#F2F2F2" />
-
-            </LinearLayout>
-
         </LinearLayout>
 
     </ScrollView>
-
-    <!-- 顶部返回栏-->
-    <LinearLayout
-        android:id="@+id/llDpTop"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:orientation="horizontal"
-        android:visibility="invisible">
-
-        <LinearLayout
-            android:id="@+id/llDpBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp">
-
-            <ImageView
-                android:layout_width="12dp"
-                android:layout_height="20dp"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/ic_button_back" />
-
-        </LinearLayout>
-
-    </LinearLayout>
 
     <!-- 阅读按钮-->
     <TextView

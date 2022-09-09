@@ -7,14 +7,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
         android:layout_marginLeft="6dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
-
-        <View
-            android:layout_width="3dp"
-            android:layout_height="15dp"
-            android:background="@drawable/bg_findindex_item_title_left" />
 
         <TextView
             android:id="@+id/tvAblCategoryName"
@@ -26,21 +21,41 @@
             android:textSize="15sp"
             android:textStyle="bold" />
 
-    </LinearLayout>
+        <View
+            android:layout_width="3dp"
+            android:layout_height="15dp"
+            android:background="@drawable/bg_findindex_item_title_left" />
 
-    <com.yuenov.kotlin.open.widget.WrapHeightGridView
-        android:id="@+id/ocgAblItem"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:horizontalSpacing="5dp"
-        android:numColumns="4"
-        android:verticalSpacing="8dp" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/llAblReplace"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/ivAblReplace"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginLeft="10dp"
+                android:src="@mipmap/ic_book_rolate" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/FindIndexListAdapter_replace"
+                android:textColor="@color/_b383"
+                android:textSize="16sp" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvAblShowAll"
@@ -55,34 +70,19 @@
         <View
             android:layout_width="0.5dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="18dp"
             android:layout_marginBottom="18dp"
+            android:layout_marginTop="18dp"
             android:background="@color/_cacb" />
 
-        <LinearLayout
-            android:id="@+id/llAblReplace"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/FindIndexListAdapter_replace"
-                android:textColor="@color/_b383"
-                android:textSize="16sp" />
-
-            <ImageView
-                android:id="@+id/ivAblReplace"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_marginLeft="10dp"
-                android:src="@mipmap/ic_book_rolate" />
-        </LinearLayout>
-
     </LinearLayout>
+
+    <com.yuenov.kotlin.open.widget.WrapHeightGridView
+        android:id="@+id/ocgAblItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:horizontalSpacing="5dp"
+        android:numColumns="4"
+        android:verticalSpacing="8dp" />
 
 </LinearLayout>

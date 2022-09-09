@@ -7,7 +7,7 @@ import com.yuenov.kotlin.open.model.response.SpecialInfoItem
 import com.yuenov.kotlin.open.network.apiService
 import com.yuenov.kotlin.open.network.stateCallback.ListDataUiState
 
-class SpecialListFragmentViewModel: BaseFragmentViewModel() {
+class SpecialListFragmentViewModel : BaseFragmentViewModel() {
 
     var getSpecialListState: MutableLiveData<ListDataUiState<SpecialInfoItem>> = MutableLiveData()
     var getSpecialPageState: MutableLiveData<Pair<String, BookListResponse>?> = MutableLiveData()

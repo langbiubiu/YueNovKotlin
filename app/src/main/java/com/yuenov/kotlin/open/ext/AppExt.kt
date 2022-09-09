@@ -153,7 +153,8 @@ fun Fragment.toSearch() {
  * 跳转至下载界面
  */
 @Deprecated("不做下载界面")
-fun Fragment.toDownload() {}
+fun Fragment.toDownload() {
+}
 
 /**
  * 跳转至分类界面
@@ -233,5 +234,11 @@ fun Fragment.toSpecialBookList(name: String, id: Int) {
 fun Fragment.toRecommend(bookId: Int) {
     nav().navigateAction(R.id.action_to_special_book_list_fragment, Bundle().apply {
         putInt(EXTRA_INT_BOOK_ID, bookId)
+    })
+}
+
+fun Fragment.toChapterList(bookInfo: BookBaseInfo) {
+    nav().navigateAction(R.id.action_detail_to_chapter_list, Bundle().apply {
+        putParcelable(EXTRA_MODEL_BOOK_BASE_INFO, bookInfo)
     })
 }

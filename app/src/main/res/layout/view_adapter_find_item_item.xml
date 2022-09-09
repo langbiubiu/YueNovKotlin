@@ -6,18 +6,6 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <com.makeramen.roundedimageview.RoundedImageView
-        android:id="@+id/rivAbliCoverImg"
-        android:layout_width="66dp"
-        android:layout_height="88dp"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/ic_launcher"
-        app:riv_corner_radius_bottom_left="5dp"
-        app:riv_corner_radius_bottom_right="5dp"
-        app:riv_corner_radius_top_left="5dp"
-        app:riv_corner_radius_top_right="5dp"
-        app:riv_oval="false" />
-
     <TextView
         android:id="@+id/tvAbliTitle"
         android:layout_width="66dp"
@@ -42,5 +30,17 @@
         android:text="author"
         android:textColor="@color/gray_9999"
         android:textSize="11sp" />
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/rivAbliCoverImg"
+        android:layout_width="66dp"
+        android:layout_height="88dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_launcher"
+        app:riv_corner_radius_bottom_left="5dp"
+        app:riv_corner_radius_bottom_right="5dp"
+        app:riv_corner_radius_top_left="5dp"
+        app:riv_corner_radius_top_right="5dp"
+        app:riv_oval="false" />
 
 </LinearLayout>

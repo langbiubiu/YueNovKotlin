@@ -7,24 +7,12 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <com.makeramen.roundedimageview.RoundedImageView
-        android:id="@+id/riv_bookshelf_cover"
-        android:layout_width="80dp"
-        android:layout_height="100dp"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/ic_book_list_default"
-        app:riv_corner_radius_bottom_left="5dp"
-        app:riv_corner_radius_bottom_right="5dp"
-        app:riv_corner_radius_top_left="5dp"
-        app:riv_corner_radius_top_right="5dp"
-        app:riv_oval="false" />
-
     <ImageView
         android:id="@+id/iv_bookshelf_update"
         android:layout_width="30dp"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/riv_bookshelf_cover"
         android:layout_marginLeft="-29dp"
+        android:layout_toRightOf="@+id/riv_bookshelf_cover"
         android:src="@mipmap/ic_book_update"
         android:visibility="visible" />
 
@@ -41,5 +29,17 @@
         android:textColor="@color/gray_3333"
         android:textSize="13sp"
         android:textStyle="bold" />
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/riv_bookshelf_cover"
+        android:layout_width="80dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_book_list_default"
+        app:riv_corner_radius_bottom_left="5dp"
+        app:riv_corner_radius_bottom_right="5dp"
+        app:riv_corner_radius_top_left="5dp"
+        app:riv_corner_radius_top_right="5dp"
+        app:riv_oval="false" />
 
 </RelativeLayout>

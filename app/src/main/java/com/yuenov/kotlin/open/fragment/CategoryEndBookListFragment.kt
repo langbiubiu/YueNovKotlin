@@ -2,20 +2,17 @@ package com.yuenov.kotlin.open.fragment
 
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.yuenov.kotlin.open.R
 import com.yuenov.kotlin.open.adapter.BookListItemAdapter
 import com.yuenov.kotlin.open.base.BaseFragment
 import com.yuenov.kotlin.open.base.BaseFragmentViewModel
 import com.yuenov.kotlin.open.constant.InterfaceConstants
 import com.yuenov.kotlin.open.constant.PreferenceConstants
-import com.yuenov.kotlin.open.constant.PreferenceConstants.EXTRA_STRING_TYPE
 import com.yuenov.kotlin.open.databinding.FragmentCategorybooklistBinding
 import com.yuenov.kotlin.open.ext.resetVisibility
 import com.yuenov.kotlin.open.ext.setClickListener
 import com.yuenov.kotlin.open.ext.showToast
 import com.yuenov.kotlin.open.ext.toDetail
 import com.yuenov.kotlin.open.model.response.BookInfoItem
-import com.yuenov.kotlin.open.viewmodel.DiscoverBookListFragmentViewModel
 import me.hgj.jetpackmvvm.ext.nav
 
 class CategoryEndBookListFragment :
@@ -51,7 +48,7 @@ class CategoryEndBookListFragment :
         requireArguments().apply {
             categoryName = getString(PreferenceConstants.EXTRA_STRING_CATEGORY_NAME)
             categoryId = getInt(PreferenceConstants.EXTRA_INT_CATEGORY_ID)
-            type = getString(EXTRA_STRING_TYPE, "")
+            type = getString(PreferenceConstants.EXTRA_STRING_TYPE, "")
         }
         mViewBind.myAppTitle.getCenterView().text = categoryName
         loadData(true)
@@ -99,7 +96,7 @@ class CategoryEndBookListFragment :
             InterfaceConstants.categoriesListPageSize,
             categoryId,
             null,
-            "END"
+            InterfaceConstants.CHAPTER_STATUS_END
         )
     }
 }

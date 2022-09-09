@@ -38,6 +38,12 @@
         <item name="android:thumb">@mipmap/ic_light_process_point</item>
     </style>
 
+    <!-- 透明渐变短动画 -->
+    <style name="FadeAnimationShort" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/anim_pop_opaque</item>
+        <item name="android:windowExitAnimation">@anim/anim_pop_alpha</item>
+    </style>
+
     <declare-styleable name="Attr_MyInfoItemView">
         <attr name="MyInfoIconResource" format="reference" />
         <attr name="MyInfoName" format="string" />
@@ -56,13 +62,6 @@
     <declare-styleable name="EditTextView">
         <attr name="hintText" format="string" />
     </declare-styleable>
-
-
-    <!-- 透明渐变短动画 -->
-    <style name="FadeAnimationShort" parent="android:Animation">
-        <item name="android:windowEnterAnimation">@anim/anim_pop_opaque</item>
-        <item name="android:windowExitAnimation">@anim/anim_pop_alpha</item>
-    </style>
 
     <declare-styleable name="BatteryView">
         <attr name="battery_view_height" format="integer" />

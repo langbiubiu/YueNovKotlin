@@ -13,7 +13,8 @@ import com.yuenov.kotlin.open.utils.ConvertUtils
 import com.yuenov.kotlin.open.viewmodel.CategoryEndFragmentViewModel
 import me.hgj.jetpackmvvm.ext.nav
 
-class CategoryEndFragment: BaseFragment<CategoryEndFragmentViewModel, FragmentCategorybooklistBinding>(),
+class CategoryEndFragment :
+    BaseFragment<CategoryEndFragmentViewModel, FragmentCategorybooklistBinding>(),
     CategoryListAdapter.IBookBlItemAdapter {
 
     private var adapter: CategoryListAdapter = CategoryListAdapter()

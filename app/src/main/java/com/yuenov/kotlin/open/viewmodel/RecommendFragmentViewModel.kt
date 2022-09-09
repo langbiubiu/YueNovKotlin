@@ -6,9 +6,9 @@ import com.yuenov.kotlin.open.model.response.BookListResponse
 import com.yuenov.kotlin.open.network.apiService
 import com.yuenov.kotlin.open.network.stateCallback.UpdateUiState
 
-class RecommendFragmentViewModel: BaseFragmentViewModel() {
+class RecommendFragmentViewModel : BaseFragmentViewModel() {
 
-    var getRecommendState : MutableLiveData<UpdateUiState<BookListResponse>> = MutableLiveData()
+    var getRecommendState: MutableLiveData<UpdateUiState<BookListResponse>> = MutableLiveData()
 
     fun getRecommend(bookId: Int, pageNum: Int, pageSize: Int) {
         requestDelay(

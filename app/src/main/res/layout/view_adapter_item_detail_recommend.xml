@@ -6,6 +6,31 @@
     android:gravity="center"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/tvAdrTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:gravity="left"
+        android:maxLines="1"
+        android:text="title"
+        android:textColor="@color/gray_3333"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tvAdrAuthor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:gravity="left"
+        android:maxLines="1"
+        android:text="author"
+        android:textColor="@color/gray_9999"
+        android:textSize="13sp" />
+
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/rivAdrCoverImg"
         android:layout_width="100dp"
@@ -17,30 +42,5 @@
         app:riv_corner_radius_top_left="5dp"
         app:riv_corner_radius_top_right="5dp"
         app:riv_oval="false" />
-
-    <TextView
-        android:id="@+id/tvAdrTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="left"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:text="title"
-        android:textColor="@color/gray_3333"
-        android:textSize="14sp" />
-
-    <TextView
-        android:id="@+id/tvAdrAuthor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:gravity="left"
-        android:text="author"
-        android:textColor="@color/gray_9999"
-        android:textSize="13sp" />
 
 </LinearLayout>
