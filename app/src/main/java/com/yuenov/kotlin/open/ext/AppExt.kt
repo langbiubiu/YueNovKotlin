@@ -146,7 +146,7 @@ fun Fragment.toDetail(bookId: Int) {
  * TODO: 跳转至搜索界面
  */
 fun Fragment.toSearch() {
-    nav().navigateAction(R.id.action_to_detail)
+    nav().navigateAction(R.id.action_to_search_fragment)
 }
 
 /**
@@ -242,3 +242,5 @@ fun Fragment.toChapterList(bookInfo: BookBaseInfo) {
         putParcelable(EXTRA_MODEL_BOOK_BASE_INFO, bookInfo)
     })
 }
+
+fun Fragment.toFeedBack() {}

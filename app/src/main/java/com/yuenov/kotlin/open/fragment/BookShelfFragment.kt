@@ -82,18 +82,10 @@ class BookShelfFragment : BaseFragment<BookShelfFragmentViewModel, FragmentBooks
                     adapter = bookShelfAdapter
                 }
             }
-            setClickListener(
-                llSearch,
-                ivSearch,
-                tvSearch,
-                includeEmpty.tvBseFind,
-            )
-            {
+            setClickListener(llSearch, ivSearch, tvSearch, includeEmpty.tvBseFind) {
                 when (it) {
-                    llSearch, ivSearch, tvSearch ->
-                        toSearch()
-                    includeEmpty.tvBseFind ->
-                        (parentFragment as MainFragment).toBookStore()
+                    llSearch, ivSearch, tvSearch -> toSearch()
+                    includeEmpty.tvBseFind -> (parentFragment as MainFragment).toBookStore()
                 }
             }
         }
