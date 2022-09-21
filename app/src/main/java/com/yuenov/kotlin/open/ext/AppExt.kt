@@ -3,6 +3,8 @@ package com.yuenov.kotlin.open.ext
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.StringRes
@@ -143,7 +145,7 @@ fun Fragment.toDetail(bookId: Int) {
 }
 
 /**
- * TODO: 跳转至搜索界面
+ * 跳转至搜索界面
  */
 fun Fragment.toSearch() {
     nav().navigateAction(R.id.action_to_search_fragment)
@@ -244,3 +246,19 @@ fun Fragment.toChapterList(bookInfo: BookBaseInfo) {
 }
 
 fun Fragment.toFeedBack() {}
+
+fun Fragment.openKeyBoard(editText: EditText) {
+    val imm = requireActivity().getSystemService(InputMethodManager::class.java)
+    if (imm.isActive) {
+        imm.showSoftInput(editText, InputMethodManager.SHOW_FORCED)
+    }
+}
+
+fun Fragment.closeKeyBoard() {
+    val activity = requireActivity()
+    val decorView = activity.window.peekDecorView()
+    if (decorView != null) {
+        val imm = activity.getSystemService(InputMethodManager::class.java)
+        imm.hideSoftInputFromWindow(decorView.windowToken, 0)
+    }
+}

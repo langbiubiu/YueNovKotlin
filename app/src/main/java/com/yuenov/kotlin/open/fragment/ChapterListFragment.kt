@@ -18,7 +18,7 @@ import com.yuenov.kotlin.open.model.standard.BookBaseInfo
 import me.hgj.jetpackmvvm.ext.nav
 
 /**
- * TODO 目录界面
+ * 目录界面
  */
 class ChapterListFragment : BaseFragment<BaseFragmentViewModel, FragmentChapterListBinding>() {
 

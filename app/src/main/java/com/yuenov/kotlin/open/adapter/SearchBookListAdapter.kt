@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.module.LoadMoreModule
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.makeramen.roundedimageview.RoundedImageView
 import com.yuenov.kotlin.open.R
@@ -19,7 +20,8 @@ import com.zhy.view.flowlayout.TagAdapter
 import com.zhy.view.flowlayout.TagFlowLayout
 
 class SearchBookListAdapter :
-    BaseQuickAdapter<BookInfoItem, BaseViewHolder>(R.layout.view_adapter_searchlist_book) {
+    BaseQuickAdapter<BookInfoItem, BaseViewHolder>(R.layout.view_adapter_searchlist_book),
+    LoadMoreModule {
 
     interface ISearchBookListAdapterListener {
         fun onAddBookShelf(item: BookInfoItem)
@@ -31,9 +33,11 @@ class SearchBookListAdapter :
     private val tagList = mutableListOf<String>()
 
     init {
-        addChildClickViewIds(R.id.rlAdSlContent, R.id.rivAdSlCoverImg,
+        addChildClickViewIds(
+            R.id.rlAdSlContent, R.id.rivAdSlCoverImg,
             R.id.llAdSlContent, R.id.tvAdSlTitle, R.id.tvAdSlAuthor,
-            R.id.tvAdSlDesc, R.id.tflAdSlHistory)
+            R.id.tvAdSlDesc, R.id.tflAdSlHistory
+        )
     }
 
     override fun convert(holder: BaseViewHolder, item: BookInfoItem) {
@@ -49,12 +53,14 @@ class SearchBookListAdapter :
         holder.setText(R.id.tvAdSlAuthor, item.author)
         holder.setText(R.id.tvAdSlDesc, item.desc)
         tagList.clear()
-        tagList.add(context.getString(
+        tagList.add(
+            context.getString(
                 if (item.chapterStatus == InterfaceConstants.CHAPTER_STATUS_SERIALIZE)
                     R.string.AboutChapterStatus_serialize
                 else
                     R.string.AboutChapterStatus_end
-        ))
+            )
+        )
         item.word?.apply {
             if (this.isNotEmpty()) tagList.add(this)
         }
@@ -64,8 +70,9 @@ class SearchBookListAdapter :
         val tagFlowLayout: TagFlowLayout = holder.getView(R.id.tflAdSlHistory)
         tagFlowLayout.adapter = object : TagAdapter<String>(tagList) {
             override fun getView(parent: FlowLayout?, position: Int, t: String?): View {
-                val tagViewBinding = ViewItemSearchListTagBinding.inflate(LayoutInflater.from(context))
-                tagViewBinding.tvIsltlName.text = tagList[position]
+                val tagViewBinding =
+                    ViewItemSearchListTagBinding.inflate(LayoutInflater.from(context))
+                tagViewBinding.tvIsltlName.text = t
                 return tagViewBinding.root
             }
         }
@@ -77,7 +84,7 @@ class SearchBookListAdapter :
         }
         val tvAdSlStartRead: TextView = holder.getView(R.id.tvAdSlStartRead)
         setClickListener(tvAdSlAdd, tvAdSlStartRead) {
-            when(it) {
+            when (it) {
                 tvAdSlAdd -> addBookShelf(tvAdSlAdd, item)
                 tvAdSlStartRead -> listener?.onReadBook(item)
             }

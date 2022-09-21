@@ -105,4 +105,7 @@ dependencies {
     //MVVM框架
     implementation 'com.github.hegaojian:JetpackMvvm:1.2.7'
 
+    // 弹窗 https://github.com/limxing/Android-PromptDialog
+    implementation 'com.github.limxing:Android-PromptDialog:1.1.3'
+
 }
